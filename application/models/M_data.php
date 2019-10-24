@@ -60,7 +60,8 @@ class M_data extends CI_Model{
 
     function update($table, $data, $kondisi) {
         $query = $this->db->update($table, $data, $kondisi);
-        return $query->affected_rows();
+        return $query;
+        // return $query->affected_rows();
     }
 
     function delete($col, $condition,$table) {
@@ -97,4 +98,5 @@ class M_data extends CI_Model{
         # Fungsi: untuk mendapatkan respon erorr dari database
         return $this->db->error()["message"];
     }
+
 }

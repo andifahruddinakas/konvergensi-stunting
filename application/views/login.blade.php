@@ -20,7 +20,7 @@ hold-transition login-page
 @section('body')
 <div class="login-box">
     <div class="login-logo">
-      <a href="{{ base_url() }}"><b>Masuk </b>Gobang</a>
+      <a href="{{ base_url() }}"><b>MASUK </b>E-PPKPS</a>
     </div>
     <div class="login-box-body">
       <p class="login-box-msg">Masukan Email dan Password anda</p>
@@ -43,8 +43,6 @@ hold-transition login-page
           <!-- /.col -->
         </div>
       </form>
-  
-      <a href="#" class="margin-top-xs">Lupa Password ?</a>
     </div>
   </div>
 @endsection
