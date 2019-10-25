@@ -32,7 +32,7 @@
             </a>
             <ul class="treeview-menu">
               <li><a href="{{ base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y') }}"><i class="fa fa-circle-o"></i> Bulanan Ibu Hamil</a></li>
-              <li><a href="#"><i class="fa fa-circle-o"></i> Bulanan Anak 0-2 Tahun</a></li>
+              <li><a href="{{ base_url('pemantauan/bulanan-anak/') . date('m') . '/' . date('Y') }}"><i class="fa fa-circle-o"></i> Bulanan Anak 0-2 Tahun</a></li>
               <li><a href="#"><i class="fa fa-circle-o"></i> Sasaran Paud Anak 2 - 6 Tahun</a></li>
             </ul>
           </li>      
@@ -44,7 +44,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class=""><a href="#"><i class="fa fa-circle-o"></i> 3 Bulanan Ibu Hamil</a></li>
+              <li class=""><a href="{{ base_url('rekapitulasi/ibu-hamil/') }}"><i class="fa fa-circle-o"></i> 3 Bulanan Ibu Hamil</a></li>
               <li><a href="#"><i class="fa fa-circle-o"></i> 3 Bulanan Anak 0-2 Tahun</a></li>
             </ul>
           </li> 

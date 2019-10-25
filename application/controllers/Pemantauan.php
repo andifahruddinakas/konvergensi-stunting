@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Pemantauan extends MY_Controller
 {
     public function ___construct()
@@ -15,7 +18,6 @@ class Pemantauan extends MY_Controller
 
     public function ibu_hamil($bulan = NULL, $tahun = NULL)
     {
-
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y'));
         }
@@ -39,7 +41,7 @@ class Pemantauan extends MY_Controller
         return $this->loadView('pemantauan.ibu-hamil', $data);
     }
 
-    public function getDataByNoKia($no_kia)
+    public function getDataByNoKia($no_kia = NULL)
     {
         $data   = $this->m_data->getWhere('no_kia', $no_kia);
         $data   = $this->m_data->getData('kia')->row();
@@ -57,19 +59,7 @@ class Pemantauan extends MY_Controller
         }
     }
 
-    public function hapus_data()
-    {
-        $id_ibu_hamil   = $this->input->post('id_ibu_hamil');
-        $hapus          = $this->m_data->delete(array("id_ibu_hamil" => $id_ibu_hamil), "ibu_hamil");
-        if ($hapus > 0) {
-            $this->session->set_flashdata("sukses", "Data berhasil di hapus dari database");
-        } else {
-            $this->session->set_flashdata("gagal", "Terjadi kesalahan saat menghapus data");
-        }
-        $this->ibu_hamil();
-    }
-
-    public function insertData()
+    public function insertDataIbuHamil()
     {
         $no_kia                 = $this->input->post('no_kia');
         $nama_ibu               = $this->input->post('nama_ibu');
@@ -139,20 +129,23 @@ class Pemantauan extends MY_Controller
 
     public function insert_ibu_hamil($data)
     {
-        //CEK DULU BULAN INI UDAH INPUT BELUM
-        $cekInput = $this->m_data->getWhere("no_kia", $data["no_kia"]);
-        $cekInput = $this->m_data->getWhere("MONTH(created_at)", date('m'));
-        $cekInput = $this->m_data->getWhere("YEAR(created_at)", date('Y'));
-        $cekInput = $this->m_data->getData("ibu_hamil")->num_rows();
-        if ($cekInput > 0) {
-            $this->session->set_flashdata("gagal", "Maaf data ibu pada bulan ini sudah diinputkan");
+        $insertIbuHamil = $this->m_data->insert("ibu_hamil", $data);
+        if ($insertIbuHamil) {
+            $this->session->set_flashdata("sukses", "Menyimpan data pada pemantauan bulanan ibu hamil");
         } else {
-            $insertIbuHamil = $this->m_data->insert("ibu_hamil", $data);
-            if ($insertIbuHamil) {
-                $this->session->set_flashdata("sukses", "Menyimpan data pada pemantauan bulanan ibu hamil");
-            } else {
-                $this->session->set_flashdata("gagal", $this->m_data->getError());
-            }
+            $this->session->set_flashdata("gagal", $this->m_data->getError());
+        }
+        $this->ibu_hamil();
+    }
+
+    public function hapus_data()
+    {
+        $id_ibu_hamil   = $this->input->post('id_ibu_hamil');
+        $hapus          = $this->m_data->delete(array("id_ibu_hamil" => $id_ibu_hamil), "ibu_hamil");
+        if ($hapus > 0) {
+            $this->session->set_flashdata("sukses", "Data berhasil di hapus dari database");
+        } else {
+            $this->session->set_flashdata("gagal", "Terjadi kesalahan saat menghapus data");
         }
         $this->ibu_hamil();
     }
@@ -186,7 +179,8 @@ class Pemantauan extends MY_Controller
             "kunjungan_rumah"       => $kunjungan_rumah,
             "akses_air_bersih"      => $air_bersih,
             "kepemilikan_jamban"    => $kepemilikan_jamban,
-            "jaminan_kesehatan"     => $jaminan_kesehatan
+            "jaminan_kesehatan"     => $jaminan_kesehatan,
+            "updated_at"            => date("Y-m-d H:i:s")
         );
 
         $updateData             = $this->m_data->update("ibu_hamil", $data, ["id_ibu_hamil" => $id_ibu_hamil]);
@@ -200,7 +194,7 @@ class Pemantauan extends MY_Controller
     }
 
     public function export_ibu_hamil($bulan = NULL, $tahun = NULL)
-    { 
+    {
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y'));
         }
@@ -210,20 +204,279 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
         $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
-        
+
+        // die(json_encode($ibuHamil));
+        $styleJudul = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal'    => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical'      => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'wrapText'      => TRUE
+            ]
+        ];
+
+        $styleBorder = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ];
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('IBU HAMIL');
+
+        //PAGE SETUP
+        $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+        $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+
+        //MERGE CELL
+        $sheet->mergeCells('A1:O1');
+        $sheet->mergeCells('A3:A5');
+        $sheet->mergeCells('B3:B5');
+        $sheet->mergeCells('C3:C5');
+        $sheet->mergeCells('D3:D5');
+        $sheet->mergeCells('E3:E5');
+        $sheet->mergeCells('F3:O3');
+        $sheet->mergeCells('F4:G4');
+        $sheet->mergeCells('H4:O4');
+
+        //APPLY STYLE
+        $sheet->getStyle('A1')->applyFromArray($styleJudul);
+        $sheet->getStyle('A1')->applyFromArray($styleJudul);
+        $sheet->getStyle('A3')->applyFromArray($styleJudul);
+        $sheet->getStyle('B3')->applyFromArray($styleJudul);
+        $sheet->getStyle('C3')->applyFromArray($styleJudul);
+        $sheet->getStyle('D3')->applyFromArray($styleJudul);
+        $sheet->getStyle('E3')->applyFromArray($styleJudul);
+        $sheet->getStyle('F3')->applyFromArray($styleJudul);
+        $sheet->getStyle('F4')->applyFromArray($styleJudul);
+        $sheet->getStyle('H4')->applyFromArray($styleJudul);
+        $sheet->getStyle('F5')->applyFromArray($styleJudul);
+        $sheet->getStyle('G5')->applyFromArray($styleJudul);
+        $sheet->getStyle('H5')->applyFromArray($styleJudul);
+        $sheet->getStyle('I5')->applyFromArray($styleJudul);
+        $sheet->getStyle('J5')->applyFromArray($styleJudul);
+        $sheet->getStyle('K5')->applyFromArray($styleJudul);
+        $sheet->getStyle('L5')->applyFromArray($styleJudul);
+        $sheet->getStyle('M5')->applyFromArray($styleJudul);
+        $sheet->getStyle('N5')->applyFromArray($styleJudul);
+        $sheet->getStyle('O5')->applyFromArray($styleJudul);
+
+        $sheet->setCellValue('A1', 'FORMULIR 2.A. PEMANTAUAN BULANAN IBU HAMIL');
+        $sheet->setCellValue('A3', 'NO');
+        $sheet->setCellValue('B3', 'No Register (KIA)');
+        $sheet->setCellValue('C3', 'Nama Ibu');
+        $sheet->setCellValue('D3', 'Status Kehamilan (NORMAL / KEK / RISTI)');
+        $sheet->setCellValue('E3', 'Hari Perkiraan Lahir (Tgl/Bln/Thn)');
+        $sheet->setCellValue('F3', 'BULAN : ' . strtoupper(bulan($bulan)) . " " . $tahun);
+        $sheet->setCellValue('F4', 'Usia Kehamilan dan Persalinan');
+        $sheet->setCellValue('H4', 'Status Penerimaan Indikator');
+        $sheet->setCellValue('F5', 'Usia Kehamilan (Bulan)');
+        $sheet->setCellValue('G5', 'Tanggal Melahirkan (Tgl/Bln/Thn)');
+        $sheet->setCellValue('H5', 'Pemeriksaan Kehamilan');
+        $sheet->setCellValue('I5', 'Dapat & Konsumsi Pil Fe');
+        $sheet->setCellValue('J5', 'Pemeriksaan Nifas');
+        $sheet->setCellValue('K5', 'Konseling Gizi (Kelas IH)');
+        $sheet->setCellValue('L5', 'Kunjungan Rumah');
+        $sheet->setCellValue('M5', 'Kepemilikan Akses Air Bersih');
+        $sheet->setCellValue('N5', 'Kepemilikan Jamban');
+        $sheet->setCellValue('O5', 'Jaminan Kesehatan');
+
+        //SET ORIENTATION
+        foreach (range('F', 'O') as $kolom) {
+            $sheet->getStyle($kolom . '5')->getAlignment()->setTextRotation(90);
+        }
+
+        //RESIZE WIDTH
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(25);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(12);
+        $sheet->getColumnDimension('F')->setWidth(8);
+        $sheet->getColumnDimension('G')->setWidth(12);
+        $sheet->getColumnDimension('H')->setWidth(5);
+        $sheet->getColumnDimension('I')->setWidth(5);
+        $sheet->getColumnDimension('J')->setWidth(5);
+        $sheet->getColumnDimension('K')->setWidth(5);
+        $sheet->getColumnDimension('L')->setWidth(5);
+        $sheet->getColumnDimension('M')->setWidth(5);
+        $sheet->getColumnDimension('N')->setWidth(5);
+        $sheet->getColumnDimension('O')->setWidth(5);
+
+        //SET INDEX
+        foreach (range('A', 'O') as $kolom) {
+            $sheet->setCellValue($kolom . '6', strtolower($kolom));
+            // $sheet->getStyle($kolom . '6')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER); 
+            // $spreadsheet->getActiveSheet()->getStyle($kolom . '6')->getAlignment()->setWrapText(true);
+
+        }
+
+        //SET DATA
+        $batasBaris = 6;
+        $no = 1;
+        foreach ($ibuHamil as $data) {
+            $barisSekarang = $batasBaris + $no;
+            $sheet->setCellValue('A' . $barisSekarang, $no);
+            $sheet->setCellValue('B' . $barisSekarang, $data->no_kia);
+            $sheet->setCellValue('C' . $barisSekarang, $data->nama_ibu);
+            $sheet->setCellValue('D' . $barisSekarang, $data->status_kehamilan);
+            $sheet->setCellValue('E' . $barisSekarang, shortdate_indo($data->hari_perkiraan_lahir));
+            $sheet->setCellValue('F' . $barisSekarang, $data->usia_kehamilan);
+            $sheet->setCellValue('G' . $barisSekarang, $data->tanggal_melahirkan == null ? "-" : shortdate_indo($data->tanggal_melahirkan));
+            $sheet->setCellValue('H' . $barisSekarang, $data->pemeriksaan_kehamilan);
+            $sheet->setCellValue('I' . $barisSekarang, $data->konsumsi_pil_fe);
+            $sheet->setCellValue('J' . $barisSekarang, $data->pemeriksaan_nifas);
+            $sheet->setCellValue('K' . $barisSekarang, $data->konseling_gizi);
+            $sheet->setCellValue('L' . $barisSekarang, $data->kunjungan_rumah);
+            $sheet->setCellValue('M' . $barisSekarang, $data->akses_air_bersih);
+            $sheet->setCellValue('N' . $barisSekarang, $data->kepemilikan_jamban);
+            $sheet->setCellValue('O' . $barisSekarang, $data->jaminan_kesehatan);
+            $no++;
+        }
+
+        //SET BORDER AND ALIGNMENT DATA
+        $sheet->getStyle('A6:O6')->applyFromArray($styleJudul);
+        $sheet->getStyle('A3:O' . $sheet->getHighestRow())->applyFromArray($styleBorder);
+        $sheet->getStyle('A7:A' . $sheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('B7:B' . $sheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        $sheet->getStyle('E7:O' . $sheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+        //SAVE AND DOWNLOAD
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'FORMULIR_2A_PEMANTAUAN_BULANAN_IBU_HAMIL_' . strtoupper(bulan($bulan) . "_" . $tahun . "_" . date("H_i_s"));
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function bulanan_anak($bulan = NULL, $tahun = NULL)
+    {
+        $bulananAnak = $this->m_data->getJoin("kia", "bulanan_anak.no_kia = kia.no_kia", "INNER");
+        $bulananAnak = $this->m_data->getWhere("MONTH(bulanan_anak.created_at)", $bulan);
+        $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
+        $bulananAnak = $this->m_data->order_by("bulanan_anak.created_at", "ASC");
+        $bulananAnak = $this->m_data->getData("bulanan_anak")->result();
+
         $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
         $dataTahun = $this->m_data->distinct();
         $dataTahun = $this->m_data->getData("ibu_hamil")->result();
 
-        $data["_bulan"]     = $bulan;
-        $data["_tahun"]     = $tahun;
-        $data['ibuHamil']   = $ibuHamil;
-        $data['dataTahun']  = $dataTahun;
-        $data['bulan']      = bulan($bulan);
-        $data['title']      = "Pemantauan Bulanan Ibu Hamil";
+        $data["_bulan"]         = $bulan;
+        $data["_tahun"]         = $tahun;
+        $data['bulananAnak']    = $bulananAnak;
+        $data['dataTahun']      = $dataTahun;
+        $data['bulan']          = bulan($bulan);
+        $data['title']          = "Pemantauan Bulanan Anak 0 - 2 Tahun";
+        return $this->loadView('pemantauan.bulanan-anak', $data);
+    }
 
-        
-        return $this->loadView('pemantauan.export-ibu-hamil', $data);
+    public function insertDataBulananAnak()
+    {
+        $no_kia                     = $this->input->post('no_kia');
+        $nama_anak                  = $this->input->post('nama_anak');
+        $jenis_kelamin_anak         = $this->input->post('jenis_kelamin_anak');
+        $tanggal_lahir_anak         = $this->input->post('tanggal_lahir_anak');
+        $status_gizi                = $this->input->post('status_gizi');
+        $umur_bulan                 = $this->input->post('umur_bulan');
+        $status_tikar               = $this->input->post('status_tikar');
+        $pemberian_imunisasi_dasar  = $this->input->post('pemberian_imunisasi_dasar');
+        $pengukuran_berat_badan     = $this->input->post('pengukuran_berat_badan');
+        $pengukuran_tinggi_badan    = $this->input->post('pengukuran_tinggi_badan');
+        $konseling_gizi_ayah        = $this->input->post('konseling_gizi_ayah');
+        $konseling_gizi_ibu         = $this->input->post('konseling_gizi_ibu');
+        $kunjungan_rumah            = $this->input->post('kunjungan_rumah');
+        $air_bersih                 = $this->input->post('air_bersih');
+        $kepemilikan_jamban         = $this->input->post('kepemilikan_jamban');
+        $akta_lahir                 = $this->input->post('akta_lahir');
+        $jaminan_kesehatan          = $this->input->post('jaminan_kesehatan');
+        $pengasuhan_paud            = $this->input->post('pengasuhan_paud');
 
+        $data = array(
+            "no_kia"                    => $no_kia,
+            "status_gizi"               => $status_gizi,
+            "umur_bulan"                => $umur_bulan,
+            "status_tikar"              => $status_tikar,
+            "pemberian_imunisasi_dasar" => $pemberian_imunisasi_dasar,
+            "pengukuran_berat_badan"    => $pengukuran_berat_badan,
+            "pengukuran_tinggi_badan"   => $pengukuran_tinggi_badan,
+            "konseling_gizi_ayah"       => $konseling_gizi_ayah,
+            "konseling_gizi_ibu"        => $konseling_gizi_ibu,
+            "kunjungan_rumah"           => $kunjungan_rumah,
+            "air_bersih"                => $air_bersih,
+            "kepemilikan_jamban"        => $kepemilikan_jamban,
+            "akta_lahir"                => $akta_lahir,
+            "jaminan_kesehatan"         => $jaminan_kesehatan,
+            "pengasuhan_paud"           => $pengasuhan_paud,
+        );
+
+        $cekInput = $this->m_data->getWhere("no_kia", $data["no_kia"]);
+        $cekInput = $this->m_data->getWhere("MONTH(created_at)", date('m'));
+        $cekInput = $this->m_data->getWhere("YEAR(created_at)", date('Y'));
+        $cekInput = $this->m_data->getData("bulanan_anak")->num_rows();
+
+        if ($cekInput > 0) {
+            $this->session->set_flashdata("gagal", "Maaf data anak $nama_anak pada bulan ini sudah diinputkan!");
+            return $this->bulanan_anak();
+        } else {
+            //CEK DI TABLE KIA DULU SLUUR
+            $cekData = $this->m_data->getWhere("no_kia", $no_kia);
+            $cekData = $this->m_data->getData("kia")->num_rows();
+            if ($cekData > 0) {
+                //SUDAH ADA DATA -> UPDATE KIA DULU -> TRUS INSERT
+                if ($nama_anak !== "") {
+                    $this->m_data->update(
+                        "kia",
+                        [
+                            "nama_anak"             => $nama_anak,
+                            "jenis_kelamin_anak"    => $jenis_kelamin_anak,
+                            "tanggal_lahir_anak"    => $tanggal_lahir_anak,
+                            "updated_at"            => date("Y-m-d H:i:s")
+                        ],
+                        [
+                            "no_kia" => $no_kia
+                        ]
+                    );
+                }
+                $this->insert_bulanan_anak($data);
+            } else {
+                //BELUM ADA DATA -> INSERT KE TABLE KIA DULU
+                $insertKia  = $this->m_data->insert(
+                    "kia",
+                    [
+                        "no_kia"                => $no_kia,
+                        "nama_anak"             => $nama_anak,
+                        "jenis_kelamin_anak"    => $jenis_kelamin_anak,
+                        "tanggal_lahir_anak"    => $tanggal_lahir_anak,
+                    ]
+                );
+
+                if ($insertKia) {
+                    $this->insert_bulanan_anak($data);
+                } else {
+                    $this->session->set_flashdata("gagal", $this->m_data->getError());
+                    return $this->bulanan_anak();
+                }
+            }
+        }
+    }
+
+    public function insert_bulanan_anak($data)
+    {
+        $insertBulananAnak = $this->m_data->insert("bulanan_anak", $data);
+        if ($insertBulananAnak) {
+            $this->session->set_flashdata("sukses", "Menyimpan data pada pemantauan bulanan anak 0-2 tahun");
+        } else {
+            $this->session->set_flashdata("gagal", $this->m_data->getError());
+        }
+        $this->bulanan_anak();
     }
 }

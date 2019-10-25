@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+date_default_timezone_set('Asia/Jakarta');
 class MY_Controller extends CI_Controller
 {
 
@@ -8,9 +8,13 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         $this->load->model('M_data');
+        $CI = &get_instance();
         $this->global_data = [
-            "app_name" => "E-PPKPS"
+            "app_name"          => "E-PPKPS",
+            "app_complete_name" => "Pengelolaan dan Pelaporan Konvergensi Pencegahan Stunting Elektronik ",
+            "CI"                => $CI
         ];
+        
     }
 
     function loadView($view, $local_data = array(), $ses = NULL)

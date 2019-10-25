@@ -207,65 +207,92 @@ if (!function_exists('bulan_array')) {
         $dataBulan = array(
             [
                 "urut" => 1,
-                "nama_pendek" => "Jan",
-                "nama_panjang" => "Januari"
+                "nama_pendek" => medium_bulan(1),
+                "nama_panjang" => bulan(1)
             ],
             [
                 "urut" => 2,
-                "nama_pendek" => "Feb",
-                "nama_panjang" => "Februari"
+                "nama_pendek" => medium_bulan(2),
+                "nama_panjang" => bulan(2)
             ],
             [
                 "urut" => 3,
-                "nama_pendek" => "Mar",
-                "nama_panjang" => "Maret"
+                "nama_pendek" => medium_bulan(3),
+                "nama_panjang" => bulan(3)
             ],
             [
                 "urut" => 4,
-                "nama_pendek" => "Apr",
-                "nama_panjang" => "April"
+                "nama_pendek" => medium_bulan(4),
+                "nama_panjang" => bulan(4)
             ],
             [
                 "urut" => 5,
-                "nama_pendek" => "Mei",
-                "nama_panjang" => "Mei"
+                "nama_pendek" => medium_bulan(5),
+                "nama_panjang" => bulan(5)
             ],
             [
                 "urut" => 6,
-                "nama_pendek" => "Jun",
-                "nama_panjang" => "Juni"
+                "nama_pendek" => medium_bulan(6),
+                "nama_panjang" => bulan(6)
             ],
             [
                 "urut" => 7,
-                "nama_pendek" => "Jul",
-                "nama_panjang" => "Juli"
+                "nama_pendek" => medium_bulan(7),
+                "nama_panjang" => bulan(7)
             ],
             [
                 "urut" => 8,
-                "nama_pendek" => "Ags",
-                "nama_panjang" => "Agustus"
+                "nama_pendek" => medium_bulan(8),
+                "nama_panjang" => bulan(8)
             ],
             [
                 "urut" => 9,
-                "nama_pendek" => "Sep",
-                "nama_panjang" => "September"
+                "nama_pendek" => medium_bulan(9),
+                "nama_panjang" => bulan(9)
             ],
             [
                 "urut" => 10,
-                "nama_pendek" => "Okt",
-                "nama_panjang" => "Oktober"
+                "nama_pendek" => medium_bulan(10),
+                "nama_panjang" => bulan(10)
             ],
             [
                 "urut" => 11,
-                "nama_pendek" => "Nov",
-                "nama_panjang" => "November"
+                "nama_pendek" => medium_bulan(11),
+                "nama_panjang" => bulan(11)
             ],
             [
                 "urut" => 12,
-                "nama_pendek" => "Des",
-                "nama_panjang" => "Desember"
+                "nama_pendek" => medium_bulan(12),
+                "nama_panjang" => bulan(12)
             ],
         );
         return $dataBulan;
     }
+}
+
+// die(json_encode(bulan_array()[1]));
+
+if (!function_exists('kuartal')) {
+    function kuartal()
+    {
+        $dataKuartal = array(
+            [
+                "ke"    => 1,
+                "bulan" => bulan_array()[0]["nama_panjang"] . " - " . bulan_array()[2]["nama_panjang"] 
+            ],
+            [
+                "ke"    => 2,
+                "bulan" => bulan_array()[3]["nama_panjang"] . " - " . bulan_array()[5]["nama_panjang"] 
+            ],
+            [
+                "ke"    => 3,
+                "bulan" => bulan_array()[6]["nama_panjang"] . " - " . bulan_array()[8]["nama_panjang"] 
+            ],
+            [
+                "ke"    => 4,
+                "bulan" => bulan_array()[9]["nama_panjang"] . " - " . bulan_array()[11]["nama_panjang"] 
+            ]
+        );
+        return $dataKuartal;
+     }
 }
