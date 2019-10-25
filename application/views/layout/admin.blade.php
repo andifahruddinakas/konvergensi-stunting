@@ -46,7 +46,7 @@
 
 @section('footers')<footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Rafli Firdausy - </b> Faturrochman
+      Made with <i class="fa fa-heart"></i> by <a href="https://id.linkedin.com/in/rafli-firdausy-irawan-b0896a171" target="_blank">Rafli Firdausy Irawan</a>
     </div>
     <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
     reserved.
@@ -60,5 +60,6 @@
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 <script src="{{ asset('dist/js/demo.js') }}"></script>
+<script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 @yield('page-footer')
 @endsection
