@@ -436,22 +436,6 @@
 
         $("#modalTitle").text("Edit Pemantauan Bulanan Ibu Hamil");
 
-        $("#id_ibu_hamil").val(id); 
-        $("#no_kia").val(no_kia); 
-        $("#nama_ibu").val(nama_ibu);
-        $("#status_kehamilan").val(status_kehamilan);
-        $("#perkiraan_lahir").val(hari_perkiraan_lahir);
-        $("#usia_kehamilan").val(usia_kehamilan);
-        $("#tanggal_melahirkan").val(tanggal_melahirkan);
-        $("#pemeriksaan_kehamilan").val(pemeriksaan_kehamilan);
-        $("#pil_fe").val(konsumsi_pil_fe);
-        $("#pemeriksaan_nifas").val(pemeriksaan_nifas);
-        $("#konseling_gizi").val(konseling_gizi);
-        $("#kunjungan_rumah").val(kunjungan_rumah);
-        $("#air_bersih").val(akses_air_bersih);
-        $("#kepemilikan_jamban").val(kepemilikan_jamban);
-        $("#jaminan_kesehatan").val(jaminan_kesehatan);
-
     });
 
 

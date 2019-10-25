@@ -360,6 +360,11 @@ class Pemantauan extends MY_Controller
 
     public function bulanan_anak($bulan = NULL, $tahun = NULL)
     {
+
+        if ($bulan == NULL || $tahun == NULL) {
+            redirect(base_url('pemantauan/bulanan-anak/') . date('m') . '/' . date('Y'));
+        }
+
         $bulananAnak = $this->m_data->getJoin("kia", "bulanan_anak.no_kia = kia.no_kia", "INNER");
         $bulananAnak = $this->m_data->getWhere("MONTH(bulanan_anak.created_at)", $bulan);
         $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
@@ -424,7 +429,7 @@ class Pemantauan extends MY_Controller
         $cekInput = $this->m_data->getData("bulanan_anak")->num_rows();
 
         if ($cekInput > 0) {
-            $this->session->set_flashdata("gagal", "Maaf data anak $nama_anak pada bulan ini sudah diinputkan!");
+            $this->session->set_flashdata("gagal", "Maaf data $nama_anak pada bulan ini sudah diinputkan!");
             return $this->bulanan_anak();
         } else {
             //CEK DI TABLE KIA DULU SLUUR
