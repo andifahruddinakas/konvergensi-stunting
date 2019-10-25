@@ -59,9 +59,9 @@ class Pemantauan extends MY_Controller
 
     public function hapus_data()
     {
-        $id_ibu_hamil   = $this->input->post('id_ibu_hamil'); 
-        $hapus          = $this->m_data->delete(array("id_ibu_hamil" => $id_ibu_hamil),"ibu_hamil");
-        if($hapus > 0){
+        $id_ibu_hamil   = $this->input->post('id_ibu_hamil');
+        $hapus          = $this->m_data->delete(array("id_ibu_hamil" => $id_ibu_hamil), "ibu_hamil");
+        if ($hapus > 0) {
             $this->session->set_flashdata("sukses", "Data berhasil di hapus dari database");
         } else {
             $this->session->set_flashdata("gagal", "Terjadi kesalahan saat menghapus data");
@@ -157,7 +157,8 @@ class Pemantauan extends MY_Controller
         $this->ibu_hamil();
     }
 
-    public function edit_ibu_hamil(){
+    public function edit_ibu_hamil()
+    {
         $id_ibu_hamil           = $this->input->post('id_ibu_hamil');
         $nama_ibu               = $this->input->post('nama_ibu');
         $status_kehamilan       = $this->input->post('status_kehamilan');
@@ -189,12 +190,40 @@ class Pemantauan extends MY_Controller
         );
 
         $updateData             = $this->m_data->update("ibu_hamil", $data, ["id_ibu_hamil" => $id_ibu_hamil]);
-        if($updateData == 1){
+        if ($updateData == 1) {
             $this->session->set_flashdata("sukses", "Mengedit data ibu $nama_ibu pada database");
         } else {
             $this->session->set_flashdata("gagal", $this->m_data->getError());
         }
-        
+
         $this->ibu_hamil();
+    }
+
+    public function export_ibu_hamil($bulan = NULL, $tahun = NULL)
+    { 
+        if ($bulan == NULL || $tahun == NULL) {
+            redirect(base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y'));
+        }
+
+        $ibuHamil = $this->m_data->getJoin("kia", "ibu_hamil.no_kia = kia.no_kia", "INNER");
+        $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
+        $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
+        $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
+        $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
+        
+        $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
+        $dataTahun = $this->m_data->distinct();
+        $dataTahun = $this->m_data->getData("ibu_hamil")->result();
+
+        $data["_bulan"]     = $bulan;
+        $data["_tahun"]     = $tahun;
+        $data['ibuHamil']   = $ibuHamil;
+        $data['dataTahun']  = $dataTahun;
+        $data['bulan']      = bulan($bulan);
+        $data['title']      = "Pemantauan Bulanan Ibu Hamil";
+
+        
+        return $this->loadView('pemantauan.export-ibu-hamil', $data);
+
     }
 }

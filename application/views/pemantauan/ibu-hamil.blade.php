@@ -72,9 +72,9 @@
                         <button id="btn_input" type="button" class="btn col-md-6 btn-primary" data-toggle="modal" data-target="#modal-input-edit-data">
                             Input Data
                         </button>
-                        <button type="button" class="btn col-md-6  btn-danger">
+                        <a href="{{ base_url('pemantauan/export-ibu-hamil/') . $_bulan .'/' . $_tahun }}" id="btnExport" type="button" class="btn col-md-6  btn-danger">
                             Export ke Excel
-                        </button>                        
+                        </a>                        
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -87,7 +87,7 @@
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Nama Ibu</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Status Kehamilan</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Hari Perkiraan Lahir</th>
-                        <th colspan="10" style="vertical-align: middle;">Bulan : {{ $bulan }}</th>
+                        <th colspan="10" style="vertical-align: middle;">Bulan : {{ $bulan }} {{ $_tahun }}</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Pilihan Aksi</th>
                     </tr>
                     <tr>
@@ -95,7 +95,7 @@
                         <th colspan="8" class="text-center" style="vertical-align: middle;">Status Penerimaan Indikator</th>
                     </tr>
                     <tr>
-                        <th class="text-center" style="vertical-align: middle;">Usia Kehamilan</th>
+                        <th class="text-center" style="vertical-align: middle;">Usia Kehamilan (Bulan)</th>
                         <th class="text-center" style="vertical-align: middle;">Tanggal Melahirkan</th>
                         <th class="text-center" style="vertical-align: middle;">Pemeriksaan Kehamilan (bulan)</th>
                         <th class="text-center" style="vertical-align: middle;">Dapat & Konsumsi Pil Fe</th>
@@ -338,6 +338,10 @@
 <script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script>
+
+    // $("#btnExport").click(function(){
+    //     window.location.href = "{{ base_url('pemantauan/export-ibu-hamil/') }}" + "{{ $_tahun }}" + "/" + "{{ $_bulan }}";
+    // });
 
     // EDIIIIIITT
     $("#btn_input").click(function(){
