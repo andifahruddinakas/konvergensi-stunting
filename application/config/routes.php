@@ -53,5 +53,9 @@ $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 
+$route['login']['get']                      = 'auth/index';
+$route['login']['post']                     = 'auth/proses-login';
+$route['logout']['get']                     = 'auth/proses-logout';
+
 $route['pemantauan/ibu-hamil']['post']      = 'pemantauan/insertDataIbuHamil';
 $route['pemantauan/bulanan-anak']['post']   = 'pemantauan/insertDataBulananAnak';

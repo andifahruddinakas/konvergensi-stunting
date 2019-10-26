@@ -14,7 +14,12 @@ class MY_Controller extends CI_Controller
             "app_complete_name" => "Pengelolaan dan Pelaporan Konvergensi Pencegahan Stunting Elektronik ",
             "CI"                => $CI
         ];
-        
+
+        if ($this->router->fetch_class() != "auth") {
+            if (!$this->session->has_userdata('login')) {
+                redirect(base_url("login"));
+            }
+        }
     }
 
     function loadView($view, $local_data = array(), $ses = NULL)

@@ -146,8 +146,7 @@
                                             data-akses_air_bersih = "{{ $item->akses_air_bersih }}"
                                             data-kepemilikan_jamban = "{{ $item->kepemilikan_jamban }}"
                                             data-jaminan_kesehatan = "{{ $item->jaminan_kesehatan }}"
-                                            data-toggle="modal" 
-                                            data-target="#modal-input-edit-data" 
+                                            data-toggle="modal" data-target="#modal-input-edit-data"
                                             title="Edit" 
                                             type="button" 
                                             class="editData btn btn-primary col-xs-12">Edit</button>
@@ -171,7 +170,7 @@
                     <span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title"><b>Peringatan Hapus Data</b></h4>
                 </div>
-                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data') }}">
+                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data-ibu-hamil') }}">
                     <div class="modal-body">  
                         <b>Peringatan!</b> 
                         <span id="info_hapus">Kamu akan menghapus data Rafli Firdausy</span> <br>

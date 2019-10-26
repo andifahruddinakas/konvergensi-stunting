@@ -69,7 +69,7 @@
                         <button id="btn_input" type="button" class="btn col-md-6 btn-primary" data-toggle="modal" data-target="#modal-input-edit-data">
                             Input Data
                         </button>
-                        <a href="{{ base_url('pemantauan/export-ibu-hamil/') . $_bulan .'/' . $_tahun }}" id="btnExport" type="button" class="btn col-md-6  btn-danger">
+                        <a href="{{ base_url('pemantauan/export-bulanan-anak/') . $_bulan .'/' . $_tahun }}" id="btnExport" type="button" class="btn col-md-6  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>
@@ -139,27 +139,33 @@
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->jaminan_kesehatan }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->pengasuhan_paud }}</td>
                                     <td>
-                                        <button data-id="{{ $item->id_bulanan_anak }}" 
-                                                {{-- data-no_kia="{{ $item->no_kia }}" 
-                                                data-nama="{{ $item->nama_ibu }}" 
-                                                data-status_kehamilan = "{{ $item->status_kehamilan }}"
-                                                data-perkiraan="{{ $item->hari_perkiraan_lahir }}" 
-                                                data-usia_kehamilan="{{ $item->usia_kehamilan }}" 
-                                                data-melahirkan="{{ $item->tanggal_melahirkan }}" 
-                                                data-pemeriksaan_kehamilan = "{{ $item->pemeriksaan_kehamilan }}"
-                                                data-konsumsi_pil_fe = "{{ $item->konsumsi_pil_fe }}"
-                                                data-pemeriksaan_nifas = "{{ $item->pemeriksaan_nifas }}"
-                                                data-konseling_gizi = "{{ $item->konseling_gizi }}"
+                                        <button 
+                                                data-id="{{ $item->id_bulanan_anak }}" 
+                                                data-no_kia="{{ $item->no_kia }}" 
+                                                data-nama_anak="{{ $item->nama_anak }}" 
+                                                data-jenis_kelamin_anak = "{{ $item->jenis_kelamin_anak }}"
+                                                data-tanggal_lahir_anak="{{ $item->tanggal_lahir_anak }}" 
+                                                data-status_gizi="{{ $item->status_gizi }}" 
+                                                data-umur_bulan="{{ $item->umur_bulan }}" 
+                                                data-status_tikar = "{{ $item->status_tikar }}"
+                                                data-pemberian_imunisasi_dasar = "{{ $item->pemberian_imunisasi_dasar }}"
+                                                data-pengukuran_berat_badan = "{{ $item->pengukuran_berat_badan }}"
+                                                data-pengukuran_tinggi_badan = "{{ $item->pengukuran_tinggi_badan }}"
+                                                data-konseling_gizi_ayah = "{{ $item->konseling_gizi_ayah }}"
+                                                data-konseling_gizi_ibu = "{{ $item->konseling_gizi_ibu }}"
                                                 data-kunjungan_rumah = "{{ $item->kunjungan_rumah }}"
-                                                data-akses_air_bersih = "{{ $item->akses_air_bersih }}"
+                                                data-air_bersih = "{{ $item->air_bersih }}"
                                                 data-kepemilikan_jamban = "{{ $item->kepemilikan_jamban }}"
+                                                data-akta_lahir = "{{ $item->akta_lahir }}"
                                                 data-jaminan_kesehatan = "{{ $item->jaminan_kesehatan }}"
+                                                data-pengasuhan_paud = "{{ $item->pengasuhan_paud }}"
                                                 data-toggle="modal" 
-                                                data-target="#modal-input-edit-data"  --}}
+                                                data-target="#modal-input-edit-data" 
                                                 title="Edit" 
                                                 type="button" 
                                                 class="editData btn btn-primary col-xs-12">Edit</button>
-                                            <button data-id="{{ $item->id_bulanan_anak }}" 
+                                            <button 
+                                                data-id="{{ $item->id_bulanan_anak }}" 
                                                 data-nama="{{ $item->nama_anak }}" 
                                                 data-toggle="modal" 
                                                 data-target="#modal-hapus" 
@@ -184,12 +190,12 @@
                     <span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title"><b>Peringatan Hapus Data</b></h4>
                 </div>
-                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data') }}">
+                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data-bulanan-anak') }}">
                     <div class="modal-body">  
                         <b>Peringatan!</b> 
                         <span id="info_hapus">Kamu akan menghapus data Rafli Firdausy</span> <br>
                         <span>Data yang di hapus tidak dapat di kembalikan. Tetap hapus ?</span>
-                        <input type="hidden" name="id_ibu_hamil" id="idIbuHamil">
+                        <input type="hidden" name="id_bulanan_anak" id="idBulananAnak">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -378,7 +384,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="hidden" name="id_ibu_hamil" id="id_ibu_hamil">
+                            <input type="hidden" name="id_bulanan_anak" id="id_bulanan_anak">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                             <input type="submit" name="submit" value="Simpan" class="btn btn-primary">
                         </div>
@@ -398,43 +404,84 @@
 <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script>
 
-    // $("#btnExport").click(function(){
-    //     window.location.href = "{{ base_url('pemantauan/export-ibu-hamil/') }}" + "{{ $_tahun }}" + "/" + "{{ $_bulan }}";
-    // });
-
     // EDIIIIIITT
     $("#btn_input").click(function(){
         $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/bulanan-anak') }}");        
         $("#no_kia").attr('readonly', false);
-        $("#nama_ibu").attr('readonly', false);
+        $("#nama_anak").attr('readonly', false);
 
         $("#modalTitle").text("Input Pemantauan Bulanan Anak 0-2 Tahun");
+
+        $("#id_bulanan_anak").val(""); 
+        $("#no_kia").val(""); 
+        $("#nama_anak").val("");
+        $("#jenis_kelamin_anak").val("L");
+        $("#tanggal_lahir_anak").val("");
+        $("#status_gizi").val("N");
+        $("#umur_bulan").val("");
+        $("#status_tikar").val("TD");
+        $("#pemberian_imunisasi_dasar").val("v");
+        $("#pengukuran_berat_badan").val("v");
+        $("#pengukuran_tinggi_badan").val("v");
+        $("#konseling_gizi_ayah").val("v");
+        $("#konseling_gizi_ibu").val("v");
+        $("#kunjungan_rumah").val("v");
+        $("#air_bersih").val("v");
+        $("#kepemilikan_jamban").val("v");
+        $("#akta_lahir").val("v");
+        $("#jaminan_kesehatan").val("v");
+        $("#pengasuhan_paud").val("v");
     });
 
     $(".editData").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-ibu-hamil') }}");
-
-        let id                      = $(this).data('id');
-        let no_kia                  = $(this).data('no_kia');
-        let nama_ibu                = $(this).data('nama');
-        let status_kehamilan        = $(this).data('status_kehamilan');
-        let hari_perkiraan_lahir    = $(this).data('perkiraan');
-        let usia_kehamilan          = $(this).data('usia_kehamilan');
-        let tanggal_melahirkan      = $(this).data('melahirkan');
-        let pemeriksaan_kehamilan   = $(this).data('pemeriksaan_kehamilan');
-        let konsumsi_pil_fe         = $(this).data('konsumsi_pil_fe');
-        let pemeriksaan_nifas       = $(this).data('pemeriksaan_nifas');
-        let konseling_gizi          = $(this).data('konseling_gizi');
-        let kunjungan_rumah         = $(this).data('kunjungan_rumah');
-        let akses_air_bersih        = $(this).data('akses_air_bersih');
-        let kepemilikan_jamban      = $(this).data('kepemilikan_jamban');
-        let jaminan_kesehatan       = $(this).data('jaminan_kesehatan');
-
+        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-bulanan-anak') }}");
 
         $("#no_kia").attr('readonly', true);
-        $("#nama_ibu").attr('readonly', true);
+        $("#nama_anak").attr('readonly', true);
+        
+        let id                          = $(this).data('id');
+        let no_kia                      = $(this).data('no_kia');
+        let nama_anak                   = $(this).data('nama_anak');
+        let jenis_kelamin_anak          = $(this).data('jenis_kelamin_anak');
+        let tanggal_lahir_anak          = $(this).data('tanggal_lahir_anak');
+        let status_gizi                 = $(this).data('status_gizi');
+        let umur_bulan                  = $(this).data('umur_bulan');
+        let status_tikar                = $(this).data('status_tikar');
+        let pemberian_imunisasi_dasar   = $(this).data('pemberian_imunisasi_dasar');
+        let pengukuran_berat_badan      = $(this).data('pengukuran_berat_badan');
+        let pengukuran_tinggi_badan     = $(this).data('pengukuran_tinggi_badan');
+        let konseling_gizi_ayah         = $(this).data('konseling_gizi_ayah');
+        let konseling_gizi_ibu          = $(this).data('konseling_gizi_ibu');
+        let kunjungan_rumah             = $(this).data('kunjungan_rumah');
+        let air_bersih                  = $(this).data('air_bersih');
+        let kepemilikan_jamban          = $(this).data('kepemilikan_jamban');
+        let akta_lahir                  = $(this).data('akta_lahir');
+        let jaminan_kesehatan           = $(this).data('jaminan_kesehatan');
+        let pengasuhan_paud             = $(this).data('pengasuhan_paud');
+        
+        $("#no_kia").attr('readonly', true);
+        $("#nama_anak").attr('readonly', true);
+        $("#modalTitle").text("Edit Pemantauan Bulanan Anak 0-2 Tahun");
 
-        $("#modalTitle").text("Edit Pemantauan Bulanan Ibu Hamil");
+        $("#id_bulanan_anak").val(id); 
+        $("#no_kia").val(no_kia); 
+        $("#nama_anak").val(nama_anak);
+        $("#jenis_kelamin_anak").val(jenis_kelamin_anak);
+        $("#tanggal_lahir_anak").val(tanggal_lahir_anak);
+        $("#status_gizi").val(status_gizi);
+        $("#umur_bulan").val(umur_bulan);
+        $("#status_tikar").val(status_tikar);
+        $("#pemberian_imunisasi_dasar").val(pemberian_imunisasi_dasar);
+        $("#pengukuran_berat_badan").val(pengukuran_berat_badan);
+        $("#pengukuran_tinggi_badan").val(pengukuran_tinggi_badan);
+        $("#konseling_gizi_ayah").val(konseling_gizi_ayah);
+        $("#konseling_gizi_ibu").val(konseling_gizi_ibu);
+        $("#kunjungan_rumah").val(kunjungan_rumah);
+        $("#air_bersih").val(air_bersih);
+        $("#kepemilikan_jamban").val(kepemilikan_jamban);
+        $("#akta_lahir").val(akta_lahir);
+        $("#jaminan_kesehatan").val(jaminan_kesehatan);
+        $("#pengasuhan_paud").val(pengasuhan_paud);
 
     });
 
@@ -444,7 +491,7 @@
         let nama    = $(this).data('nama');
     
         $("#info_hapus").text("Kamu akan menghapus data " + nama);
-        $("#idIbuHamil").val(id);
+        $("#idBulananAnak").val(id);
     });
 
     function delay(callback, ms) {
