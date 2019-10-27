@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 no-padding pull-right">
-                        <a href="{{ base_url('pemantauan/export-ibu-hamil/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
+                        <a href="{{ base_url('rekapitulasi/export-ibu-hamil/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>

@@ -325,7 +325,6 @@ class Pemantauan extends MY_Controller
             $sheet->setCellValue($kolom . '6', strtolower($kolom));
             // $sheet->getStyle($kolom . '6')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER); 
             // $spreadsheet->getActiveSheet()->getStyle($kolom . '6')->getAlignment()->setWrapText(true);
-
         }
 
         //SET DATA
