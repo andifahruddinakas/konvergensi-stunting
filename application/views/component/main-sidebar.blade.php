@@ -31,8 +31,8 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y') }}"><i class="fa fa-circle-o"></i> Bulanan Ibu Hamil</a></li>
-              <li><a href="{{ base_url('pemantauan/bulanan-anak/') . date('m') . '/' . date('Y') }}"><i class="fa fa-circle-o"></i> Bulanan Anak 0-2 Tahun</a></li>
+              <li><a href="{{ base_url('pemantauan/ibu-hamil/') }}"><i class="fa fa-circle-o"></i> Bulanan Ibu Hamil</a></li>
+              <li><a href="{{ base_url('pemantauan/bulanan-anak/') }}"><i class="fa fa-circle-o"></i> Bulanan Anak 0-2 Tahun</a></li>
               <li><a href="#"><i class="fa fa-circle-o"></i> Sasaran Paud Anak 2 - 6 Tahun</a></li>
             </ul>
           </li>      

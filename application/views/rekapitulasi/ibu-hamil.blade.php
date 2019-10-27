@@ -42,9 +42,9 @@
                     <div class="col-md-9 no-padding">
                         <div class="col-md-4">
                             <div class="form-group">                                
-                                <select name="bulan" id="bulan" required class="form-control" title="Pilih salah satu">
+                                <select name="kuartal" id="kuartal" required class="form-control" title="Pilih salah satu">
                                     @foreach (kuartal() as $item)
-                                        <option value="{{ $item['ke'] }}">Kuartal ke {{ $item['ke'] }}  ({{ $item['bulan'] }})</option>
+                                        <option value="{{ $item['ke'] }}" {{ $item['ke'] == $kuartal ? "selected" : "" }}>Kuartal ke {{ $item['ke'] }}  ({{ $item['bulan'] }})</option>
                                     @endforeach                                
                                 </select>
                             </div>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 no-padding pull-right">
-                        <a href="{{ base_url('pemantauan/export-ibu-hamil/') . $_bulan .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
+                        <a href="{{ base_url('pemantauan/export-ibu-hamil/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>
@@ -103,53 +103,76 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @if (sizeof($ibuHamil) < 1)
+                        @if (!$dataFilter)
                             <tr>
                                 <td class="text-center" style="vertical-align: middle;" colspan="17">Data Tidak Ditemukan!</td>
                             </tr>
                         @else
-                            coming soon
+                            @foreach ($dataFilter as $item)
+                            {{-- {{ die(json_encode($item[1]['no_kia'])) }} --}}                            
+                                <tr>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $loop->iteration }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['user']['no_kia'] }}</td>
+                                    <td style="vertical-align: middle;">{{ $item['user']['nama_ibu'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['user']['status_kehamilan'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['user']['usia_kehamilan'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['user']['tanggal_melahirkan'] == '-' ? $item['user']['tanggal_melahirkan'] : shortdate_indo($item['user']['tanggal_melahirkan']) }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['periksa_kehamilan'] }}</td>                                                                        
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['pil_fe'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['pemeriksaan_nifas'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['konseling_gizi'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['kunjungan_rumah'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['akses_air_bersih'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['kepemilikan_jamban'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['indikator']['jaminan_kesehatan'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['konvergensi_indikator']['jumlah_diterima_lengkap'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['konvergensi_indikator']['jumlah_seharusnya'] }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item['konvergensi_indikator']['persen'] }}</td>
+                                </tr>
+                            @endforeach
                         @endif
                     </tbody>
-                    <tfoot>
+                    @if ($dataFilter)
+                    <tfoot>                        
                         <tr>
                             <th colspan="3" rowspan="3" class="text-center" style="vertical-align: middle;">Tingkat Capaian Konvergensi</th>
                             <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah Diterima</th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["periksa_kehamilan"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["pil_fe"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["pemeriksaan_nifas"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["konseling_gizi"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kunjungan_rumah"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["akses_air_bersih"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kepemilikan_jamban"]["Y"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["jaminan_kesehatan"]["Y"] }}</th>
                             <th rowspan="3" class="text-center" style="vertical-align: middle;"></th>
                             <th rowspan="3" class="text-center" style="vertical-align: middle;"></th>
                             <th rowspan="3" class="text-center" style="vertical-align: middle;"></th>
                         </tr>
                         <tr>
                             <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah Seharusnya</th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["periksa_kehamilan"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["pil_fe"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["pemeriksaan_nifas"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["konseling_gizi"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kunjungan_rumah"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["akses_air_bersih"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kepemilikan_jamban"]["jumlah_seharusnya"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["jaminan_kesehatan"]["jumlah_seharusnya"] }}</th>
                         </tr>
                         <tr>
                             <th colspan="3" class="text-center" style="vertical-align: middle;">%</th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
-                            <th class="text-center" style="vertical-align: middle;"></th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["periksa_kehamilan"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["pil_fe"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["pemeriksaan_nifas"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["konseling_gizi"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kunjungan_rumah"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["akses_air_bersih"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kepemilikan_jamban"]["persen"] }}</th>
+                            <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["jaminan_kesehatan"]["persen"] }}</th>
                         </tr>
-                    </tfoot>
+                    </tfoot> 
+                    @endif                    
                 </table>
                 </div>
             </div>
@@ -332,121 +355,13 @@
 <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script>
 
-    // $("#btnExport").click(function(){
-    //     window.location.href = "{{ base_url('pemantauan/export-ibu-hamil/') }}" + "{{ $_tahun }}" + "/" + "{{ $_bulan }}";
-    // });
-
-    // EDIIIIIITT
-    $("#btn_input").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/ibu-hamil') }}");        
-        $("#no_kia").attr('readonly', false);
-        $("#nama_ibu").attr('readonly', false);
-
-        $("#modalTitle").text("Input Pemantauan Bulanan Ibu Hamil");
-
-        $("#id_ibu_hamil").val(""); 
-        $("#no_kia").val(""); 
-        $("#nama_ibu").val("");
-        $("#status_kehamilan").val("NORMAL");
-        $("#perkiraan_lahir").val("");
-        $("#usia_kehamilan").val("v");
-        $("#tanggal_melahirkan").val("v");
-        $("#pemeriksaan_kehamilan").val("v");
-        $("#pil_fe").val("v");
-        $("#pemeriksaan_nifas").val("v");
-        $("#konseling_gizi").val("v");
-        $("#kunjungan_rumah").val("v");
-        $("#air_bersih").val("v");
-        $("#kepemilikan_jamban").val("v");
-        $("#jaminan_kesehatan").val("v");
+    $('#cari').click(function(){       
+        let kuartal = $('#kuartal option:selected').val();
+        let tahun   = $('#tahun option:selected').val();
+        window.location.href = "{{ base_url('rekapitulasi/ibu-hamil/') }}" + kuartal + "/" + tahun;
     });
-
-    $(".editData").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-ibu-hamil') }}");
-
-        let id                      = $(this).data('id');
-        let no_kia                  = $(this).data('no_kia');
-        let nama_ibu                = $(this).data('nama');
-        let status_kehamilan        = $(this).data('status_kehamilan');
-        let hari_perkiraan_lahir    = $(this).data('perkiraan');
-        let usia_kehamilan          = $(this).data('usia_kehamilan');
-        let tanggal_melahirkan      = $(this).data('melahirkan');
-        let pemeriksaan_kehamilan   = $(this).data('pemeriksaan_kehamilan');
-        let konsumsi_pil_fe         = $(this).data('konsumsi_pil_fe');
-        let pemeriksaan_nifas       = $(this).data('pemeriksaan_nifas');
-        let konseling_gizi          = $(this).data('konseling_gizi');
-        let kunjungan_rumah         = $(this).data('kunjungan_rumah');
-        let akses_air_bersih        = $(this).data('akses_air_bersih');
-        let kepemilikan_jamban      = $(this).data('kepemilikan_jamban');
-        let jaminan_kesehatan       = $(this).data('jaminan_kesehatan');
-
-
-        $("#no_kia").attr('readonly', true);
-        $("#nama_ibu").attr('readonly', true);
-
-        $("#modalTitle").text("Edit Pemantauan Bulanan Ibu Hamil");
-
-        $("#id_ibu_hamil").val(id); 
-        $("#no_kia").val(no_kia); 
-        $("#nama_ibu").val(nama_ibu);
-        $("#status_kehamilan").val(status_kehamilan);
-        $("#perkiraan_lahir").val(hari_perkiraan_lahir);
-        $("#usia_kehamilan").val(usia_kehamilan);
-        $("#tanggal_melahirkan").val(tanggal_melahirkan);
-        $("#pemeriksaan_kehamilan").val(pemeriksaan_kehamilan);
-        $("#pil_fe").val(konsumsi_pil_fe);
-        $("#pemeriksaan_nifas").val(pemeriksaan_nifas);
-        $("#konseling_gizi").val(konseling_gizi);
-        $("#kunjungan_rumah").val(kunjungan_rumah);
-        $("#air_bersih").val(akses_air_bersih);
-        $("#kepemilikan_jamban").val(kepemilikan_jamban);
-        $("#jaminan_kesehatan").val(jaminan_kesehatan);
-
-    });
-
-
-    $(".hapusData").click(function(){
-        let id      = $(this).data('id');
-        let nama    = $(this).data('nama');
-    
-        $("#info_hapus").text("Kamu akan menghapus data " + nama);
-        $("#idIbuHamil").val(id);
-    });
-
-    function delay(callback, ms) {
-        var timer = 0;
-        return function() {
-            var context = this, args = arguments;
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-            callback.apply(context, args);
-            }, ms || 0);
-        };
-    }
-
-    $('#no_kia').keyup(delay(function (e) {
-        $.ajax({
-            type: 'GET',
-            url: '{{ base_url("pemantauan/getDataByNoKia/") }}' + this.value,
-            dataType: 'json',
-            success: function(x){
-                if(x.status == 1){
-                    $('#nama_ibu').val(x.data.nama_ibu);
-                } else {
-                    $('#nama_ibu').val("");
-                }
-            }
-        });
-    }, 500));
-
 
     $(function () {
-
-        $('#cari').click(function(){
-            let bulan = $('#bulan option:selected').val();
-            let tahun = $('#tahun option:selected').val();
-            window.location.href = "{{ base_url('pemantauan/ibu-hamil/') }}" + bulan + "/" + tahun;
-        });
 
         $('#table-data').DataTable()
 
