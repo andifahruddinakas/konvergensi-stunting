@@ -145,9 +145,9 @@
                             <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["akses_air_bersih"]["Y"] }}</th>
                             <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["kepemilikan_jamban"]["Y"] }}</th>
                             <th class="text-center" style="vertical-align: middle;">{{ $capaianKonvergensi["jaminan_kesehatan"]["Y"] }}</th>
-                            <th rowspan="3" class="text-center" style="vertical-align: middle;"></th>
-                            <th rowspan="3" class="text-center" style="vertical-align: middle;"></th>
-                            <th rowspan="3" class="text-center" style="vertical-align: middle;"></th>
+                            <th rowspan="3" class="text-center" style="vertical-align: middle;">{{ $tingkatKonvergensiDesa["jumlah_diterima"] }}</th>
+                            <th rowspan="3" class="text-center" style="vertical-align: middle;">{{ $tingkatKonvergensiDesa["jumlah_seharusnya"] }}</th>
+                            <th rowspan="3" class="text-center" style="vertical-align: middle;">{{ $tingkatKonvergensiDesa["persen"] }}</th>
                         </tr>
                         <tr>
                             <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah Seharusnya</th>

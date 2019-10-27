@@ -264,7 +264,7 @@ class Rekapitulasi extends MY_Controller
                 "akses_air_bersih"      => array("Y" => 0, "T" => 0, "TS" => 0),
                 "kepemilikan_jamban"    => array("Y" => 0, "T" => 0, "TS" => 0),
                 "jaminan_kesehatan"     => array("Y" => 0, "T" => 0, "TS" => 0)
-            );
+            );            
 
             foreach ($dataFilter as $item) {
                 $capaianKonvergensi['periksa_kehamilan'][$item['indikator']['periksa_kehamilan']]++;
@@ -281,11 +281,28 @@ class Rekapitulasi extends MY_Controller
                 $capaianKonvergensijumlahSeharusnya             = sizeof($dataFilter) - (int) $item["TS"];                
                 $capaianKonvergensi[$key]["jumlah_seharusnya"]  = $capaianKonvergensijumlahSeharusnya;
                 $capaianKonvergensi[$key]["persen"]             = $capaianKonvergensijumlahSeharusnya == 0 ? "0.00" : number_format($item["Y"] / $capaianKonvergensijumlahSeharusnya * 100, 2);
-            }            
+            }           
+            
+            $totalIndikator = sizeof($capaianKonvergensi) * sizeof($dataFilter);
+            $tingkatKonvergensiDesa = array(
+                "jumlah_diterima"   => 0, 
+                "jumlah_seharusnya" => 0, 
+                "persen"            => 0
+            );
+
+            $TotalTS = 0;
+            foreach($capaianKonvergensi as $item){
+                $tingkatKonvergensiDesa["jumlah_diterima"] += $item["Y"];
+                $TotalTS += $item["TS"];
+            }
+
+            $tingkatKonvergensiDesa["jumlah_seharusnya"] = $totalIndikator - $TotalTS;
+            $tingkatKonvergensiDesa["persen"] = $tingkatKonvergensiDesa["jumlah_seharusnya"] == 0 ? "0.00" : number_format($tingkatKonvergensiDesa["jumlah_diterima"] / $tingkatKonvergensiDesa["jumlah_seharusnya"] * 100, 2) ;            
         } else {
-            $dataGrup           = NULL;
-            $dataFilter         = NULL;
-            $capaianKonvergensi = NULL;
+            $dataGrup               = NULL;
+            $dataFilter             = NULL;
+            $capaianKonvergensi     = NULL;
+            $tingkatKonvergensiDesa = NULL;
         }
 
         $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
@@ -294,14 +311,16 @@ class Rekapitulasi extends MY_Controller
 
         // die(json_encode($dataFilter));
 
-        $data["dataFilter"]         = $dataFilter;
-        $data["capaianKonvergensi"] = $capaianKonvergensi;
-        $data["dataGrup"]           = $dataGrup;
-        $data["_tahun"]             = $tahun;
-        $data['ibuHamil']           = $ibuHamil;
-        $data['dataTahun']          = $dataTahun;
-        $data['kuartal']            = $kuartal;
-        $data['title']              = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Ibu Hamil";
+        $data["dataFilter"]             = $dataFilter;
+        $data["capaianKonvergensi"]     = $capaianKonvergensi;
+        $data["tingkatKonvergensiDesa"] = $tingkatKonvergensiDesa;
+
+        $data["dataGrup"]               = $dataGrup;
+        $data["_tahun"]                 = $tahun;
+        $data['ibuHamil']               = $ibuHamil;
+        $data['dataTahun']              = $dataTahun;
+        $data['kuartal']                = $kuartal;
+        $data['title']                  = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Ibu Hamil";
 
         return $this->loadView('rekapitulasi.ibu-hamil', $data);
     }
