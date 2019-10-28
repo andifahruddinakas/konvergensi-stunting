@@ -305,7 +305,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">Konseling Gizi Orang Tua (Ayah)</label>
+                                        <label class="form-label">Konseling Gizi Orang Tua (L)</label>
                                         <select id="konseling_gizi_ayah" name="konseling_gizi_ayah" required class="form-control" title="Pilih salah satu">
                                             <option value="v">Ya</option>
                                             <option value="x">Tidak</option>
@@ -314,7 +314,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">Konseling Gizi Orang Tua (Ibu)</label>
+                                        <label class="form-label">Konseling Gizi Orang Tua (P)</label>
                                         <select id="konseling_gizi_ibu" name="konseling_gizi_ibu" required class="form-control" title="Pilih salah satu">
                                             <option value="v">Ya</option>
                                             <option value="x">Tidak</option>
@@ -423,8 +423,8 @@
         $("#pemberian_imunisasi_dasar").val("v");
         $("#pengukuran_berat_badan").val("v");
         $("#pengukuran_tinggi_badan").val("v");
-        $("#konseling_gizi_ayah").val("v");
-        $("#konseling_gizi_ibu").val("v");
+        $("#konseling_gizi_ayah").val("");
+        $("#konseling_gizi_ibu").val("");
         $("#kunjungan_rumah").val("v");
         $("#air_bersih").val("v");
         $("#kepemilikan_jamban").val("v");

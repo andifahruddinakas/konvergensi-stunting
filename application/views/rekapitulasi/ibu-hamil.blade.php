@@ -79,7 +79,7 @@
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">NO KIA</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Nama Ibu</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Status Kehamilan</th>                    
-                        <th colspan="10" style="vertical-align: middle;">Kuartal Ke 1 Bulan Januari s/d Maret 2019</th>
+                        <th colspan="10" style="vertical-align: middle;">Kuartal Ke {{ $kuartal }} Bulan {{ bulan($batasBulanBawah) }} s/d {{ bulan($batasBulanAtas) }} {{ $_tahun }}</th>
                         <th colspan="3" rowspan="2" class="text-center" style="vertical-align: middle;">Tingkat Konvergensi Indikator</th>                        
                     </tr>
                     <tr>

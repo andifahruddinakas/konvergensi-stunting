@@ -44,8 +44,8 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li class=""><a href="{{ base_url('rekapitulasi/ibu-hamil/') }}"><i class="fa fa-circle-o"></i> 3 Bulanan Ibu Hamil</a></li>
-              <li><a href="#"><i class="fa fa-circle-o"></i> 3 Bulanan Anak 0-2 Tahun</a></li>
+              <li><a href="{{ base_url('rekapitulasi/ibu-hamil/') }}"><i class="fa fa-circle-o"></i> 3 Bulanan Ibu Hamil</a></li>
+              <li><a href="{{ base_url('rekapitulasi/bulanan-anak/') }}""><i class="fa fa-circle-o"></i> 3 Bulanan Anak 0-2 Tahun</a></li>
             </ul>
           </li> 
           <li class="treeview">
