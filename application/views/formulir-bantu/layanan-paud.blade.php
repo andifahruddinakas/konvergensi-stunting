@@ -75,42 +75,23 @@
                 <table  id="table-datas" class="table  table-bordered table-striped table-responsive">
                     <thead>
                         <tr>
-                            <th colspan="5" class="text-center" style="vertical-align: middle;">
-                                Tingkat Konvergensi Desa <br>
-                                Periode Kuartal x Bulan Januari s/d Maret
+                            <th colspan="4" class="text-center" style="vertical-align: middle;">
+                                Tingkat Konvergensi Desa Periode Kuartal x Bulan Januari s/d Maret 2019
                             </th>                            
                         </tr>
-                        <tr>
-                            <th class="text-center" width="5%" style="vertical-align: middle;">No</th>
-                            <th class="text-center" style="vertical-align: middle;">Sasaran</th>
-                            <th class="text-center" width="20%" style="vertical-align: middle;">Jumlah Layanan Diterima</th>
-                            <th class="text-center" width="20%" style="vertical-align: middle;">Jumlah yang Seharusnya Diterima</th>
-                            <th class="text-center" width="20%" style="vertical-align: middle;">Konvergensi %</th>
+                        <tr>                            
+                            <th class="text-center" width="20%" style="vertical-align: middle;">Sasaran</th>
+                            <th class="text-center" width="30%" style="vertical-align: middle;">Jumlah Sasaran Terdaftar dan Aktif</th>
+                            <th class="text-center" width="30%" style="vertical-align: middle;">Jumlah Sasaran Total</th>
+                            <th class="text-center" width="20%" style="vertical-align: middle;">%</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Ibu Hamil</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                        <tr>                            
+                            <th class="text-center" style="vertical-align: middle;">Jumlah</th>
+                            <th class="text-center" style="vertical-align: middle;">123</th>
+                            <th class="text-center" style="vertical-align: middle;">321</th>                            
+                            <th class="text-center" style="vertical-align: middle;">100.00</th>  
                         </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Anak 0-23 Bulan</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th class="text-center" colspan="2">Total Tingkat Konvergensi Desa</th>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                        </tr>
-                    </tfoot>
+                    </thead>                  
                 </table>
             </div>
             

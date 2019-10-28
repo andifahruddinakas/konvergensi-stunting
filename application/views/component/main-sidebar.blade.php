@@ -56,7 +56,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Layanan Paud Anak 2-6 tahun</a></li>
+                <li><a href="{{ base_url('formulir-bantu/layanan-paud') }}"><i class="fa fa-circle-o"></i> Layanan Paud Anak 2-6 tahun</a></li>
                 <li><a href="{{ base_url('formulir-bantu/capaian-penerimaan-layanan') }}"><i class="fa fa-circle-o"></i> Capaian Penerimaan Layanan</a></li>
                 <li><a href="{{ base_url('formulir-bantu/konvergensi-desa') }}"><i class="fa fa-circle-o"></i> Konvergensi Desa</a></li>
               </ul>
