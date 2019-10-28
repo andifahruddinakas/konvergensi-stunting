@@ -274,10 +274,8 @@ class Rekapitulasi extends MY_Controller
         $writer->save('php://output');
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
     public function bulanan_anak($kuartal = NULL, $tahun = NULL)
-    {                
+    {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
         }
@@ -304,7 +302,9 @@ class Rekapitulasi extends MY_Controller
             redirect(base_url('rekapitulasi/bulanan-anak/') . $kuartal . '/' . $tahun);
         }
 
-        $data = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $data           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $data['title']  = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Anak 0-2 Tahun";
+
         return $this->loadView('rekapitulasi.bulanan-anak', $data);
     }
 
@@ -445,7 +445,7 @@ class Rekapitulasi extends MY_Controller
             $sheet->setCellValue('A7', 'Data Tidak Ditemukan!');
         } else {
             $batasBaris = 6;
-            $no = 1;            
+            $no = 1;
             foreach ($data["dataFilter"] as $item) {
                 $barisSekarang = $batasBaris + $no;
                 $sheet->setCellValue('A' . $barisSekarang, $no);
@@ -488,7 +488,7 @@ class Rekapitulasi extends MY_Controller
             $sheet->setCellValue('D' . ($curentHighRow + 3), "%");
 
             $capaianKonvergensi     = $data["capaianKonvergensi"];
-            $tingkatKonvergensiDesa = $data["tingkatKonvergensiDesa"];        
+            $tingkatKonvergensiDesa = $data["tingkatKonvergensiDesa"];
 
             $sheet->setCellValue('G' . ($curentHighRow + 1), $capaianKonvergensi["imunisasi"]["jumlah_diterima"]);
             $sheet->setCellValue('H' . ($curentHighRow + 1), $capaianKonvergensi["pengukuran_berat_badan"]["jumlah_diterima"]);
@@ -525,7 +525,7 @@ class Rekapitulasi extends MY_Controller
 
             $sheet->setCellValue('Q' . ($curentHighRow + 1), $tingkatKonvergensiDesa["jumlah_diterima"]);
             $sheet->setCellValue('R' . ($curentHighRow + 1), $tingkatKonvergensiDesa["jumlah_seharusnya"]);
-            $sheet->setCellValue('S' . ($curentHighRow + 1), $tingkatKonvergensiDesa["persen"]);                    
+            $sheet->setCellValue('S' . ($curentHighRow + 1), $tingkatKonvergensiDesa["persen"]);
         }
 
         //SET BORDER AND ALIGNMENT DATA

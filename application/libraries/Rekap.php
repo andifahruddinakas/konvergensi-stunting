@@ -280,7 +280,7 @@ class Rekap
         $data["_tahun"]                 = $tahun;
         $data['ibuHamil']               = $ibuHamil;
         $data['dataTahun']              = $dataTahun;
-        $data['kuartal']                = $kuartal;    
+        $data['kuartal']                = $kuartal;
 
         return $data;
     }
@@ -661,13 +661,12 @@ class Rekap
         $data['bulananAnak']            = $bulananAnak;
         $data['dataTahun']              = $dataTahun;
         $data['kuartal']                = $kuartal;
-        $data['title']                  = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Anak 0-2 Tahun";
 
         return $data;
     }
 
-    public function aw(){
+    public function aw()
+    {
         return "hehehe";
     }
-
 }

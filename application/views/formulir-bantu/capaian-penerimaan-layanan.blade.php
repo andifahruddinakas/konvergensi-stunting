@@ -18,7 +18,217 @@
 @endsection
 
 @section('page-content')
-    
+<div class="row">
+    <div class="col-xs-12">
+      
+        @if ($CI->session->flashdata("sukses"))
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-check"></i> Sukses</h4>
+            {{ $CI->session->flashdata("sukses") }}
+        </div>
+        @endif      
+        
+        @if ($CI->session->flashdata("gagal"))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-check"></i> Gagal</h4>
+            {{ $CI->session->flashdata("gagal") }}
+        </div>
+        @endif   
+
+        <div class="box box-success">
+            <div class="box-header">
+                <div class="col-md-9 no-padding">
+                    <div class="col-md-4">
+                        <div class="form-group">                                
+                            <select name="kuartal" id="kuartal" required class="form-control" title="Pilih salah satu">
+                                @foreach (kuartal() as $item)
+                                    <option value="{{ $item['ke'] }}" {{ $item['ke'] == $kuartal ? "selected" : "" }}>Kuartal ke {{ $item['ke'] }}  ({{ $item['bulan'] }})</option>
+                                @endforeach                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">                                
+                            <select name="tahun" id="tahun" required class="form-control" title="Pilih salah satu">
+                                @foreach ($dataTahun as $item)
+                                    <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 no-padding">
+                        <button type="button" class="btn col-md-12 btn-primary" id="cari">
+                            <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3 no-padding pull-right">
+                    <a href="{{ base_url('rekapitulasi/export-bulanan-anak/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
+                        Export ke Excel
+                    </a>                        
+                </div>
+            </div>
+
+            <div class="box-body table-responsive">
+                <table  id="table-datas" class="table  table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th colspan="2" width="65%" class="text-center" style="vertical-align: middle;">Tingkatan Capaian Indikator</th>
+                            <th colspan="3" width="35%" class="text-center" style="vertical-align: middle;">Kuartal Ke x</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center" width="5%" style="vertical-align: middle;">No</th>
+                            <th class="text-center" style="vertical-align: middle;">Indikator</th>
+                            <th class="text-center" style="vertical-align: middle;">Jumlah Diterima</th>
+                            <th class="text-center" style="vertical-align: middle;">Jumlah Seharusnya</th>
+                            <th class="text-center" width="5%" style="vertical-align: middle;">%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="5">Sasaran Ibu Hamil</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Ibu hamil periksa kehamilan paling sedikit 4 kali selama kehamilan kehamilan</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>        
+                        <tr>
+                            <td class="text-center">3</td>
+                            <td>Ibu hamil mendapatkan dan minum 1 tablet tambah darah (pil FE) setiap hari minimal selama 90 hari</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>      
+                        <tr>
+                            <td class="text-center">4</td>
+                            <td>Ibu bersalin mendapatkan layanan nifas oleh nakes dilaksanakan minimal 3 kali</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">5</td>
+                            <td>Ibu hamil dengan kondisi resiko tinggi dan/atau Kekurangan Energi Kronis (KEK) mendapat kunjungan ke rumah oleh bidan Desa secara terpadu minimal 1 bulan sekali</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">6</td>
+                            <td>Rumah Tangga Ibu hamil memiliki sarana akses air minum yang aman</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>    
+                        <tr>
+                            <td class="text-center">7</td>
+                            <td>Rumah Tangga Ibu hamil memiliki sarana jamban keluarga yang layak.</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>    
+                        <tr>
+                            <td class="text-center">8</td>
+                            <td>Ibu hamil memiliki jaminan layanan kesehatan</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <th colspan="5">Sasaran Anak 0 sd 23 Bulan</th>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Bayi usia 12 bulan ke bawah mendapatkan imunisasi dasar  lengkap</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>                            
+                        <tr>
+                            <td class="text-center">2</td>
+                            <td>Anak  usia  0-23 bulan  diukur  berat  badannya di posyandu secara rutin setiap bulan </td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">3</td>
+                            <td>Anak usia 0-23 bulan diukur panjang/tinggi badannya oleh tenaga kesehatan terlatih minimal 2 kali dalam setahun </td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">4</td>
+                            <td>Orang tua/pengasuh yang memiliki anak usia 0-23 bulan  mengikuti kegiatan konseling gizi secara rutin minimal sebulan sekali.</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">5</td>
+                            <td>Anak usia 0-23 bulan dengan status gizi buruk, gizi kurang, dan stunting mendapat kunjungan ke rumah secara terpadu minimal 1 bulan sekali </td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">6</td>
+                            <td>Rumah Tangga anak usia 0-23 bulan memiliki sarana akses air minum yang aman</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">7</td>
+                            <td>Rumah Tangga anak usia 0-23 bulan memiliki sarana jamban yang layak</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">8</td>
+                            <td>Anak usia 0-23 bulan memiliki akte kelahiran</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">9</td>
+                            <td>Anak usia 0-23 bulan memiliki jaminan layanan kesehatan</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <td class="text-center">10</td>
+                            <td>Orang tua/pengasuh yang memiliki anaksia 0-23 bulan mengikuti Kelas Pengasuhan minimal sebulan sekali</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>  
+                        <tr>
+                            <th colspan="5">Sasaran Anak > 2 sd 6 Tahun</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Anak usia > 2-6 tahun terdaftar dan aktif mengikuti kegiatan layanan PAUD</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('page-footer')
@@ -29,127 +239,6 @@
 <script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script>
-
-    // EDIIIIIITT
-    $("#btn_input").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/bulanan-anak') }}");        
-        $("#no_kia").attr('readonly', false);
-        $("#nama_anak").attr('readonly', false);
-
-        $("#modalTitle").text("Input Pemantauan Bulanan Anak 0-2 Tahun");
-
-        $("#id_bulanan_anak").val(""); 
-        $("#no_kia").val(""); 
-        $("#nama_anak").val("");
-        $("#jenis_kelamin_anak").val("L");
-        $("#tanggal_lahir_anak").val("");
-        $("#status_gizi").val("N");
-        $("#umur_bulan").val("");
-        $("#status_tikar").val("TD");
-        $("#pemberian_imunisasi_dasar").val("v");
-        $("#pengukuran_berat_badan").val("v");
-        $("#pengukuran_tinggi_badan").val("v");
-        $("#konseling_gizi_ayah").val("");
-        $("#konseling_gizi_ibu").val("");
-        $("#kunjungan_rumah").val("v");
-        $("#air_bersih").val("v");
-        $("#kepemilikan_jamban").val("v");
-        $("#akta_lahir").val("v");
-        $("#jaminan_kesehatan").val("v");
-        $("#pengasuhan_paud").val("v");
-    });
-
-    $(".editData").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-bulanan-anak') }}");
-
-        $("#no_kia").attr('readonly', true);
-        $("#nama_anak").attr('readonly', true);
-        
-        let id                          = $(this).data('id');
-        let no_kia                      = $(this).data('no_kia');
-        let nama_anak                   = $(this).data('nama_anak');
-        let jenis_kelamin_anak          = $(this).data('jenis_kelamin_anak');
-        let tanggal_lahir_anak          = $(this).data('tanggal_lahir_anak');
-        let status_gizi                 = $(this).data('status_gizi');
-        let umur_bulan                  = $(this).data('umur_bulan');
-        let status_tikar                = $(this).data('status_tikar');
-        let pemberian_imunisasi_dasar   = $(this).data('pemberian_imunisasi_dasar');
-        let pengukuran_berat_badan      = $(this).data('pengukuran_berat_badan');
-        let pengukuran_tinggi_badan     = $(this).data('pengukuran_tinggi_badan');
-        let konseling_gizi_ayah         = $(this).data('konseling_gizi_ayah');
-        let konseling_gizi_ibu          = $(this).data('konseling_gizi_ibu');
-        let kunjungan_rumah             = $(this).data('kunjungan_rumah');
-        let air_bersih                  = $(this).data('air_bersih');
-        let kepemilikan_jamban          = $(this).data('kepemilikan_jamban');
-        let akta_lahir                  = $(this).data('akta_lahir');
-        let jaminan_kesehatan           = $(this).data('jaminan_kesehatan');
-        let pengasuhan_paud             = $(this).data('pengasuhan_paud');
-        
-        $("#no_kia").attr('readonly', true);
-        $("#nama_anak").attr('readonly', true);
-        $("#modalTitle").text("Edit Pemantauan Bulanan Anak 0-2 Tahun");
-
-        $("#id_bulanan_anak").val(id); 
-        $("#no_kia").val(no_kia); 
-        $("#nama_anak").val(nama_anak);
-        $("#jenis_kelamin_anak").val(jenis_kelamin_anak);
-        $("#tanggal_lahir_anak").val(tanggal_lahir_anak);
-        $("#status_gizi").val(status_gizi);
-        $("#umur_bulan").val(umur_bulan);
-        $("#status_tikar").val(status_tikar);
-        $("#pemberian_imunisasi_dasar").val(pemberian_imunisasi_dasar);
-        $("#pengukuran_berat_badan").val(pengukuran_berat_badan);
-        $("#pengukuran_tinggi_badan").val(pengukuran_tinggi_badan);
-        $("#konseling_gizi_ayah").val(konseling_gizi_ayah);
-        $("#konseling_gizi_ibu").val(konseling_gizi_ibu);
-        $("#kunjungan_rumah").val(kunjungan_rumah);
-        $("#air_bersih").val(air_bersih);
-        $("#kepemilikan_jamban").val(kepemilikan_jamban);
-        $("#akta_lahir").val(akta_lahir);
-        $("#jaminan_kesehatan").val(jaminan_kesehatan);
-        $("#pengasuhan_paud").val(pengasuhan_paud);
-
-    });
-
-
-    $(".hapusData").click(function(){
-        let id      = $(this).data('id');
-        let nama    = $(this).data('nama');
-    
-        $("#info_hapus").text("Kamu akan menghapus data " + nama);
-        $("#idBulananAnak").val(id);
-    });
-
-    function delay(callback, ms) {
-        var timer = 0;
-        return function() {
-            var context = this, args = arguments;
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-            callback.apply(context, args);
-            }, ms || 0);
-        };
-    }
-
-    $('#no_kia').keyup(delay(function (e) {
-        $.ajax({
-            type: 'GET',
-            url: '{{ base_url("pemantauan/getDataByNoKia/") }}' + this.value,
-            dataType: 'json',
-            success: function(x){
-                if(x.status == 1){
-                    $('#nama_anak').val(x.data.nama_anak);
-                    $('#jenis_kelamin').val(x.data.jenis_kelamin_anak);
-                    $('#tanggal_lahir_anak').val(x.data.tanggal_lahir_anak);
-                } else {
-                    $('#nama_anak').val("");                    
-                    $('#jenis_kelamin').val("");
-                    $('#tanggal_lahir_anak').val("");
-                }
-            }
-        });
-    }, 500));
-
 
     $(function () {
 
