@@ -1187,9 +1187,7 @@ class Rekapitulasi extends MY_Controller
 
             $sheet->setCellValue('Q' . ($curentHighRow + 1), $tingkatKonvergensiDesa["jumlah_diterima"]);
             $sheet->setCellValue('R' . ($curentHighRow + 1), $tingkatKonvergensiDesa["jumlah_seharusnya"]);
-            $sheet->setCellValue('S' . ($curentHighRow + 1), $tingkatKonvergensiDesa["persen"]);
-            
-            
+            $sheet->setCellValue('S' . ($curentHighRow + 1), $tingkatKonvergensiDesa["persen"]);                    
         }
 
         //SET BORDER AND ALIGNMENT DATA
