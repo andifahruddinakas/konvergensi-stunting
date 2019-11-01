@@ -14,12 +14,12 @@
           <li class="active">
             <a href="{{ base_url('dashboard') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a>
           </li>
-          <li class="">
+          {{-- <li class="">
             <a href="#"><i class="fa fa-user"></i> <span>Tambah Admin</span></a> 
-          </li>      
-          <li class="">
-              <a href="#"><i class="fa fa-heartbeat"></i> <span>Data KIA</span></a> 
-            </li>  
+          </li>       --}}
+          {{-- <li class="">
+            <a href="#"><i class="fa fa-heartbeat"></i> <span>Data KIA</span></a> 
+          </li>   --}}
           <li class="">
             <a href="#"><i class="fa fa-medkit"></i> <span>Pendataan kondisi Layanan</span></a>
           </li>  

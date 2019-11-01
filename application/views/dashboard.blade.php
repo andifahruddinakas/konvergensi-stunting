@@ -22,7 +22,7 @@
           <div class="small-box bg-aqua">
             <div class="inner">
               <h3>12</h3>
-              <p>KIA Terdaftar</p>
+              <p>Coming Soon</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
@@ -34,7 +34,7 @@
           <div class="small-box bg-green">
             <div class="inner">
               <h3>123</h3>
-              <p>Mbuh Apa</p>
+              <p>Coming Soon</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -46,7 +46,7 @@
           <div class="small-box bg-yellow">
             <div class="inner">
               <h3>123</h3>
-              <p>Mbuh Apa</p>
+              <p>Coming Soon</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -58,7 +58,7 @@
           <div class="small-box bg-red">
             <div class="inner">
               <h3>123</h3>
-              <p>Mbuh Apa</p>
+              <p>Coming Soon</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>

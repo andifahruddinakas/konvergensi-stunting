@@ -72,7 +72,7 @@
             </div>
 
             <div class="box-body table-responsive">
-                <table  id="table-datas" class="table  table-bordered table-striped table-responsive">
+                <table  id="table-datas" class="table table-bordered table-striped table-responsive">
                     <thead>
                         <tr>
                             <th colspan="4" class="text-center" style="vertical-align: middle;">
