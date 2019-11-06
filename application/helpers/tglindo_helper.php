@@ -296,3 +296,17 @@ if (!function_exists('kuartal')) {
         return $dataKuartal;
      }
 }
+
+if (!function_exists('get_kuartal')) {
+    function get_kuartal($kuartal = NULL)
+    {
+        if($kuartal == NULL || $kuartal < 0 || $kuartal > 4){
+            return [
+                "ke"    => "undefined",
+                "bulan" => "undefined" 
+            ];
+        } else {
+            return kuartal()[$kuartal-1];
+        }        
+    }
+}
