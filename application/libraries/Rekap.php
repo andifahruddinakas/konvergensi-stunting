@@ -681,9 +681,11 @@ class Rekap
 
         $data["batasBulanBawah"]        = $batasBulanBawah;
         $data["batasBulanAtas"]         = $batasBulanAtas;
-        $data["_tahun"]                 = $tahun;
+        
         $data['bulananAnak']            = $bulananAnak;
         $data['dataTahun']              = $dataTahun;
+        
+        $data["_tahun"]                 = $tahun;
         $data['kuartal']                = $kuartal;
 
         return $data;

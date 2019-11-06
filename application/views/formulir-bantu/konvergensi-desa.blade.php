@@ -92,23 +92,36 @@
                         <tr>
                             <td class="text-center">1</td>
                             <td>Ibu Hamil</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{ $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_diterima"] }}</td>
+                            <td class="text-center">{{ $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_seharusnya"] }}</td>
+                            <td class="text-center">{{ $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["persen"] }}</td>
                         </tr>
                         <tr>
                             <td class="text-center">2</td>
                             <td>Anak 0-23 Bulan</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{ $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_diterima"] }}</td>
+                            <td class="text-center">{{ $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_seharusnya"] }}</td>
+                            <td class="text-center">{{ $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["persen"] }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
+                        @php
+                            $JLD_IbuHamil   = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_diterima"];
+                            $JLD_Anak       = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_diterima"];
+
+                            $JYSD_IbuHamil  = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_seharusnya"];
+                            $JYSD_Anak      = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_seharusnya"];
+
+                            $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
+                            $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
+
+                            $KONV_TOTAL     = $JLD_TOTAL / $JYSD_TOTAL * 100;
+                        @endphp
                         <tr>
                             <th class="text-center" colspan="2">Total Tingkat Konvergensi Desa</th>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{ $JLD_TOTAL }}</td>
+                            <td class="text-center">{{ $JYSD_TOTAL }}</td>
+                            <td class="text-center">{{ number_format($KONV_TOTAL, 2) }}</td>
                         </tr>
                     </tfoot>
                 </table>

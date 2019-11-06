@@ -40,6 +40,7 @@ class Formulir_bantu extends MY_Controller
             $kuartal = $_kuartal;
             redirect(base_url('formulir-bantu/layanan-paud/') . $kuartal . '/' . $tahun);
         }
+      
 
         $data['title']      = "Formulir Bantu Mengikuti Layanan PAUD Anak 2 s/d 6 Tahun";
         $data['kuartal']    = $kuartal;
@@ -76,9 +77,13 @@ class Formulir_bantu extends MY_Controller
             redirect(base_url('formulir-bantu/capaian-penerimaan-layanan/') . $kuartal . '/' . $tahun);
         }
 
-        $data               = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
-        $data['title']      = "Formulir Bantu Capaian Penerimaan Layanan";
-
+        $data["ibu_hamil"]      = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
+        $data["bulanan_anak"]   = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $data['title']          = "Formulir Bantu Capaian Penerimaan Layanan";
+        $data["dataTahun"]      = $data["ibu_hamil"]["dataTahun"];
+        $data["_tahun"]         = $data["ibu_hamil"]["_tahun"];
+        $data["kuartal"]        = $kuartal;
+        // d($data["bulanan_anak"]);
         return $this->loadView('formulir-bantu.capaian-penerimaan-layanan', $data);
     }
 
@@ -109,9 +114,13 @@ class Formulir_bantu extends MY_Controller
             redirect(base_url('formulir-bantu/konvergensi-desa/') . $kuartal . '/' . $tahun);
         }
 
-        $data               = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
-        $data['title']      = "Formulir Bantu Konvergensi Desa";
-
+        $data["ibu_hamil"]      = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
+        $data["bulanan_anak"]   = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);        
+        $data["dataTahun"]      = $data["ibu_hamil"]["dataTahun"];
+        $data["_tahun"]         = $data["ibu_hamil"]["_tahun"];
+        $data["kuartal"]        = $kuartal;
+        $data['title']          = "Formulir Bantu Konvergensi Desa";
+        // d($data);
         return $this->loadView('formulir-bantu.konvergensi-desa', $data);
 
     }
