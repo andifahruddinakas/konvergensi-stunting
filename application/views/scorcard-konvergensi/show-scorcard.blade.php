@@ -1,0 +1,357 @@
+@extends('layout.admin')
+
+@section('tab-title')
+    {{ $title }}
+@endsection
+
+@section('page-title')
+{{ $title }}
+@endsection
+
+@section('page-header')
+
+@endsection
+
+@section('page-breadcrumb')
+<li><a href="{{ base_url('dashboard') }}"><i class="fa fa-dashboard"></i> {{ $app_name }}</a></li>
+<li class="active">{{ $title }}</li>
+@endsection
+
+@section('page-content')
+    <div class="row">
+        <div class="col-xs-12">
+          
+            @if ($CI->session->flashdata("sukses"))
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sukses</h4>
+                {{ $CI->session->flashdata("sukses") }}
+            </div>
+            @endif      
+            
+            @if ($CI->session->flashdata("gagal"))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Gagal</h4>
+                {{ $CI->session->flashdata("gagal") }}
+            </div>
+            @endif   
+
+            <div class="box box-success">
+                <div class="box-header">
+                    <div class="col-md-9 no-padding">
+                        <div class="col-md-4">
+                            <div class="form-group">                                
+                                <select name="kuartal" id="kuartal" required class="form-control" title="Pilih salah satu">
+                                    @foreach (kuartal() as $item)
+                                        <option value="{{ $item['ke'] }}" {{ $item['ke'] == $kuartal ? "selected" : "" }}>Kuartal ke {{ $item['ke'] }}  ({{ $item['bulan'] }})</option>
+                                    @endforeach                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">                                
+                                <select name="tahun" id="tahun" required class="form-control" title="Pilih salah satu">
+                                    @foreach ($dataTahun as $item)
+                                        <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 no-padding">
+                            <button type="button" class="btn col-md-12 btn-primary" id="cari">
+                                <i class="fa fa-search"></i> Cari
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 no-padding pull-right">
+                        <a href="{{ base_url('rekapitulasi/export-bulanan-anak/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
+                            Export ke Excel
+                        </a>                        
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                <table  id="table-datas" class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th colspan="9" style="background-color:#efefef;">TABEL 1. JUMLAH SASARAN 1.000 HPK (IBU HAMIL DAN ANAK 0-23 BULAN)</th>
+                        </tr>
+                        <tr>
+                            <th width="15%" rowspan="2" colspan="3" class="text-center" style="vertical-align: middle;">Sasaran</th>
+                            <th width="45%" rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">JML TOTAL RUMAH TANGGA 1.000 HPK </th>                            
+                            <th width="20%" colspan="2" class="text-center" style="vertical-align: middle;">IBU HAMIL</th>
+                            <th width="20%" colspan="2" class="text-center" style="vertical-align: middle;">ANAK 0 – 23 BULAN</th>
+                        </tr>
+                        <tr>
+                            <th width="10%" class="text-center" style="vertical-align: middle;">TOTAL</th>
+                            <th width="10%" class="text-center" style="vertical-align: middle;">KEK/RESTI</th>
+                            <th width="10%" class="text-center" style="vertical-align: middle;">TOTAL</th>
+                            <th width="10%" class="text-center" style="vertical-align: middle;">GIZI KURANG/ GIZI BURUK/STUNTING</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah</th>
+                            <th colspan="2" class="text-center" style="vertical-align: middle;"></th>
+                            <td class="text-center" style="vertical-align: middle;"></td>
+                            <td class="text-center" style="vertical-align: middle;"></td>
+                            <td class="text-center" style="vertical-align: middle;"></td>
+                            <td class="text-center" style="vertical-align: middle;"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="9" style="background-color:#efefef;">TABEL 2. HASIL PENGUKURAN TIKAR PERTUMBUHAN (DETEKSI DINI STUNTING) </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="text-center" style="vertical-align: middle;">Sasaran</th>
+                            <th colspan="1" width="22%" class="text-center" style="vertical-align: middle;">JUMLAH TOTAL ANAK USIA 0 – 23 BULAN </th>
+                            <th colspan="1" width="23%" class="text-center" style="vertical-align: middle;">HIJAU (NORMAL)</th>
+                            <th colspan="2" class="text-center" style="vertical-align: middle;">Kuning (Resiko Stunting)</th>
+                            <th colspan="2" class="text-center" style="vertical-align: middle;">Merah Terindikasi Stunting</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah</th>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>                            
+                        </tr>
+                        <tr>
+                            <th colspan="9" style="background-color:#efefef;">TABEL 3. KELENGKAPAN KONVERGENSI PAKET LAYANAN PENCEGAHAN STUNTING BAGI 1.000 HPK </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center" style="vertical-align: middle;">Sasaran</th>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">No</th>
+                            <th colspan="3" class="text-center" style="vertical-align: middle;">Indikator</th>
+                            <th colspan="2" class="text-center" style="vertical-align: middle;">Jumlah</th>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">%</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" rowspan="8" class="text-center" style="vertical-align: middle;">Ibu Hamil</th>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu hamil periksa kehamilan paling sedikit 4 kali selama kehamilan kehamilan.</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">2</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu hamil mendapatkan dan minum 1 tablet tambah darah (pil FE) setiap hari minimal selama 90 hari </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">3</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu bersalin mendapatkan layanan nifas oleh nakes dilaksanakan minimal 3 kali </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">4</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu hamil mengikuti kegiatan konseling gizi atau kelas ibu hamil minimal 4 kali selama kehamilan </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">5</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu hamil dengan kondisi resiko tinggi dan/atau Kekurangan Energi Kronis (KEK) mendapat kunjungan ke rumah oleh bidan Desa secara terpadu minimal 1 bulan sekali </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">6</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Rumah Tangga Ibu hamil memiliki sarana akses air minum yang aman</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">7</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Rumah Tangga Ibu hamil memiliki sarana jamban keluarga yang layak</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">8</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu hamil memiliki jaminan layanan kesehatan</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" rowspan="11" class="text-center" style="vertical-align: middle;">Anak 0 sd 23 Bulan (0 sd 2 Tahun)</th>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Bayi usia 12 bulan ke bawah mendapatkan imunisasi dasar  lengkap</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">2</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak  usia  0-23 bulan  diukur  berat  badannya di posyandu secara rutin setiap bulan </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">3</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan diukur panjang/tinggi badannya oleh tenaga kesehatan terlatih minimal 2 kali dalam setahun </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" rowspan="2" class="text-center" style="vertical-align: middle;">4</th>                            
+                            <td colspan="3" rowspan="2" style="vertical-align: middle;">Anak usia 0-23 bulan diukur panjang/tinggi badannya oleh tenaga kesehatan terlatih minimal 2 kali dalam setahun </td>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">Laki</th>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">Jumlah</th>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">5</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan dengan status gizi buruk, gizi kurang, dan stunting mendapat kunjungan ke rumah secara terpadu minimal 1 bulan sekali </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">6</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Rumah Tangga anak usia 0-23 bulan memiliki sarana akses air minum yang aman</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">7</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Rumah Tangga anak usia 0-23 bulan memiliki sarana jamban yang layak</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">8</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan memiliki akte kelahiran</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">9</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan memiliki jaminan layanan kesehatan</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">10</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Orang tua/pengasuh yang memiliki anak usia 0-23 bulan mengikuti Kelas Pengasuhan minimal sebulan sekali </td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center" style="vertical-align: middle;">Anak 2 sd 6 Tahun</th>
+                            <th width="5%" colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak usia 2-6 tahun terdaftar dan aktif mengikuti kegiatan layanan PAUD</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="9" style="background-color:#efefef;">TABEL 4. TINGKAT KONVERGENSI DESA </th>
+                        </tr>
+                        <tr>
+                            <th width="5%" colspan="1" rowspan="2" class="text-center" style="vertical-align: middle;">No</th>
+                            <th colspan="3" rowspan="2" class="text-center" style="vertical-align: middle;">SASARAN</th>
+                            <th colspan="3" rowspan="1" class="text-center" style="vertical-align: middle;">JUMLAH INDIKATOR</th>
+                            <th colspan="2" rowspan="2" class="text-center" style="vertical-align: middle;">TINGKAT KONVERGENSI (%)</th>
+                        </tr>                        
+                        <tr>
+                            <th colspan="1" rowspan="1" class="text-center" style="vertical-align: middle;">YANG DITERIMA</th>
+                            <th colspan="2" rowspan="1" class="text-center" style="vertical-align: middle;">SEHARUSNYA DITERIMA</th>
+                        </tr>            
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Ibu Hamil</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>        
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">2</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Anak 0 - 23 Bulan</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>  
+                        <tr>
+                            <th colspan="4" class="text-center" style="vertical-align: middle;">TOTAL TINGKAT KONVERGENSI DESA</th>                                                        
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>  
+                        <tr>
+                            <th colspan="9" style="background-color:#efefef;">TABEL 5. PENGGUNAAN DANA DESA DALAM PENCEGAHAN STUNTING</th>
+                        </tr>
+                        <tr>
+                            <th width="5%" colspan="1" rowspan="2" class="text-center" style="vertical-align: middle;">No</th>
+                            <th colspan="3" rowspan="2" class="text-center" style="vertical-align: middle;">BIDANG/KEGIATAN </th>
+                            <th colspan="1" rowspan="2" class="text-center" style="vertical-align: middle;">TOTAL ALOKASI DANA</th>
+                            <th colspan="4" rowspan="1" class="text-center" style="vertical-align: middle;">KEGIATAN KHUSUS PENCEGAHAN STUNTING</th>
+                        </tr>      
+                        <tr>
+                            <th colspan="2" rowspan="1" class="text-center" style="vertical-align: middle;">ALOKASI DANA</th>
+                            <th colspan="2" rowspan="1" class="text-center" style="vertical-align: middle;">% (PERSEN) </th>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Bidang Pembangunan Desa</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>        
+                        <tr>
+                            <th colspan="1" class="text-center" style="vertical-align: middle;">2</th>                            
+                            <td colspan="3" style="vertical-align: middle;">Bidang Pemberdayaan Masyarakat Desa</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                        </tr>  
+                    </thead>                     
+                </table>
+                </div>
+            </div>
+        </div>
+      </div>
+@endsection
+
+@section('page-footer')
+<script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src=" {{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src=" {{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<!-- date-range-picker -->
+<script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<script>
+
+    $('#cari').click(function(){       
+        let kuartal = $('#kuartal option:selected').val();
+        let tahun   = $('#tahun option:selected').val();
+        window.location.href = "{{ base_url('rekapitulasi/bulanan-anak/') }}" + kuartal + "/" + tahun;
+    });
+
+    $(function () {
+
+        $('#table-data').DataTable()
+
+        $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Hari Ini'        : [moment(), moment()],
+          'Kemarin'         : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          '7 Hari Terakhir' : [moment().subtract(6, 'days'), moment()],
+          '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
+          'Bulan Ini'       : [moment().startOf('month'), moment().endOf('month')],
+          'Bulan Kemarin'   : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        window.location.href = "https://google.com";
+      }
+    )
+    })
+</script>
+@endsection

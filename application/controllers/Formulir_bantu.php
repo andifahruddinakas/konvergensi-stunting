@@ -81,7 +81,7 @@ class Formulir_bantu extends MY_Controller
         $data["bulanan_anak"]   = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
         $data['title']          = "Formulir Bantu Capaian Penerimaan Layanan";
         $data["dataTahun"]      = $data["ibu_hamil"]["dataTahun"];
-        $data["_tahun"]         = $data["ibu_hamil"]["_tahun"];
+        $data["_tahun"]         = $tahun;
         $data["kuartal"]        = $kuartal;
         // d($data["bulanan_anak"]);
         return $this->loadView('formulir-bantu.capaian-penerimaan-layanan', $data);

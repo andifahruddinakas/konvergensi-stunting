@@ -76,7 +76,7 @@
                     <thead>
                         <tr>
                             <th colspan="2" width="65%" class="text-center" style="vertical-align: middle;">Tingkatan Capaian Indikator</th>
-                            <th colspan="3" width="35%" class="text-center" style="vertical-align: middle;">Kuartal Ke x</th>
+                            <th colspan="3" width="35%" class="text-center" style="vertical-align: middle;">Kuartal Ke {{ $kuartal }}</th>
                         </tr>
                         <tr>
                             <th class="text-center" width="5%" style="vertical-align: middle;">No</th>
