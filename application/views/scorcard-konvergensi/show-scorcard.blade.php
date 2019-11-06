@@ -244,8 +244,8 @@
                             <th colspan="2" class="text-center" style="vertical-align: middle;">Anak 2 sd 6 Tahun</th>
                             <th width="5%" colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
                             <td colspan="3" style="vertical-align: middle;">Anak usia 2-6 tahun terdaftar dan aktif mengikuti kegiatan layanan PAUD</td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">0</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">0.00</td>
                         </tr>
                         <tr>
                             <th colspan="9" style="background-color:#efefef;">TABEL 4. TINGKAT KONVERGENSI DESA </th>
@@ -259,26 +259,41 @@
                         <tr>
                             <th colspan="1" rowspan="1" class="text-center" style="vertical-align: middle;">YANG DITERIMA</th>
                             <th colspan="2" rowspan="1" class="text-center" style="vertical-align: middle;">SEHARUSNYA DITERIMA</th>
-                        </tr>            
+                        </tr>   
+                        @php
+                            $JLD_IbuHamil   = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_diterima"];
+                            $JLD_Anak       = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_diterima"];
+
+                            $JYSD_IbuHamil  = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_seharusnya"];
+                            $JYSD_Anak      = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_seharusnya"];
+
+                            $PERSEN_IbuHamil= $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["persen"];
+                            $PERSEN_Anak    = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["persen"];
+
+                            $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
+                            $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
+
+                            $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+                        @endphp         
                         <tr>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
                             <td colspan="3" style="vertical-align: middle;">Ibu Hamil</td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">{{ $JLD_IbuHamil }}</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $JYSD_IbuHamil }}</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $PERSEN_IbuHamil }}</td>
                         </tr>        
                         <tr>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">2</th>                            
                             <td colspan="3" style="vertical-align: middle;">Anak 0 - 23 Bulan</td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">{{ $JLD_Anak }}</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $JYSD_Anak }}</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $PERSEN_Anak }}</td>
                         </tr>  
                         <tr>
                             <th colspan="4" class="text-center" style="vertical-align: middle;">TOTAL TINGKAT KONVERGENSI DESA</th>                                                        
-                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;">%</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">{{ $JLD_TOTAL }}</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $JYSD_TOTAL }}</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $KONV_TOTAL }}</td>
                         </tr>  
                         <tr>
                             <th colspan="9" style="background-color:#efefef;">TABEL 5. PENGGUNAAN DANA DESA DALAM PENCEGAHAN STUNTING</th>

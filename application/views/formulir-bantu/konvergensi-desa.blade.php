@@ -115,13 +115,13 @@
                             $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
                             $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
 
-                            $KONV_TOTAL     = $JLD_TOTAL / $JYSD_TOTAL * 100;
+                            $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
                         @endphp
                         <tr>
                             <th class="text-center" colspan="2">Total Tingkat Konvergensi Desa</th>
                             <td class="text-center">{{ $JLD_TOTAL }}</td>
                             <td class="text-center">{{ $JYSD_TOTAL }}</td>
-                            <td class="text-center">{{ number_format($KONV_TOTAL, 2) }}</td>
+                            <td class="text-center">{{ $KONV_TOTAL }}</td>
                         </tr>
                     </tfoot>
                 </table>
