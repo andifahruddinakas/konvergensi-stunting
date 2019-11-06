@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 
 class Pemantauan extends MY_Controller
 {
@@ -27,6 +28,8 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
         $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
+
+        // d($ibuHamil);
 
         $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
         $dataTahun = $this->m_data->distinct();
@@ -78,8 +81,7 @@ class Pemantauan extends MY_Controller
 
         $data = array(
             "no_kia"                => $no_kia,
-            "status_kehamilan"      => $status_kehamilan,
-            "hari_perkiraan_lahir"  => $perkiraan_lahir,
+            "status_kehamilan"      => $status_kehamilan,            
             "usia_kehamilan"        => $usia_kehamilan,
             "tanggal_melahirkan"    => $tanggal_melahirkan,
             "pemeriksaan_kehamilan" => $pemeriksaan_kehamilan,
@@ -107,7 +109,7 @@ class Pemantauan extends MY_Controller
             if ($cekData > 0) {
                 //SUDAH ADA DATA -> UPDATE KIA DULU -> TRUS INSERT
                 if ($nama_ibu !== "") {
-                    $this->m_data->update("kia", ["nama_ibu" => $nama_ibu, "updated_at" => date("Y-m-d H:i:s")], ["no_kia" => $no_kia]);
+                    $this->m_data->update("kia", ["nama_ibu" => $nama_ibu, "hari_perkiraan_lahir"  => $perkiraan_lahir], ["no_kia" => $no_kia]);
                 }
                 $this->insert_ibu_hamil($data);
             } else {
@@ -168,8 +170,7 @@ class Pemantauan extends MY_Controller
         $jaminan_kesehatan      = $this->input->post('jaminan_kesehatan');
 
         $data = array(
-            "status_kehamilan"      => $status_kehamilan,
-            "hari_perkiraan_lahir"  => $perkiraan_lahir,
+            "status_kehamilan"      => $status_kehamilan,            
             "usia_kehamilan"        => $usia_kehamilan,
             "tanggal_melahirkan"    => $tanggal_melahirkan,
             "pemeriksaan_kehamilan" => $pemeriksaan_kehamilan,
@@ -363,6 +364,16 @@ class Pemantauan extends MY_Controller
         header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
+
+        // $writer = new Mpdf($spreadsheet);
+        // $filename = 'FORMULIR_2A_PEMANTAUAN_BULANAN_IBU_HAMIL_' . strtoupper(bulan($bulan) . "_" . $tahun . "_" . date("H_i_s"));
+        // header("Content-type:application/pdf");
+        // header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
+        // header('Cache-Control: max-age=0');
+        // $writer->save('php://output');
+        
+        // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
+        // $writer->save('php://output');
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -403,6 +414,7 @@ class Pemantauan extends MY_Controller
         $umur_bulan                 = $this->input->post('umur_bulan');
         $status_tikar               = $this->input->post('status_tikar');
         $pemberian_imunisasi_dasar  = $this->input->post('pemberian_imunisasi_dasar');
+        $pemberian_imunisasi_campak = $this->input->post('pemberian_imunisasi_campak');
         $pengukuran_berat_badan     = $this->input->post('pengukuran_berat_badan');
         $pengukuran_tinggi_badan    = $this->input->post('pengukuran_tinggi_badan');
         $konseling_gizi_ayah        = $this->input->post('konseling_gizi_ayah');
@@ -420,6 +432,7 @@ class Pemantauan extends MY_Controller
             "umur_bulan"                => $umur_bulan,
             "status_tikar"              => $status_tikar,
             "pemberian_imunisasi_dasar" => $pemberian_imunisasi_dasar,
+            "pemberian_imunisasi_campak"=> $pemberian_imunisasi_campak,
             "pengukuran_berat_badan"    => $pengukuran_berat_badan,
             "pengukuran_tinggi_badan"   => $pengukuran_tinggi_badan,
             "konseling_gizi_ayah"       => $konseling_gizi_ayah,
@@ -515,6 +528,7 @@ class Pemantauan extends MY_Controller
         $umur_bulan                 = $this->input->post('umur_bulan');
         $status_tikar               = $this->input->post('status_tikar');
         $pemberian_imunisasi_dasar  = $this->input->post('pemberian_imunisasi_dasar');
+        $pemberian_imunisasi_campak = $this->input->post('pemberian_imunisasi_campak');
         $pengukuran_berat_badan     = $this->input->post('pengukuran_berat_badan');
         $pengukuran_tinggi_badan    = $this->input->post('pengukuran_tinggi_badan');
         $konseling_gizi_ayah        = $this->input->post('konseling_gizi_ayah');
@@ -532,6 +546,7 @@ class Pemantauan extends MY_Controller
             "umur_bulan"                => $umur_bulan,
             "status_tikar"              => $status_tikar,
             "pemberian_imunisasi_dasar" => $pemberian_imunisasi_dasar,
+            "pemberian_imunisasi_campak"=> $pemberian_imunisasi_campak,
             "pengukuran_berat_badan"    => $pengukuran_berat_badan,
             "pengukuran_tinggi_badan"   => $pengukuran_tinggi_badan,
             "konseling_gizi_ayah"       => $konseling_gizi_ayah,
@@ -725,7 +740,7 @@ class Pemantauan extends MY_Controller
         $sheet->getStyle('A8:S' . $sheet->getHighestRow())->applyFromArray($styleIsi);
         $sheet->getStyle('A3:S' . $sheet->getHighestRow())->applyFromArray($styleBorder);
         $sheet->getStyle('B8:C' . $sheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-    
+
 
         //SAVE AND DOWNLOAD
         $writer = new Xlsx($spreadsheet);

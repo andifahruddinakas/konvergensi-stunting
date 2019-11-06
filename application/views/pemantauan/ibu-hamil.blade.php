@@ -119,9 +119,9 @@
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->no_kia }}</td>
                                     <td style="vertical-align: middle;">{{ $item->nama_ibu }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->status_kehamilan }}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{ shortdate_indo($item->hari_perkiraan_lahir) }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->hari_perkiraan_lahir == NULL ?  "-" : shortdate_indo($item->hari_perkiraan_lahir) }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->usia_kehamilan }}</td>
-                                    <td class="text-center" style="vertical-align: middle;">{{ $item->tanggal_melahirkan == null ? "-" : shortdate_indo($item->tanggal_melahirkan) }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->tanggal_melahirkan == NULL ? "-" : shortdate_indo($item->tanggal_melahirkan) }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->pemeriksaan_kehamilan }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->konsumsi_pil_fe }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->pemeriksaan_nifas }}</td>
@@ -350,21 +350,22 @@
 
         $("#modalTitle").text("Input Pemantauan Bulanan Ibu Hamil");
 
-        $("#id_ibu_hamil").val(""); 
-        $("#no_kia").val(""); 
-        $("#nama_ibu").val("");
-        $("#status_kehamilan").val("NORMAL");
-        $("#perkiraan_lahir").val("");
-        $("#usia_kehamilan").val("v");
-        $("#tanggal_melahirkan").val("v");
-        $("#pemeriksaan_kehamilan").val("v");
-        $("#pil_fe").val("v");
-        $("#pemeriksaan_nifas").val("v");
-        $("#konseling_gizi").val("v");
-        $("#kunjungan_rumah").val("v");
-        $("#air_bersih").val("v");
-        $("#kepemilikan_jamban").val("v");
-        $("#jaminan_kesehatan").val("v");
+        $("#id_ibu_hamil").val(null); 
+        $("#no_kia").val(null); 
+        $("#nama_ibu").val(null);
+        $("#status_kehamilan").val(null);
+        $("#perkiraan_lahir").val(null);
+        $('#perkiraan_lahir').prop("disabled", false);
+        $("#usia_kehamilan").val(null);
+        $("#tanggal_melahirkan").val(null);
+        $("#pemeriksaan_kehamilan").val(null);
+        $("#pil_fe").val(null);
+        $("#pemeriksaan_nifas").val(null);
+        $("#konseling_gizi").val(null);
+        $("#kunjungan_rumah").val(null);
+        $("#air_bersih").val(null);
+        $("#kepemilikan_jamban").val(null);
+        $("#jaminan_kesehatan").val(null);
     });
 
     $(".editData").click(function(){
@@ -397,6 +398,7 @@
         $("#nama_ibu").val(nama_ibu);
         $("#status_kehamilan").val(status_kehamilan);
         $("#perkiraan_lahir").val(hari_perkiraan_lahir);
+        $('#perkiraan_lahir').prop("disabled", true);
         $("#usia_kehamilan").val(usia_kehamilan);
         $("#tanggal_melahirkan").val(tanggal_melahirkan);
         $("#pemeriksaan_kehamilan").val(pemeriksaan_kehamilan);
@@ -437,9 +439,11 @@
             dataType: 'json',
             success: function(x){
                 if(x.status == 1){
-                    $('#nama_ibu').val(x.data.nama_ibu);
+                    $('#nama_ibu').val(x.data.nama_ibu);           
+                    $('#perkiraan_lahir').val(x.data.hari_perkiraan_lahir)                    
                 } else {
-                    $('#nama_ibu').val("");
+                    $('#nama_ibu').val(null);
+                    $("#perkiraan_lahir").val(null);
                 }
             }
         });

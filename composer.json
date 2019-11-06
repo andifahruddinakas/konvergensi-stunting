@@ -14,7 +14,8 @@
 		"php": ">=5.3.7",
 		"jenssegers/blade": "^1.2",
 		"fzaninotto/faker": "^1.8",
-		"phpoffice/phpspreadsheet": "^1.9"
+		"phpoffice/phpspreadsheet": "^1.9",
+		"mpdf/mpdf": "^8.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

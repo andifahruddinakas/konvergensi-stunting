@@ -149,6 +149,7 @@
                                                 data-umur_bulan="{{ $item->umur_bulan }}" 
                                                 data-status_tikar = "{{ $item->status_tikar }}"
                                                 data-pemberian_imunisasi_dasar = "{{ $item->pemberian_imunisasi_dasar }}"
+                                                data-pemberian_imunisasi_campak = "{{ $item->pemberian_imunisasi_campak }}"
                                                 data-pengukuran_berat_badan = "{{ $item->pengukuran_berat_badan }}"
                                                 data-pengukuran_tinggi_badan = "{{ $item->pengukuran_tinggi_badan }}"
                                                 data-konseling_gizi_ayah = "{{ $item->konseling_gizi_ayah }}"
@@ -261,7 +262,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Hasil Status Tikar</label>
                                         <select id="status_tikar" name="status_tikar" required class="form-control" title="Pilih salah satu">
@@ -272,12 +273,21 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label">Pemberian Imunisasi Dasar</label>
+                                        <label class="form-label">Imunisasi Dasar</label>
                                         <select id="pemberian_imunisasi_dasar" name="pemberian_imunisasi_dasar" required class="form-control" title="Pilih salah satu">
                                             <option value="v">Ya</option>
                                             <option value="x">Tidak</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Imunisasi Campak</label>
+                                        <select id="pemberian_imunisasi_campak" name="pemberian_imunisasi_campak" required disabled class="form-control" title="Pilih salah satu">
+                                            <option value="v">Sudah</option>
+                                            <option value="x">Belum</option>
                                         </select>
                                     </div>
                                 </div>
@@ -404,6 +414,16 @@
 <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script>
 
+    $("#umur_bulan").change(function(){
+        let umur_bulan = $(this).val();
+        $('#pemberian_imunisasi_campak').val("");
+        if(umur_bulan >= 6){            
+            $('#pemberian_imunisasi_campak').prop("disabled", false);
+        } else {
+            $('#pemberian_imunisasi_campak').prop("disabled", true);
+        }
+    });
+
     // EDIIIIIITT
     $("#btn_input").click(function(){
         $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/bulanan-anak') }}");        
@@ -412,25 +432,26 @@
 
         $("#modalTitle").text("Input Pemantauan Bulanan Anak 0-2 Tahun");
 
-        $("#id_bulanan_anak").val(""); 
-        $("#no_kia").val(""); 
-        $("#nama_anak").val("");
-        $("#jenis_kelamin_anak").val("L");
-        $("#tanggal_lahir_anak").val("");
-        $("#status_gizi").val("N");
-        $("#umur_bulan").val("");
-        $("#status_tikar").val("TD");
-        $("#pemberian_imunisasi_dasar").val("v");
-        $("#pengukuran_berat_badan").val("v");
-        $("#pengukuran_tinggi_badan").val("v");
-        $("#konseling_gizi_ayah").val("");
-        $("#konseling_gizi_ibu").val("");
-        $("#kunjungan_rumah").val("v");
-        $("#air_bersih").val("v");
-        $("#kepemilikan_jamban").val("v");
-        $("#akta_lahir").val("v");
-        $("#jaminan_kesehatan").val("v");
-        $("#pengasuhan_paud").val("v");
+        $("#id_bulanan_anak").val(null); 
+        $("#no_kia").val(null); 
+        $("#nama_anak").val(null);
+        $("#jenis_kelamin_anak").val(null);
+        $("#tanggal_lahir_anak").val(null);
+        $("#status_gizi").val(null);
+        $("#umur_bulan").val(null);
+        $("#status_tikar").val(null);
+        $("#pemberian_imunisasi_dasar").val(null);
+        $("#pemberian_imunisasi_campak").val(null);
+        $("#pengukuran_berat_badan").val(null);
+        $("#pengukuran_tinggi_badan").val(null);
+        $("#konseling_gizi_ayah").val(null);
+        $("#konseling_gizi_ibu").val(null);
+        $("#kunjungan_rumah").val(null);
+        $("#air_bersih").val(null);
+        $("#kepemilikan_jamban").val(null);
+        $("#akta_lahir").val(null);
+        $("#jaminan_kesehatan").val(null);
+        $("#pengasuhan_paud").val(null);
     });
 
     $(".editData").click(function(){
@@ -448,6 +469,7 @@
         let umur_bulan                  = $(this).data('umur_bulan');
         let status_tikar                = $(this).data('status_tikar');
         let pemberian_imunisasi_dasar   = $(this).data('pemberian_imunisasi_dasar');
+        let pemberian_imunisasi_campak  = $(this).data('pemberian_imunisasi_campak');
         let pengukuran_berat_badan      = $(this).data('pengukuran_berat_badan');
         let pengukuran_tinggi_badan     = $(this).data('pengukuran_tinggi_badan');
         let konseling_gizi_ayah         = $(this).data('konseling_gizi_ayah');
@@ -463,6 +485,12 @@
         $("#nama_anak").attr('readonly', true);
         $("#modalTitle").text("Edit Pemantauan Bulanan Anak 0-2 Tahun");
 
+        if(umur_bulan >= 6){            
+            $('#pemberian_imunisasi_campak').prop("disabled", false);
+        } else {
+            $('#pemberian_imunisasi_campak').prop("disabled", true);
+        }
+
         $("#id_bulanan_anak").val(id); 
         $("#no_kia").val(no_kia); 
         $("#nama_anak").val(nama_anak);
@@ -472,6 +500,7 @@
         $("#umur_bulan").val(umur_bulan);
         $("#status_tikar").val(status_tikar);
         $("#pemberian_imunisasi_dasar").val(pemberian_imunisasi_dasar);
+        $("#pemberian_imunisasi_campak").val(pemberian_imunisasi_campak);
         $("#pengukuran_berat_badan").val(pengukuran_berat_badan);
         $("#pengukuran_tinggi_badan").val(pengukuran_tinggi_badan);
         $("#konseling_gizi_ayah").val(konseling_gizi_ayah);
@@ -513,11 +542,11 @@
             success: function(x){
                 if(x.status == 1){
                     $('#nama_anak').val(x.data.nama_anak);
-                    $('#jenis_kelamin').val(x.data.jenis_kelamin_anak);
+                    $('#jenis_kelamin_anak').val(x.data.jenis_kelamin_anak);
                     $('#tanggal_lahir_anak').val(x.data.tanggal_lahir_anak);
                 } else {
                     $('#nama_anak').val("");                    
-                    $('#jenis_kelamin').val("");
+                    $('#jenis_kelamin_anak').val("");
                     $('#tanggal_lahir_anak').val("");
                 }
             }
