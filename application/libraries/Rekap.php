@@ -328,11 +328,11 @@ class Rekap
                 $dataGrup[$item['no_kia']][] = $item;
             }
 
-            // debug($dataGrup);
+            // d($dataGrupLengkap);
             foreach ($dataGrup as $key => $value) {
-
                 $umurAnak               = 0;
                 $hitungImunisasi        = 0;
+                $hitungImunisasiCampak  = 0;
                 $hitungKunjunganRumah   = 0;
                 $hitungAksesAirBersih   = 0;
                 $hitungJambanSehat      = 0;
@@ -362,6 +362,10 @@ class Rekap
                         $hitungImunisasi++;
                     }
 
+                    if ($item["pemberian_imunisasi_campak"] == "v") {
+                        $hitungImunisasiCampak++;
+                    }
+
                     if ($item["kunjungan_rumah"] == "v") {
                         $hitungKunjunganRumah++;
                     }
@@ -389,12 +393,11 @@ class Rekap
                 $hitungPenimbangan = $CI->m_data->select("pengukuran_berat_badan");
                 $hitungPenimbangan = $CI->m_data->getWhere("no_kia", $key);
                 $hitungPenimbangan = $CI->m_data->getWhere("pengukuran_berat_badan", "v");
-                $hitungPenimbangan = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
                 $hitungPenimbangan = $CI->m_data->getData("bulanan_anak")->num_rows();
 
                 //HITUNG KONSELING DALAM 1 TAHUN
+                $KonselingGizi = $CI->m_data->select(array("konseling_gizi_ayah", "konseling_gizi_ibu"));
                 $KonselingGizi = $CI->m_data->getWhere("no_kia", $key);
-                $KonselingGizi = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
                 $KonselingGizi = $CI->m_data->getData("bulanan_anak")->result();
 
                 $KGL = 0;
@@ -427,7 +430,11 @@ class Rekap
                     $akta_lahir             = $hitungAktaLahir        >= 1 ? "Y" : "T";
                     $pengasuhan_paud        = "TS";
                 } else if ($kategoriUmur == 2) {
-                    $imunisasi              = $hitungImunisasi        > 0  ? "Y" : "T";
+                    if ($umurAnak <= 9) {
+                        $imunisasi          = $hitungImunisasi        > 0  ? "Y" : "T";
+                    } else {
+                        $imunisasi          = $hitungImunisasi > 0 && $hitungImunisasiCampak > 0 ? "Y" : "T";
+                    }
                     $penimbanganBeratBadan  = $hitungPenimbangan      >= 5 ? "Y" : "T";
                     $konseling_gizi         = $JUMLAH_KG              >= 5 ? "Y" : "T";
                     $kunjungan_rumah        = $hitungKunjunganRumah   >= 2 ? "Y" : "T";
@@ -437,7 +444,7 @@ class Rekap
                     $akta_lahir             = $hitungAktaLahir        >= 1 ? "Y" : "T";
                     $pengasuhan_paud        = $hitungPengasuhan       >= 5 ? "Y" : "T";
                 } else if ($kategoriUmur == 3) {
-                    $imunisasi              = $hitungImunisasi        >  0 ? "Y" : "T";
+                    $imunisasi              = $hitungImunisasi > 0 && $hitungImunisasiCampak > 0 ? "Y" : "T";
                     $penimbanganBeratBadan  = $hitungPenimbangan      >= 8 ? "Y" : "T";
                     $konseling_gizi         = $JUMLAH_KG              >= 8 ? "Y" : "T";
                     $kunjungan_rumah        = $hitungKunjunganRumah   >= 2 ? "Y" : "T";
@@ -447,7 +454,7 @@ class Rekap
                     $akta_lahir             = $hitungAktaLahir        >= 1 ? "Y" : "T";
                     $pengasuhan_paud        = $hitungPengasuhan       >= 5 ? "Y" : "T";
                 } else if ($kategoriUmur == 4) {
-                    $imunisasi              = $hitungImunisasi        >  0  ? "Y" : "T";
+                    $imunisasi              = $hitungImunisasi > 0 && $hitungImunisasiCampak > 0 ? "Y" : "T";
                     $penimbanganBeratBadan  = $hitungPenimbangan      >= 15 ? "Y" : "T";
                     $konseling_gizi         = $JUMLAH_KG              >= 15 ? "Y" : "T";
                     $kunjungan_rumah        = $hitungKunjunganRumah   >= 2  ? "Y" : "T";
@@ -457,7 +464,7 @@ class Rekap
                     $akta_lahir             = $hitungAktaLahir        >= 1  ? "Y" : "T";
                     $pengasuhan_paud        = $hitungPengasuhan       >= 5  ? "Y" : "T";
                 } else {
-                    debug("kesalahan di kategori umur!");
+                    d("kesalahan di kategori umur!");
                 }
 
                 if ($kuartal == 1) {
@@ -468,6 +475,9 @@ class Rekap
                         $hitungTinggiBadan = $CI->m_data->select("pengukuran_tinggi_badan");
                         $hitungTinggiBadan = $CI->m_data->getWhere("no_kia", $key);
                         $hitungTinggiBadan = $CI->m_data->getWhere("pengukuran_tinggi_badan", "v");
+                        // $hitungTinggiBadan = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) >=", $batasBulanBawah);
+                        // $hitungTinggiBadan = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) <=", $batasBulanAtas);
+                        // $hitungTinggiBadan = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
                         $hitungTinggiBadan = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at)", 2); //Februari
                         $hitungTinggiBadan = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
                         $hitungTinggiBadan = $CI->m_data->getData("bulanan_anak")->num_rows();
@@ -548,8 +558,22 @@ class Rekap
                         $tinggiBadan = $TB_FEB_AGS > 1 ? "Y" : "T"; //ada di februari atau agustus
                     }
                 } else {
-                    debug("kesalahan di kuartal!");
+                    d("kesalahan di kuartal!");
                 }
+
+                // START--------------------------------------------------------------------------------------------
+                //HAPUS KODE DI BAWAH INI JIKA PENGECEKAN TINGGI BADAN HANYA DILAKUKAN DI BULAN FEBRUARI DAN AGUSTUS
+                //INI CARINYA DI DALAM 1 KUARTAL MINIMAL 1X
+                $hitungTinggiBadan = $CI->m_data->select("pengukuran_tinggi_badan");
+                $hitungTinggiBadan = $CI->m_data->getWhere("no_kia", $key);
+                $hitungTinggiBadan = $CI->m_data->getWhere("pengukuran_tinggi_badan", "v");
+                $hitungTinggiBadan = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) >=", $batasBulanBawah);
+                $hitungTinggiBadan = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) <=", $batasBulanAtas);
+                $hitungTinggiBadan = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
+                $hitungTinggiBadan = $CI->m_data->getData("bulanan_anak")->num_rows();
+                $tinggiBadan = $hitungTinggiBadan > 0 ? "Y" : "T";
+                // END ---------------------------------------------------------------------------------------------
+
 
                 $dataFilter[$key]["user"]["no_kia"]                         = $key;
                 $dataFilter[$key]["user"]["usia_anak"]                      = $usiaAnak;
@@ -559,7 +583,7 @@ class Rekap
                 $dataFilter[$key]["umur_dan_gizi"]["status_gizi"]           = $statusGizi;
                 $dataFilter[$key]["indikator"]["imunisasi"]                 = $imunisasi;
                 $dataFilter[$key]["indikator"]["pengukuran_berat_badan"]    = $penimbanganBeratBadan;
-                $dataFilter[$key]["indikator"]["pengukuran_tinggi_badan"]   = $penimbanganBeratBadan;
+                $dataFilter[$key]["indikator"]["pengukuran_tinggi_badan"]   = $tinggiBadan;
                 $dataFilter[$key]["indikator"]["konseling_gizi"]            = $konseling_gizi;
                 $dataFilter[$key]["indikator"]["kunjungan_rumah"]           = $kunjungan_rumah;
                 $dataFilter[$key]["indikator"]["air_bersih"]                = $air_bersih;
@@ -663,10 +687,5 @@ class Rekap
         $data['kuartal']                = $kuartal;
 
         return $data;
-    }
-
-    public function aw()
-    {
-        return "hehehe";
     }
 }
