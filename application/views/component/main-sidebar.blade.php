@@ -62,7 +62,7 @@
               </ul>
             </li>    
             <li class="">
-                <a href="#"><i class="fa fa-ambulance"></i> <span>Scorcard Konvergensi Desa</span></a>
+                <a href="{{ base_url('scorcard-konvergensi-desa') }}"><i class="fa fa-ambulance"></i> <span>Scorcard Konvergensi Desa</span></a>
               </li>        
         </ul>
       </section>
