@@ -140,6 +140,7 @@
                                             data-melahirkan="{{ $item->tanggal_melahirkan }}" 
                                             data-pemeriksaan_kehamilan = "{{ $item->pemeriksaan_kehamilan }}"
                                             data-konsumsi_pil_fe = "{{ $item->konsumsi_pil_fe }}"
+                                            data-butir_pil_fe = "{{ $item->butir_pil_fe }}"
                                             data-pemeriksaan_nifas = "{{ $item->pemeriksaan_nifas }}"
                                             data-konseling_gizi = "{{ $item->konseling_gizi }}"
                                             data-kunjungan_rumah = "{{ $item->kunjungan_rumah }}"
@@ -237,7 +238,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Pemeriksaan kehamilan</label>
                                         <select id="pemeriksaan_kehamilan" name="pemeriksaan_kehamilan" required class="form-control" title="Pilih salah satu">
@@ -246,13 +247,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Dapat & Konsumsi Pil Fe</label>
                                         <select id="pil_fe" name="pil_fe" required class="form-control" title="Pilih salah satu">
                                             <option value="v">Ya</option>
                                             <option value="x">Tidak</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Berapa butir pil Fe</label>
+                                        <input required type="number" min="1" id="butir_pil_fe" disabled name="butir_pil_fe" class="form-control">  
                                     </div>
                                 </div>
                             </div>
@@ -338,9 +345,15 @@
 <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script>
 
-    // $("#btnExport").click(function(){
-    //     window.location.href = "{{ base_url('pemantauan/export-ibu-hamil/') }}" + "{{ $_tahun }}" + "/" + "{{ $_bulan }}";
-    // });
+    $("#pil_fe").change(function(){
+        // alert()
+        $('#butir_pil_fe').val(null);
+        if($(this).val() == 'v'){
+            $('#butir_pil_fe').prop("disabled", false);
+        } else {
+            $('#butir_pil_fe').prop("disabled", true);
+        }
+    });
 
     // EDIIIIIITT
     $("#btn_input").click(function(){
@@ -380,12 +393,19 @@
         let tanggal_melahirkan      = $(this).data('melahirkan');
         let pemeriksaan_kehamilan   = $(this).data('pemeriksaan_kehamilan');
         let konsumsi_pil_fe         = $(this).data('konsumsi_pil_fe');
+        let butir_pil_fe            = $(this).data('butir_pil_fe');
         let pemeriksaan_nifas       = $(this).data('pemeriksaan_nifas');
         let konseling_gizi          = $(this).data('konseling_gizi');
         let kunjungan_rumah         = $(this).data('kunjungan_rumah');
         let akses_air_bersih        = $(this).data('akses_air_bersih');
         let kepemilikan_jamban      = $(this).data('kepemilikan_jamban');
         let jaminan_kesehatan       = $(this).data('jaminan_kesehatan');
+
+        if(konsumsi_pil_fe == 'v'){
+            $('#butir_pil_fe').prop("disabled", false);
+        } else {
+            $('#butir_pil_fe').prop("disabled", true);
+        }
 
 
         $("#no_kia").attr('readonly', true);
@@ -399,10 +419,12 @@
         $("#status_kehamilan").val(status_kehamilan);
         $("#perkiraan_lahir").val(hari_perkiraan_lahir);
         $('#perkiraan_lahir').prop("disabled", true);
+
         $("#usia_kehamilan").val(usia_kehamilan);
         $("#tanggal_melahirkan").val(tanggal_melahirkan);
         $("#pemeriksaan_kehamilan").val(pemeriksaan_kehamilan);
         $("#pil_fe").val(konsumsi_pil_fe);
+        $("#butir_pil_fe").val(butir_pil_fe);
         $("#pemeriksaan_nifas").val(pemeriksaan_nifas);
         $("#konseling_gizi").val(konseling_gizi);
         $("#kunjungan_rumah").val(kunjungan_rumah);

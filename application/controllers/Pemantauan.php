@@ -27,9 +27,7 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
-        $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
-
-        // d($ibuHamil);
+        $ibuHamil = $this->m_data->getData("ibu_hamil")->result();        
 
         $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
         $dataTahun = $this->m_data->distinct();
@@ -72,6 +70,7 @@ class Pemantauan extends MY_Controller
         $tanggal_melahirkan     = $this->input->post('tanggal_melahirkan') == "" ? NULL : $this->input->post('tanggal_melahirkan');
         $pemeriksaan_kehamilan  = $this->input->post('pemeriksaan_kehamilan');
         $pil_fe                 = $this->input->post('pil_fe');
+        $butir_pil_fe           = $this->input->post('butir_pil_fe');
         $pemeriksaan_nifas      = $this->input->post('pemeriksaan_nifas');
         $konseling_gizi         = $this->input->post('konseling_gizi');
         $kunjungan_rumah        = $this->input->post('kunjungan_rumah');
@@ -86,6 +85,7 @@ class Pemantauan extends MY_Controller
             "tanggal_melahirkan"    => $tanggal_melahirkan,
             "pemeriksaan_kehamilan" => $pemeriksaan_kehamilan,
             "konsumsi_pil_fe"       => $pil_fe,
+            "butir_pil_fe"          => $butir_pil_fe,
             "pemeriksaan_nifas"     => $pemeriksaan_nifas,
             "konseling_gizi"        => $konseling_gizi,
             "kunjungan_rumah"       => $kunjungan_rumah,
@@ -162,6 +162,7 @@ class Pemantauan extends MY_Controller
         $tanggal_melahirkan     = $this->input->post('tanggal_melahirkan') == "" ? NULL : $this->input->post('tanggal_melahirkan');
         $pemeriksaan_kehamilan  = $this->input->post('pemeriksaan_kehamilan');
         $pil_fe                 = $this->input->post('pil_fe');
+        $butir_pil_fe           = $this->input->post('butir_pil_fe');
         $pemeriksaan_nifas      = $this->input->post('pemeriksaan_nifas');
         $konseling_gizi         = $this->input->post('konseling_gizi');
         $kunjungan_rumah        = $this->input->post('kunjungan_rumah');
@@ -175,6 +176,7 @@ class Pemantauan extends MY_Controller
             "tanggal_melahirkan"    => $tanggal_melahirkan,
             "pemeriksaan_kehamilan" => $pemeriksaan_kehamilan,
             "konsumsi_pil_fe"       => $pil_fe,
+            "butir_pil_fe"          => $butir_pil_fe,
             "pemeriksaan_nifas"     => $pemeriksaan_nifas,
             "konseling_gizi"        => $konseling_gizi,
             "kunjungan_rumah"       => $kunjungan_rumah,
