@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 no-padding pull-right">
-                        <a href="{{ base_url('rekapitulasi/export-bulanan-anak/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
+                        <a href="{{ base_url('scorcard-konvergensi-desa/export/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>
@@ -197,12 +197,12 @@
                             <td colspan="3" rowspan="2" style="vertical-align: middle;">Anak usia 0-23 bulan diukur panjang/tinggi badannya oleh tenaga kesehatan terlatih minimal 2 kali dalam setahun </td>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">Laki</th>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">Jumlah</th>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">xx.xx</td>
                         </tr>
                         <tr>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;"></td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;">%</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">xx</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">xx</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">xx.xx</td>
                         </tr>
                         <tr>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">5</th>                            
@@ -244,8 +244,8 @@
                             <th colspan="2" class="text-center" style="vertical-align: middle;">Anak 2 sd 6 Tahun</th>
                             <th width="5%" colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
                             <td colspan="3" style="vertical-align: middle;">Anak usia 2-6 tahun terdaftar dan aktif mengikuti kegiatan layanan PAUD</td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;">0</td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;">0.00</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;">xx</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">x.xx</td>
                         </tr>
                         <tr>
                             <th colspan="9" style="background-color:#efefef;">TABEL 4. TINGKAT KONVERGENSI DESA </th>

@@ -257,6 +257,78 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $worksheet->getCell('H12')->setValue(sizeof($bulanan_anak["dataFilter"]));
         $worksheet->getCell('I12')->setValue($jumlahGiziBukanNormal);
 
+        $worksheet->getCell('D15')->setValue(sizeof($bulanan_anak["dataFilter"]));
+        $worksheet->getCell('E15')->setValue($tikar["H"]);
+        $worksheet->getCell('F15')->setValue($tikar["K"]);
+        $worksheet->getCell('H15')->setValue($tikar["M"]);
+
+        $worksheet->getCell('G18')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["periksa_kehamilan"]["Y"]);
+        $worksheet->getCell('I18')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["periksa_kehamilan"]["persen"]);
+        $worksheet->getCell('G19')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["pil_fe"]["Y"]);
+        $worksheet->getCell('I19')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["pil_fe"]["persen"]);
+        $worksheet->getCell('G20')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["pemeriksaan_nifas"]["Y"]);
+        $worksheet->getCell('I20')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["pemeriksaan_nifas"]["persen"]);
+        $worksheet->getCell('G21')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["konseling_gizi"]["Y"]);
+        $worksheet->getCell('I21')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["konseling_gizi"]["persen"]);
+        $worksheet->getCell('G22')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["kunjungan_rumah"]["Y"]);
+        $worksheet->getCell('I22')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["kunjungan_rumah"]["persen"]);
+        $worksheet->getCell('G23')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["akses_air_bersih"]["Y"]);
+        $worksheet->getCell('I23')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["akses_air_bersih"]["persen"]);
+        $worksheet->getCell('G24')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["kepemilikan_jamban"]["Y"]);
+        $worksheet->getCell('I24')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["kepemilikan_jamban"]["persen"]);
+        $worksheet->getCell('G25')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["jaminan_kesehatan"]["Y"]);
+        $worksheet->getCell('I25')->setValue($ibu_hamil["capaianKonvergensi"] == NULL ? "0" : $ibu_hamil["capaianKonvergensi"]["jaminan_kesehatan"]["persen"]);
+
+        $worksheet->getCell('G26')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["imunisasi"]["Y"]);
+        $worksheet->getCell('I26')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["imunisasi"]["persen"]);
+        $worksheet->getCell('G27')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_berat_badan"]["Y"]);
+        $worksheet->getCell('I27')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_berat_badan"]["persen"]);
+        $worksheet->getCell('G28')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_tinggi_badan"]["Y"]);
+        $worksheet->getCell('I28')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_tinggi_badan"]["persen"]);
+        $worksheet->getCell('I29')->setValue("xx.xx");
+        $worksheet->getCell('G30')->setValue("xx.xx");
+        $worksheet->getCell('H30')->setValue("xx.xx");
+        $worksheet->getCell('I30')->setValue("xx.xx");
+        $worksheet->getCell('G31')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["kunjungan_rumah"]["Y"]);
+        $worksheet->getCell('I31')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["kunjungan_rumah"]["persen"]);
+        $worksheet->getCell('G32')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["air_bersih"]["Y"]);
+        $worksheet->getCell('I32')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["air_bersih"]["persen"]);
+        $worksheet->getCell('G33')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["jamban_sehat"]["Y"]);
+        $worksheet->getCell('I33')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["jamban_sehat"]["persen"]);
+        $worksheet->getCell('G34')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["akta_lahir"]["Y"]);
+        $worksheet->getCell('I34')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["akta_lahir"]["persen"]);
+        $worksheet->getCell('G35')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["jaminan_kesehatan"]["Y"]);
+        $worksheet->getCell('I35')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["jaminan_kesehatan"]["persen"]);
+        $worksheet->getCell('G36')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengasuhan_paud"]["Y"]);
+        $worksheet->getCell('I36')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengasuhan_paud"]["persen"]);
+
+        $worksheet->getCell('G37')->setValue("x.xx");
+        $worksheet->getCell('I37')->setValue("x.xx");
+
+        $JLD_IbuHamil   = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_diterima"];
+        $JLD_Anak       = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_diterima"];
+
+        $JYSD_IbuHamil  = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_seharusnya"];
+        $JYSD_Anak      = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_seharusnya"];
+
+        $PERSEN_IbuHamil = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["persen"];
+        $PERSEN_Anak     = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["persen"];
+
+        $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
+        $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
+
+        $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+
+        $worksheet->getCell('E41')->setValue($JLD_IbuHamil);
+        $worksheet->getCell('F41')->setValue($JYSD_IbuHamil);
+        $worksheet->getCell('H41')->setValue($PERSEN_IbuHamil);
+        $worksheet->getCell('E42')->setValue($JLD_Anak);
+        $worksheet->getCell('F42')->setValue($JYSD_Anak);
+        $worksheet->getCell('H42')->setValue($PERSEN_Anak);
+        $worksheet->getCell('E43')->setValue($JLD_TOTAL);
+        $worksheet->getCell('F43')->setValue($JYSD_TOTAL);
+        $worksheet->getCell('H43')->setValue($KONV_TOTAL);
+
         //SAVE AND DOWNLOAD
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $filename = 'SCORCARD_KONVERGENSI_DESA_' . strtoupper($kuartal . "_" . $tahun . "_" . date("H_i_s"));
