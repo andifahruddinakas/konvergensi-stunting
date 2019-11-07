@@ -790,7 +790,7 @@ class Pemantauan extends MY_Controller
         $september              = $this->input->post('september');
         $oktober                = $this->input->post('oktober');
         $november               = $this->input->post('november');
-        $desember                = $this->input->post('desember');
+        $desember               = $this->input->post('desember');
 
         $data = array(
             "no_rt"                 => $no_rt,
@@ -899,7 +899,7 @@ class Pemantauan extends MY_Controller
             $worksheet->getStyle('A8')->applyFromArray($styleJudul);
         }
 
-        
+
 
 
         //SAVE AND DOWNLOAD
@@ -911,7 +911,8 @@ class Pemantauan extends MY_Controller
         $writer->save('php://output');
     }
 
-    public function hapus_sasaran_paud(){
+    public function hapus_sasaran_paud()
+    {
         $id_sasaran_paud    = $this->input->post('id_sasaran_paud');
         $hapus              = $this->m_data->delete(array("id_sasaran_paud" => $id_sasaran_paud), "sasaran_paud");
         if ($hapus > 0) {
@@ -922,5 +923,51 @@ class Pemantauan extends MY_Controller
         $this->sasaran_paud();
     }
 
+    public function edit_sasaran_paud()
+    {
+        $id_sasaran_paud        = $this->input->post('id_sasaran_paud');
+        $no_rt                  = $this->input->post('no_rt');
+        $nama_anak              = $this->input->post('nama_anak');
+        $jenis_kelamin_anak     = $this->input->post('jenis_kelamin_anak');
+        $usia_menurut_kategori  = $this->input->post('usia_menurut_kategori');
+        $januari                = $this->input->post('januari');
+        $februari               = $this->input->post('februari');
+        $maret                  = $this->input->post('maret');
+        $april                  = $this->input->post('april');
+        $mei                    = $this->input->post('mei');
+        $juni                   = $this->input->post('juni');
+        $juli                   = $this->input->post('juli');
+        $agustus                = $this->input->post('agustus');
+        $september              = $this->input->post('september');
+        $oktober                = $this->input->post('oktober');
+        $november               = $this->input->post('november');
+        $desember               = $this->input->post('desember');
 
+        $data = array(
+            "no_rt"                 => $no_rt,
+            "nama_anak"             => $nama_anak,
+            "jenis_kelamin"         => $jenis_kelamin_anak,
+            "usia_menurut_kategori" => $usia_menurut_kategori,
+            "januari"               => $januari,
+            "februari"              => $februari,
+            "maret"                 => $maret,
+            "april"                 => $april,
+            "mei"                   => $mei,
+            "juni"                  => $juni,
+            "juli"                  => $juli,
+            "agustus"               => $agustus,
+            "september"             => $september,
+            "oktober"               => $oktober,
+            "november"              => $november,
+            "desember"              => $desember,
+        );
+
+        $updateData             = $this->m_data->update("sasaran_paud", $data, ["id_sasaran_paud" => $id_sasaran_paud]);
+        if ($updateData == 1) {
+            $this->session->set_flashdata("sukses", "Mengedit data $nama_anak pada database");
+        } else {
+            $this->session->set_flashdata("gagal", $this->m_data->getError());
+        }
+        $this->sasaran_paud();
+    }
 }

@@ -119,6 +119,23 @@
                                         <button                                             
                                             data-toggle="modal" 
                                             data-target="#modal-input-edit-data" 
+                                            data-id_sasaran_paud = "{{ $item->id_sasaran_paud }}"
+                                            data-no_rt = "{{ $item->no_rt }}"
+                                            data-nama_anak = "{{ $item->nama_anak }}"
+                                            data-jenis_kelamin_anak = "{{ $item->jenis_kelamin }}"
+                                            data-usia_menurut_kategori = "{{ $item->usia_menurut_kategori }}"
+                                            data-januari = "{{ $item->januari }}"
+                                            data-februari = "{{ $item->februari }}"
+                                            data-maret = "{{ $item->maret }}"
+                                            data-april = "{{ $item->april }}"
+                                            data-mei = "{{ $item->mei }}"
+                                            data-juni = "{{ $item->juni }}"
+                                            data-juli = "{{ $item->juli }}"
+                                            data-agustus = "{{ $item->agustus }}"
+                                            data-september = "{{ $item->september }}"
+                                            data-oktober = "{{ $item->oktober }}"
+                                            data-november = "{{ $item->november }}"
+                                            data-desember = "{{ $item->desember }}"                                            
                                             title="Edit" 
                                             type="button" 
                                             class="editData btn btn-primary col-xs-12">Edit</button>
@@ -343,7 +360,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="hidden" name="id_bulanan_anak" id="id_bulanan_anak">
+                            <input type="hidden" name="id_sasaran_paud" id="idSasaran">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                             <input type="submit" name="submit" value="Simpan" class="btn btn-primary">
                         </div>
@@ -375,91 +392,48 @@
 
     // EDIIIIIITT
     $("#btn_input").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/sasaran-paud') }}");        
-        $("#no_kia").attr('readonly', false);
-        $("#nama_anak").attr('readonly', false);
+        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/sasaran-paud') }}");
+        $("#modalTitle").text("Input Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun");
 
-        $("#modalTitle").text("Input Pemantauan Bulanan Anak 0-2 Tahun");
-
-        $("#id_bulanan_anak").val(null); 
-        $("#no_kia").val(null); 
-        $("#nama_anak").val(null);
+        $("#no_rt").val(null); 
+        $("#nama_anak").val(null);         
         $("#jenis_kelamin_anak").val(null);
-        $("#tanggal_lahir_anak").val(null);
-        $("#status_gizi").val(null);
-        $("#umur_bulan").val(null);
-        $("#status_tikar").val(null);
-        $("#pemberian_imunisasi_dasar").val(null);
-        $("#pemberian_imunisasi_campak").val(null);
-        $("#pengukuran_berat_badan").val(null);
-        $("#pengukuran_tinggi_badan").val(null);
-        $("#konseling_gizi_ayah").val(null);
-        $("#konseling_gizi_ibu").val(null);
-        $("#kunjungan_rumah").val(null);
-        $("#air_bersih").val(null);
-        $("#kepemilikan_jamban").val(null);
-        $("#akta_lahir").val(null);
-        $("#jaminan_kesehatan").val(null);
-        $("#pengasuhan_paud").val(null);
+        $("#usia_menurut_kategori").val(null);
+        $("#januari").val("belum");
+        $("#februari").val("belum");
+        $("#maret").val("belum");
+        $("#april").val("belum");
+        $("#mei").val("belum");
+        $("#juni").val("belum");
+        $("#juli").val("belum");
+        $("#agustus").val("belum");
+        $("#september").val("belum");
+        $("#oktober").val("belum");
+        $("#november").val("belum");
+        $("#desember").val("belum");
     });
 
     $(".editData").click(function(){
-        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-bulanan-anak') }}");
+        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-sasaran-paud') }}");    
+        $("#modalTitle").text("Edit Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun");    
 
-        $("#no_kia").attr('readonly', true);
-        $("#nama_anak").attr('readonly', true);
-        
-        let id                          = $(this).data('id');
-        let no_kia                      = $(this).data('no_kia');
-        let nama_anak                   = $(this).data('nama_anak');
-        let jenis_kelamin_anak          = $(this).data('jenis_kelamin_anak');
-        let tanggal_lahir_anak          = $(this).data('tanggal_lahir_anak');
-        let status_gizi                 = $(this).data('status_gizi');
-        let umur_bulan                  = $(this).data('umur_bulan');
-        let status_tikar                = $(this).data('status_tikar');
-        let pemberian_imunisasi_dasar   = $(this).data('pemberian_imunisasi_dasar');
-        let pemberian_imunisasi_campak  = $(this).data('pemberian_imunisasi_campak');
-        let pengukuran_berat_badan      = $(this).data('pengukuran_berat_badan');
-        let pengukuran_tinggi_badan     = $(this).data('pengukuran_tinggi_badan');
-        let konseling_gizi_ayah         = $(this).data('konseling_gizi_ayah');
-        let konseling_gizi_ibu          = $(this).data('konseling_gizi_ibu');
-        let kunjungan_rumah             = $(this).data('kunjungan_rumah');
-        let air_bersih                  = $(this).data('air_bersih');
-        let kepemilikan_jamban          = $(this).data('kepemilikan_jamban');
-        let akta_lahir                  = $(this).data('akta_lahir');
-        let jaminan_kesehatan           = $(this).data('jaminan_kesehatan');
-        let pengasuhan_paud             = $(this).data('pengasuhan_paud');
-        
-        $("#no_kia").attr('readonly', true);
-        $("#nama_anak").attr('readonly', true);
-        $("#modalTitle").text("Edit Pemantauan Bulanan Anak 0-2 Tahun");
-
-        if(umur_bulan >= 6){            
-            $('#pemberian_imunisasi_campak').prop("disabled", false);
-        } else {
-            $('#pemberian_imunisasi_campak').prop("disabled", true);
-        }
-
-        $("#id_bulanan_anak").val(id); 
-        $("#no_kia").val(no_kia); 
-        $("#nama_anak").val(nama_anak);
-        $("#jenis_kelamin_anak").val(jenis_kelamin_anak);
-        $("#tanggal_lahir_anak").val(tanggal_lahir_anak);
-        $("#status_gizi").val(status_gizi);
-        $("#umur_bulan").val(umur_bulan);
-        $("#status_tikar").val(status_tikar);
-        $("#pemberian_imunisasi_dasar").val(pemberian_imunisasi_dasar);
-        $("#pemberian_imunisasi_campak").val(pemberian_imunisasi_campak);
-        $("#pengukuran_berat_badan").val(pengukuran_berat_badan);
-        $("#pengukuran_tinggi_badan").val(pengukuran_tinggi_badan);
-        $("#konseling_gizi_ayah").val(konseling_gizi_ayah);
-        $("#konseling_gizi_ibu").val(konseling_gizi_ibu);
-        $("#kunjungan_rumah").val(kunjungan_rumah);
-        $("#air_bersih").val(air_bersih);
-        $("#kepemilikan_jamban").val(kepemilikan_jamban);
-        $("#akta_lahir").val(akta_lahir);
-        $("#jaminan_kesehatan").val(jaminan_kesehatan);
-        $("#pengasuhan_paud").val(pengasuhan_paud);
+        $("#idSasaran").val($(this).data('id_sasaran_paud')); 
+        $("#no_rt").val($(this).data('no_rt')); 
+        $("#nama_anak").val($(this).data('nama_anak'));          
+        $("#jenis_kelamin_anak").val($(this).data('jenis_kelamin_anak')); 
+        $("#usia_menurut_kategori").val($(this).data('usia_menurut_kategori')); 
+        $("#januari").val($(this).data('januari')); 
+        $("#februari").val($(this).data('februari')); 
+        $("#maret").val($(this).data('maret')); 
+        $("#april").val($(this).data('april')); 
+        $("#mei").val($(this).data('mei')); 
+        $("#juni").val($(this).data('juni')); 
+        $("#juli").val($(this).data('juli')); 
+        $("#agustus").val($(this).data('agustus')); 
+        $("#september").val($(this).data('september')); 
+        $("#oktober").val($(this).data('oktober')); 
+        $("#november").val($(this).data('november')); 
+        $("#desember").val($(this).data('desember'));                    
 
     });
 
