@@ -194,7 +194,7 @@
                         </tr>
                         <tr>
                             <th colspan="1" rowspan="2" class="text-center" style="vertical-align: middle;">4</th>                            
-                            <td colspan="3" rowspan="2" style="vertical-align: middle;">Anak usia 0-23 bulan diukur panjang/tinggi badannya oleh tenaga kesehatan terlatih minimal 2 kali dalam setahun </td>
+                            <td colspan="3" rowspan="2" style="vertical-align: middle;">Orang tua/pengasuh yang memiliki anak usia 0-23 bulan  mengikuti kegiatan konseling gizi secara rutin minimal sebulan sekali. </td>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">Laki</th>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">Jumlah</th>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">xx.xx</td>
