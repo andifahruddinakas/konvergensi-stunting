@@ -92,9 +92,9 @@
                         <tr>
                             <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah</th>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $JTRT }}</td>
-                            <td class="text-center" style="vertical-align: middle;">{{ sizeof($ibu_hamil["dataFilter"]) }}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{ $ibu_hamil["dataFilter"] == null ? "0" : sizeof($ibu_hamil["dataFilter"]) }}</td>
                             <td class="text-center" style="vertical-align: middle;">{{ $jumlahKekRisti }}</td>
-                            <td class="text-center" style="vertical-align: middle;">{{ sizeof($bulanan_anak["dataFilter"]) }}</td>
+                            <td class="text-center" style="vertical-align: middle;">{{ $bulanan_anak["dataFilter"] == null ? "0" : sizeof($bulanan_anak["dataFilter"]) }}</td>
                             <td class="text-center" style="vertical-align: middle;">{{ $jumlahGiziBukanNormal }}</td>
                         </tr>
                         <tr>
@@ -109,7 +109,7 @@
                         </tr>
                         <tr>
                             <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah</th>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;">{{ sizeof($bulanan_anak["dataFilter"]) }}</td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;">{{ $bulanan_anak["dataFilter"] == null ? "0" : sizeof($bulanan_anak["dataFilter"]) }}</td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">{{ $tikar["H"] }}</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $tikar["K"] }}</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">{{ $tikar["M"] }}</td>                            
@@ -273,7 +273,12 @@
                             $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
                             $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
 
-                            $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+                            if($JYSD_TOTAL != 0){
+                                $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+                            } else {
+                                $KONV_TOTAL     = number_format(0,2);
+                            }
+                            
                         @endphp         
                         <tr>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            

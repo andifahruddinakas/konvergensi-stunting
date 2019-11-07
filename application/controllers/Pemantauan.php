@@ -674,8 +674,8 @@ class Pemantauan extends MY_Controller
         $sheet->setCellValue('Q5', 'Akta Lahir');
         $sheet->setCellValue('R5', 'Jaminan Kesehatan');
         $sheet->setCellValue('S5', 'Pengasuhan (PAUD)');
-        $sheet->setCellValue('L6', 'Ayah');
-        $sheet->setCellValue('M6', 'Ibu');
+        $sheet->setCellValue('L6', '(L)');
+        $sheet->setCellValue('M6', '(P)');
 
         //SET ROW HEIGH
         $sheet->getRowDimension('5')->setRowHeight(100);
@@ -751,5 +751,73 @@ class Pemantauan extends MY_Controller
         header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function sasaran_paud($tahun = NULL){
+        if ($tahun == NULL) {
+            redirect(base_url('pemantauan/sasaran-paud/') . date('Y'));
+        }
+
+        $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
+        $dataTahun = $this->m_data->distinct();
+        $dataTahun = $this->m_data->getData("sasaran_paud")->result();
+
+        $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
+        $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();  
+        // d($dataSasaranPaud)      ;
+    
+        $data["_tahun"]         = $tahun;        
+        $data['dataTahun']      = $dataTahun;        
+        $data['dataSasaranPaud']= $dataSasaranPaud;
+        $data['title']          = "Pemantauan Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun";
+        return $this->loadView('pemantauan.sasaran-paud', $data);
+    }
+
+    public function insertSasaranPaud(){
+        $no_rt                  = $this->input->post('no_rt');
+        $nama_anak              = $this->input->post('nama_anak');
+        $jenis_kelamin_anak     = $this->input->post('jenis_kelamin_anak');
+        $usia_menurut_kategori  = $this->input->post('usia_menurut_kategori');
+        $januari                = $this->input->post('januari');
+        $februari               = $this->input->post('februari');
+        $maret                  = $this->input->post('maret');
+        $april                  = $this->input->post('april');
+        $mei                    = $this->input->post('mei');
+        $juni                   = $this->input->post('juni');
+        $juli                   = $this->input->post('juli');
+        $agustus                = $this->input->post('agustus');
+        $september              = $this->input->post('september');
+        $oktober                = $this->input->post('oktober');
+        $november               = $this->input->post('november');
+        $desember                = $this->input->post('desember');
+
+        $data = array(
+            "no_rt"                 => $no_rt,
+            "nama_anak"             => $nama_anak,                        
+            "jenis_kelamin"         => $jenis_kelamin_anak,
+            "usia_menurut_kategori" => $usia_menurut_kategori,
+            "januari"               => $januari,
+            "februari"              => $februari,
+            "maret"                 => $maret,
+            "april"                 => $april,
+            "mei"                   => $mei,
+            "juni"                  => $juni,
+            "juli"                  => $juli,
+            "agustus"               => $agustus,
+            "september"             => $september,
+            "oktober"               => $oktober,
+            "november"              => $november,
+            "desember"              => $desember,            
+        );
+
+        $insertSasaranPaud = $this->m_data->insert("sasaran_paud", $data);
+        if ($insertSasaranPaud) {
+            $this->session->set_flashdata("sukses", "Menyimpan data pada pemantauan Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun");
+        } else {
+            $this->session->set_flashdata("gagal", $this->m_data->getError());
+        }
+        $this->sasaran_paud();
     }
 }

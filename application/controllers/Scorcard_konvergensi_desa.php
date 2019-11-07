@@ -90,38 +90,43 @@ class Scorcard_konvergensi_desa extends MY_Controller
 
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
         $tikar  = array("TD" => 0, "M" => 0, "K" => 0, "H" => 0);
-        foreach ($bulanan_anak["dataGrup"] as $detail) {
-            $totalItem = count($detail);
-            $i = 0;
-            foreach ($detail as $item) {
-                if (++$i === $totalItem) {
-                    $tikar[$item["status_tikar"]]++;
+        if ($bulanan_anak["dataGrup"] != NULL) {
+            foreach ($bulanan_anak["dataGrup"] as $detail) {
+                $totalItem = count($detail);
+                $i = 0;
+                foreach ($detail as $item) {
+                    if (++$i === $totalItem) {
+                        $tikar[$item["status_tikar"]]++;
+                    }
                 }
             }
-        }
 
-        //HITUNG KEK ATAU RISTI
-        $jumlahKekRisti = 0;
-        foreach ($ibu_hamil["dataFilter"] as $item) {
-            if ($item["user"]["status_kehamilan"] != "NORMAL") {
-                $jumlahKekRisti++;
+            //HITUNG KEK ATAU RISTI
+            $jumlahKekRisti = 0;
+            foreach ($ibu_hamil["dataFilter"] as $item) {
+                if ($item["user"]["status_kehamilan"] != "NORMAL") {
+                    $jumlahKekRisti++;
+                }
             }
-        }
 
-        $jumlahGiziBukanNormal  = 0;
-        foreach ($bulanan_anak["dataFilter"] as $item) {
-            if ($item["umur_dan_gizi"]["status_gizi"] != "N") {
-                $jumlahGiziBukanNormal++;
+            $jumlahGiziBukanNormal  = 0;
+            foreach ($bulanan_anak["dataFilter"] as $item) {
+                if ($item["umur_dan_gizi"]["status_gizi"] != "N") {
+                    $jumlahGiziBukanNormal++;
+                }
             }
+        } else {
+            $dataNoKia = [];
+            $jumlahKekRisti = 0;
+            $jumlahGiziBukanNormal = 0;
         }
-
 
         $data["JTRT"]                   = sizeof($dataNoKia);
         $data["jumlahKekRisti"]         = $jumlahKekRisti;
         $data["jumlahGiziBukanNormal"]  = $jumlahGiziBukanNormal;
         $data["tikar"]                  = $tikar;
         $data["ibu_hamil"]              = $ibu_hamil;
-        $data["bulanan_anak"]           = $bulanan_anak;
+        $data["bulanan_anak"]           = $bulanan_anak;        
         $data['title']                  = "Scorcard Konvergensi Desa";
         $data["dataTahun"]              = $data["ibu_hamil"]["dataTahun"];
         $data['kuartal']                = $kuartal;

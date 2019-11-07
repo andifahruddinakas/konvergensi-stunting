@@ -114,8 +114,12 @@
 
                             $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
                             $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
-
-                            $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+                            if($JYSD_TOTAL != 0){
+                                $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+                            } else {
+                                $KONV_TOTAL     = number_format(0, 2);
+                            }
+                            
                         @endphp
                         <tr>
                             <th class="text-center" colspan="2">Total Tingkat Konvergensi Desa</th>

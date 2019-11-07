@@ -107,8 +107,8 @@
                         <th rowspan="2" class="text-center" style="vertical-align: middle;">Pengasuhan (PAUD)</th>
                     </tr>
                     <tr>
-                        <th class="text-center" style="vertical-align: middle;">Ayah</th>
-                        <th class="text-center" style="vertical-align: middle;">Ibu</th>
+                        <th class="text-center" style="vertical-align: middle;">(L)</th>
+                        <th class="text-center" style="vertical-align: middle;">(P)</th>
                     </tr>
                     </thead>
                     <tbody>

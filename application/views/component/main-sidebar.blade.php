@@ -20,9 +20,9 @@
           {{-- <li class="">
             <a href="#"><i class="fa fa-heartbeat"></i> <span>Data KIA</span></a> 
           </li>   --}}
-          <li class="">
+          {{-- <li class="">
             <a href="#"><i class="fa fa-medkit"></i> <span>Pendataan kondisi Layanan</span></a>
-          </li>  
+          </li>   --}}
           <li class="treeview">
             <a href="#">
               <i class="fa fa-stethoscope"></i> <span>Pemantauan</span>
@@ -33,7 +33,7 @@
             <ul class="treeview-menu">
               <li><a href="{{ base_url('pemantauan/ibu-hamil/') }}"><i class="fa fa-circle-o"></i> Bulanan Ibu Hamil</a></li>
               <li><a href="{{ base_url('pemantauan/bulanan-anak/') }}"><i class="fa fa-circle-o"></i> Bulanan Anak 0-2 Tahun</a></li>
-              <li><a href="#"><i class="fa fa-circle-o"></i> Sasaran Paud Anak 2 - 6 Tahun</a></li>
+              <li><a href="{{ base_url('pemantauan/sasaran-paud/') }}"><i class="fa fa-circle-o"></i> Sasaran Paud Anak 2 - 6 Tahun</a></li>
             </ul>
           </li>      
           <li class="treeview">

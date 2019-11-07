@@ -79,7 +79,7 @@
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">NO KIA</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Nama Anak</th>
                         <th rowspan="3" class="text-center" style="vertical-align: middle;">Jenis Kelamin </th>                    
-                        <th colspan="10" style="vertical-align: middle;">Kuartal Ke {{ $kuartal }} Bulan {{ bulan($batasBulanBawah) }} s/d {{ bulan($batasBulanAtas) }} {{ $_tahun }}</th>
+                        <th colspan="12" style="vertical-align: middle;">Kuartal Ke {{ $kuartal }} Bulan {{ bulan($batasBulanBawah) }} s/d {{ bulan($batasBulanAtas) }} {{ $_tahun }}</th>
                         <th colspan="3" rowspan="2" class="text-center" style="vertical-align: middle;">Tingkat Konvergensi Indikator</th>                        
                     </tr>
                     <tr>

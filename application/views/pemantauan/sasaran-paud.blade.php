@@ -1,0 +1,536 @@
+@extends('layout.admin')
+
+@section('tab-title')
+    {{ $title }}
+@endsection
+
+@section('page-title')
+{{ $title }}
+@endsection
+
+@section('page-header')
+
+@endsection
+
+@section('page-breadcrumb')
+<li><a href="{{ base_url('dashboard') }}"><i class="fa fa-dashboard"></i> {{ $app_name }}</a></li>
+<li class="active">{{ $title }}</li>
+@endsection
+
+
+@section('page-content')
+    <div class="row">
+        <div class="col-xs-12">
+
+            @if ($CI->session->flashdata("sukses"))
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Sukses</h4>
+                {{ $CI->session->flashdata("sukses") }}
+            </div>
+            @endif      
+            
+            @if ($CI->session->flashdata("gagal"))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Gagal</h4>
+                {{ $CI->session->flashdata("gagal") }}
+            </div>
+            @endif   
+
+            <div class="box box-success">
+                <div class="box-header">
+                    <div class="col-md-9 no-padding">
+                        <div class="col-md-3">
+                            <div class="form-group">                                
+                                <select name="tahun" id="tahun" required class="form-control" title="Pilih salah satu">
+                                    @foreach ($dataTahun as $item)
+                                        <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 no-padding">
+                            <button type="button" class="btn col-md-12 btn-primary" id="cari">
+                                <i class="fa fa-search"></i> Cari
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 no-padding pull-right">
+                        <button id="btn_input" type="button" class="btn col-md-6 btn-primary" data-toggle="modal" data-target="#modal-input-edit-data">
+                            Input Data
+                        </button>
+                        <a href="{{ base_url('pemantauan/export-sasaran-paud/') . $_tahun }}" id="btnExport" type="button" class="btn col-md-6  btn-danger">
+                            Export ke Excel
+                        </a>                        
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                <table  id="table-datas" class="table  table-bordered table-striped table-responsive">
+                    <thead>
+                    <tr>
+                        <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">No</th>
+                        <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">Nomor Rumah Tangga</th>
+                        <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">Nama Anak</th>
+                        <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">Jenis Kelamin (L/P)</th>
+                        <th rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">Usia Menurut Kategori</th>
+                        <th rowspan="1" colspan="12" class="text-center" style="vertical-align: middle;">Pada Bulan Ini Apakah Anak Mendapatkan Pelayanan PAUD</th>
+                        <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">Aksi</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="1" colspan="12" class="text-center" style="vertical-align: middle;">Mengikuti Layanan PAUD (Parenting Bagi Orang Tua Anak Usia 2 - < 3 Tahun) Atau Kelas PAUD Bagi Anak 3 - 6 Tahun</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2" colspan="1" class="text-center" style="vertical-align: middle;">Anak Usia 2 - < 3 Tahun</th>
+                        <th rowspan="2" colspan="1" class="text-center" style="vertical-align: middle;">Anak Usia 3 - 6 Tahun</th>
+                        <th rowspan="1" colspan="12" class="text-center" style="vertical-align: middle;">Tahun : {{ $_tahun }}</th>
+                    </tr>
+                    <tr>
+                        @foreach (bulan_array() as $item)
+                            <th rowspan="1" colspan="1" class="text-center" style="vertical-align: middle;">{{ $item['nama_panjang'] }}</th>
+                        @endforeach
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @if (sizeof($dataSasaranPaud) > 0)
+                            @foreach ($dataSasaranPaud as $item)
+                                <tr>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $loop->iteration }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->no_rt }}</td>
+                                    <td style="vertical-align: middle;">{{ $item->nama_anak }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->jenis_kelamin }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->usia_menurut_kategori == 'a' ? 'v' : '-' }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->usia_menurut_kategori == 'b' ? 'v' : '-' }}</td>
+
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->januari == "belum" ? "-" : $item->januari }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->februari == "belum" ? "-" : $item->februari }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->maret == "belum" ? "-" : $item->maret }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->april == "belum" ? "-" : $item->april }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->mei == "belum" ? "-" : $item->mei }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->juni == "belum" ? "-" : $item->juni }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->juli == "belum" ? "-" : $item->juli }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->agustus == "belum" ? "-" : $item->agustus }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->september == "belum" ? "-" : $item->september }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->oktober == "belum" ? "-" : $item->oktober }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->november == "belum" ? "-" : $item->november }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{ $item->desember == "belum" ? "-" : $item->desember }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <button                                             
+                                            data-toggle="modal" 
+                                            data-target="#modal-input-edit-data" 
+                                            title="Edit" 
+                                            type="button" 
+                                            class="editData btn btn-primary col-xs-12">Edit</button>
+                                        <button 
+                                            data-id="{{ $item->id_sasaran_paud }}" 
+                                            data-nama="{{ $item->nama_anak }}" 
+                                            data-toggle="modal" 
+                                            data-target="#modal-hapus" 
+                                            type="button" 
+                                            class="hapusData btn btn-danger col-xs-12">Hapus</button>
+                                    </td>
+                                </tr>
+                            @endforeach                            
+                        @else
+                            <tr>
+                                <td class="text-center" style="vertical-align: middle;" colspan="19">Data Tidak Ditemukan!</td>
+                            </tr>
+                        @endif
+                         
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="modal-hapus">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"><b>Peringatan Hapus Data</b></h4>
+                </div>
+                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data-bulanan-anak') }}">
+                    <div class="modal-body">  
+                        <b>Peringatan!</b> 
+                        <span id="info_hapus">Kamu akan menghapus data Rafli Firdausy</span> <br>
+                        <span>Data yang di hapus tidak dapat di kembalikan. Tetap hapus ?</span>
+                        <input type="hidden" name="id_bulanan_anak" id="idBulananAnak">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                        <input type="submit" name="submit" value="Hapus" class="btn btn-danger">
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-input-edit-data">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
+                    </div>
+                    <form id="form_tambah_edit" enctype="multipart/form-data" role="form" method="POST">
+                        <div class="modal-body">  
+                            <div class="row">
+                                <div class="col-md-4"> 
+                                    <div class="form-group">
+                                        <label class="form-label">Nomor Rumah Tangga</label>
+                                        <input required type="number" id="no_rt" name="no_rt" class="form-control">  
+                                    </div> 
+                                </div>
+                                <div class="col-md-8"> 
+                                    <div class="form-group">
+                                        <label class="form-label">Nama Anak</label>
+                                        <input required type="text" id="nama_anak" name="nama_anak" class="form-control">  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Jenis Kelamin Anak</label>
+                                        <select id="jenis_kelamin_anak" name="jenis_kelamin_anak" required class="form-control" title="Pilih salah satu">
+                                            <option value="L">Laki - Laki (L)</option>
+                                            <option value="P">Perempuan (P)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Kategori Usia</label>
+                                        <select id="usia_menurut_kategori" name="usia_menurut_kategori" required class="form-control" title="Pilih salah satu">
+                                            <option value="a">Anak Usia 2 - < 3 Tahun</option>
+                                            <option value="b">Anak Usia 3 - 6 Tahun</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Januari</label>
+                                        <select id="januari" name="januari" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Februari</label>
+                                        <select id="februari" name="februari" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Maret</label>
+                                        <select id="maret" name="maret" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">April</label>
+                                        <select id="april" name="april" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Mei</label>
+                                        <select id="mei" name="mei" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Juni</label>
+                                        <select id="juni" name="juni" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Juli</label>
+                                        <select id="juli" name="juli" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Agustus</label>
+                                        <select id="agustus" name="agustus" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">September</label>
+                                        <select id="september" name="september" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Oktober</label>
+                                        <select id="oktober" name="oktober" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">November</label>
+                                        <select id="november" name="november" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Desember</label>
+                                        <select id="desember" name="desember" required class="form-control" title="Pilih salah satu">
+                                            <option value="belum">Belum</option>
+                                            <option value="v">Mengikuti</option>
+                                            <option value="x">Tidak Mengikuti</option>                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="id_bulanan_anak" id="id_bulanan_anak">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                            <input type="submit" name="submit" value="Simpan" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+@endsection
+
+@section('page-footer')
+<script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src=" {{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src=" {{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<!-- date-range-picker -->
+<script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<script>
+
+    $("#umur_bulan").change(function(){
+        let umur_bulan = $(this).val();
+        $('#pemberian_imunisasi_campak').val("");
+        if(umur_bulan >= 6){            
+            $('#pemberian_imunisasi_campak').prop("disabled", false);
+        } else {
+            $('#pemberian_imunisasi_campak').prop("disabled", true);
+        }
+    });
+
+    // EDIIIIIITT
+    $("#btn_input").click(function(){
+        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/sasaran-paud') }}");        
+        $("#no_kia").attr('readonly', false);
+        $("#nama_anak").attr('readonly', false);
+
+        $("#modalTitle").text("Input Pemantauan Bulanan Anak 0-2 Tahun");
+
+        $("#id_bulanan_anak").val(null); 
+        $("#no_kia").val(null); 
+        $("#nama_anak").val(null);
+        $("#jenis_kelamin_anak").val(null);
+        $("#tanggal_lahir_anak").val(null);
+        $("#status_gizi").val(null);
+        $("#umur_bulan").val(null);
+        $("#status_tikar").val(null);
+        $("#pemberian_imunisasi_dasar").val(null);
+        $("#pemberian_imunisasi_campak").val(null);
+        $("#pengukuran_berat_badan").val(null);
+        $("#pengukuran_tinggi_badan").val(null);
+        $("#konseling_gizi_ayah").val(null);
+        $("#konseling_gizi_ibu").val(null);
+        $("#kunjungan_rumah").val(null);
+        $("#air_bersih").val(null);
+        $("#kepemilikan_jamban").val(null);
+        $("#akta_lahir").val(null);
+        $("#jaminan_kesehatan").val(null);
+        $("#pengasuhan_paud").val(null);
+    });
+
+    $(".editData").click(function(){
+        $("#form_tambah_edit").attr('action', "{{ base_url('pemantauan/edit-bulanan-anak') }}");
+
+        $("#no_kia").attr('readonly', true);
+        $("#nama_anak").attr('readonly', true);
+        
+        let id                          = $(this).data('id');
+        let no_kia                      = $(this).data('no_kia');
+        let nama_anak                   = $(this).data('nama_anak');
+        let jenis_kelamin_anak          = $(this).data('jenis_kelamin_anak');
+        let tanggal_lahir_anak          = $(this).data('tanggal_lahir_anak');
+        let status_gizi                 = $(this).data('status_gizi');
+        let umur_bulan                  = $(this).data('umur_bulan');
+        let status_tikar                = $(this).data('status_tikar');
+        let pemberian_imunisasi_dasar   = $(this).data('pemberian_imunisasi_dasar');
+        let pemberian_imunisasi_campak  = $(this).data('pemberian_imunisasi_campak');
+        let pengukuran_berat_badan      = $(this).data('pengukuran_berat_badan');
+        let pengukuran_tinggi_badan     = $(this).data('pengukuran_tinggi_badan');
+        let konseling_gizi_ayah         = $(this).data('konseling_gizi_ayah');
+        let konseling_gizi_ibu          = $(this).data('konseling_gizi_ibu');
+        let kunjungan_rumah             = $(this).data('kunjungan_rumah');
+        let air_bersih                  = $(this).data('air_bersih');
+        let kepemilikan_jamban          = $(this).data('kepemilikan_jamban');
+        let akta_lahir                  = $(this).data('akta_lahir');
+        let jaminan_kesehatan           = $(this).data('jaminan_kesehatan');
+        let pengasuhan_paud             = $(this).data('pengasuhan_paud');
+        
+        $("#no_kia").attr('readonly', true);
+        $("#nama_anak").attr('readonly', true);
+        $("#modalTitle").text("Edit Pemantauan Bulanan Anak 0-2 Tahun");
+
+        if(umur_bulan >= 6){            
+            $('#pemberian_imunisasi_campak').prop("disabled", false);
+        } else {
+            $('#pemberian_imunisasi_campak').prop("disabled", true);
+        }
+
+        $("#id_bulanan_anak").val(id); 
+        $("#no_kia").val(no_kia); 
+        $("#nama_anak").val(nama_anak);
+        $("#jenis_kelamin_anak").val(jenis_kelamin_anak);
+        $("#tanggal_lahir_anak").val(tanggal_lahir_anak);
+        $("#status_gizi").val(status_gizi);
+        $("#umur_bulan").val(umur_bulan);
+        $("#status_tikar").val(status_tikar);
+        $("#pemberian_imunisasi_dasar").val(pemberian_imunisasi_dasar);
+        $("#pemberian_imunisasi_campak").val(pemberian_imunisasi_campak);
+        $("#pengukuran_berat_badan").val(pengukuran_berat_badan);
+        $("#pengukuran_tinggi_badan").val(pengukuran_tinggi_badan);
+        $("#konseling_gizi_ayah").val(konseling_gizi_ayah);
+        $("#konseling_gizi_ibu").val(konseling_gizi_ibu);
+        $("#kunjungan_rumah").val(kunjungan_rumah);
+        $("#air_bersih").val(air_bersih);
+        $("#kepemilikan_jamban").val(kepemilikan_jamban);
+        $("#akta_lahir").val(akta_lahir);
+        $("#jaminan_kesehatan").val(jaminan_kesehatan);
+        $("#pengasuhan_paud").val(pengasuhan_paud);
+
+    });
+
+
+    $(".hapusData").click(function(){
+        let id      = $(this).data('id');
+        let nama    = $(this).data('nama');
+    
+        $("#info_hapus").text("Kamu akan menghapus data " + nama);
+        $("#idBulananAnak").val(id);
+    });
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+            callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+
+    $('#no_kia').keyup(delay(function (e) {
+        $.ajax({
+            type: 'GET',
+            url: '{{ base_url("pemantauan/getDataByNoKia/") }}' + this.value,
+            dataType: 'json',
+            success: function(x){
+                if(x.status == 1){
+                    $('#nama_anak').val(x.data.nama_anak);
+                    $('#jenis_kelamin_anak').val(x.data.jenis_kelamin_anak);
+                    $('#tanggal_lahir_anak').val(x.data.tanggal_lahir_anak);
+                } else {
+                    $('#nama_anak').val("");                    
+                    $('#jenis_kelamin_anak').val("");
+                    $('#tanggal_lahir_anak').val("");
+                }
+            }
+        });
+    }, 500));
+
+
+    $(function () {
+
+        $('#cari').click(function(){
+            let bulan = $('#bulan option:selected').val();
+            let tahun = $('#tahun option:selected').val();
+            window.location.href = "{{ base_url('pemantauan/ibu-hamil/') }}" + bulan + "/" + tahun;
+        });
+
+        $('#table-data').DataTable()
+
+        $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Hari Ini'        : [moment(), moment()],
+          'Kemarin'         : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          '7 Hari Terakhir' : [moment().subtract(6, 'days'), moment()],
+          '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
+          'Bulan Ini'       : [moment().startOf('month'), moment().endOf('month')],
+          'Bulan Kemarin'   : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        window.location.href = "https://google.com";
+      }
+    )
+    })
+</script>
+@endsection
