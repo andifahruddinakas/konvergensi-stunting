@@ -5,12 +5,12 @@
             <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p>Rafli Firdausy</p>
-            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            <p>{{ ucfirst($user->nama_lengkap) }}</p>
+            <a href="#"><i class="fa fa-circle text-success"></i> {{ ucfirst($user->level) }}</a>
           </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">
-          <li class="header">Kepala E-PPKPS</li>
+          <li class="header">Menu {{ $app_name }}</li>
           <li class="{{ $aktif == 'dashboard' ? 'active' : '' }}">
             <a href="{{ base_url('dashboard') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a>
           </li>

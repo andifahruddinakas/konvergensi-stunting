@@ -13,7 +13,7 @@
 @endsection
 
 @section('page-breadcrumb')
-<li><a href="{{ base_url('dashboard') }}"><i class="fa fa-dashboard"></i> {{ $app_name }}</a></li>
+<li><a href="{{ base_url('dashboard') }}"><i class="fa fa-laptop"></i> {{ $app_name }}</a></li>
 <li class="active">{{ $title }}</li>
 @endsection
 

@@ -13,7 +13,7 @@ User Profile
 @endsection
 
 @section('page-breadcrumb')
-<li><a href="{{ base_url('dashboard') }}"><i class="fa fa-dashboard"></i> GO BANG</a></li>
+<li><a href="{{ base_url('dashboard') }}"><i class="fa fa-laptop"></i> GO BANG</a></li>
 <li class="active">Profile</li>
 @endsection
 

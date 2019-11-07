@@ -1,7 +1,7 @@
 <header class="main-header">
       <a href="#" class="logo">
         <span class="logo-mini"><i class="fa fa-heartbeat"></i></span>
-        <span class="logo-lg">e-<b>PPKPS</b></span>
+        <span class="logo-lg"><b>{{ $app_name }}</b></span>
       </a>
       <nav class="navbar navbar-static-top skin-green">
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -12,15 +12,15 @@
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-                <span class="hidden-xs">Rafli Firdausy Irawan</span>
+                <span class="hidden-xs">{{ ucfirst($user->nama_lengkap) }}</span>
               </a>
               <ul class="dropdown-menu">
                 <li class="user-header">
                   <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
   
                   <p>
-                    Rafli Firdausy Irawan
-                    <small>Terakhir Login : 23 Maret 2019 17:54:11 WIB</small>
+                    {{ ucfirst($user->nama_lengkap) }}
+                    <small>{{ ucfirst($user->level) }}</small>
                   </p>
                 </li>
                 <!-- Menu Footer-->

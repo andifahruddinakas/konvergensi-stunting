@@ -20,10 +20,10 @@
 
 @section('body')
 <div class="wrapper">
-    @component('component.main-header')
+    @component('component.main-header', ["user" => $_session, "app_name" => $app_name])
     @endcomponent
 
-    @component('component.main-sidebar', ["aktif" => $aktif])
+    @component('component.main-sidebar', ["aktif" => $aktif, "user" => $_session, "app_name" => $app_name])
     @endcomponent
     
     <div class="content-wrapper">
