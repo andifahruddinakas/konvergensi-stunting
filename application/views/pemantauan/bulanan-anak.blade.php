@@ -315,7 +315,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">Konseling Gizi Orang Tua (L)</label>
+                                        <label class="form-label">Konseling Gizi Orang Tua (Laki-Laki)</label>
                                         <select id="konseling_gizi_ayah" name="konseling_gizi_ayah" required class="form-control" title="Pilih salah satu">
                                             <option value="v">Ya</option>
                                             <option value="x">Tidak</option>
@@ -324,7 +324,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">Konseling Gizi Orang Tua (P)</label>
+                                        <label class="form-label">Konseling Gizi Orang Tua (Perempuan)</label>
                                         <select id="konseling_gizi_ibu" name="konseling_gizi_ibu" required class="form-control" title="Pilih salah satu">
                                             <option value="v">Ya</option>
                                             <option value="x">Tidak</option>

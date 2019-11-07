@@ -126,7 +126,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $data["jumlahGiziBukanNormal"]  = $jumlahGiziBukanNormal;
         $data["tikar"]                  = $tikar;
         $data["ibu_hamil"]              = $ibu_hamil;
-        $data["bulanan_anak"]           = $bulanan_anak;        
+        $data["bulanan_anak"]           = $bulanan_anak;
         $data['title']                  = "Scorcard Konvergensi Desa";
         $data["dataTahun"]              = $data["ibu_hamil"]["dataTahun"];
         $data['kuartal']                = $kuartal;
@@ -209,42 +209,38 @@ class Scorcard_konvergensi_desa extends MY_Controller
 
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
         $tikar  = array("TD" => 0, "M" => 0, "K" => 0, "H" => 0);
-        foreach ($bulanan_anak["dataGrup"] as $detail) {
-            $totalItem = count($detail);
-            $i = 0;
-            foreach ($detail as $item) {
-                if (++$i === $totalItem) {
-                    $tikar[$item["status_tikar"]]++;
+
+        $jumlahKekRisti         = 0;
+        $jumlahGiziBukanNormal  = 0;
+
+        if ($bulanan_anak["dataGrup"] != NULL) {
+            foreach ($bulanan_anak["dataGrup"] as $detail) {
+                $totalItem = count($detail);
+                $i = 0;
+                foreach ($detail as $item) {
+                    if (++$i === $totalItem) {
+                        $tikar[$item["status_tikar"]]++;
+                    }
                 }
             }
-        }
 
-        //HITUNG KEK ATAU RISTI
-        $jumlahKekRisti = 0;
-        foreach ($ibu_hamil["dataFilter"] as $item) {
-            if ($item["user"]["status_kehamilan"] != "NORMAL") {
-                $jumlahKekRisti++;
+            //HITUNG KEK ATAU RISTI
+            foreach ($ibu_hamil["dataFilter"] as $item) {
+                if ($item["user"]["status_kehamilan"] != "NORMAL") {
+                    $jumlahKekRisti++;
+                }
             }
-        }
-
-        $jumlahGiziBukanNormal  = 0;
-        foreach ($bulanan_anak["dataFilter"] as $item) {
-            if ($item["umur_dan_gizi"]["status_gizi"] != "N") {
-                $jumlahGiziBukanNormal++;
+            
+            foreach ($bulanan_anak["dataFilter"] as $item) {
+                if ($item["umur_dan_gizi"]["status_gizi"] != "N") {
+                    $jumlahGiziBukanNormal++;
+                }
             }
-        }
-
-
-        $data["JTRT"]                   = sizeof($dataNoKia);
-        $data["jumlahKekRisti"]         = $jumlahKekRisti;
-        $data["jumlahGiziBukanNormal"]  = $jumlahGiziBukanNormal;
-        $data["tikar"]                  = $tikar;
-        $data["ibu_hamil"]              = $ibu_hamil;
-        $data["bulanan_anak"]           = $bulanan_anak;
-        $data['title']                  = "Scorcard Konvergensi Desa";
-        $data["dataTahun"]              = $data["ibu_hamil"]["dataTahun"];
-        $data['kuartal']                = $kuartal;
-        $data['_tahun']                 = $tahun;
+        } else {
+            $dataNoKia                  = [];
+            $ibu_hamil["dataFilter"]    = [];
+            $bulanan_anak["dataFilter"] = [];
+        }            
 
         $inputFileType = 'Xlsx';
         $inputFileName =  "assets/template/scorcard.xlsx";
@@ -254,7 +250,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
 
         //SET DATA
         $worksheet->getCell('G6')->setValue(': ' . $tahun);
-        $worksheet->getCell('G7')->setValue(': ' . get_kuartal($kuartal)["ke"] . " (" . get_kuartal($kuartal)["bulan"] . ")");
+        $worksheet->getCell('G7')->setValue(': ' . get_kuartal($kuartal)["ke"] . " (" . get_kuartal($kuartal)["bulan"] . ")");                    
 
         $worksheet->getCell('D12')->setValue(sizeof($dataNoKia));
         $worksheet->getCell('F12')->setValue(sizeof($ibu_hamil["dataFilter"]));
@@ -322,7 +318,11 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $JLD_TOTAL      = (int) $JLD_IbuHamil + (int) $JLD_Anak;
         $JYSD_TOTAL     = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
 
-        $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+        if($JYSD_TOTAL){
+            $KONV_TOTAL     = number_format($JLD_TOTAL / $JYSD_TOTAL * 100, 2);
+        } else {
+            $KONV_TOTAL     = number_format(0, 2);
+        }        
 
         $worksheet->getCell('E41')->setValue($JLD_IbuHamil);
         $worksheet->getCell('F41')->setValue($JYSD_IbuHamil);
