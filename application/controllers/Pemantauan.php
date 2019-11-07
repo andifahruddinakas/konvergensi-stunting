@@ -839,7 +839,7 @@ class Pemantauan extends MY_Controller
                 'wrapText'      => TRUE
             ]
         ];
-        
+
         $styleIsi = [
             'font' => [
                 'bold' => false,
@@ -910,4 +910,17 @@ class Pemantauan extends MY_Controller
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
     }
+
+    public function hapus_sasaran_paud(){
+        $id_sasaran_paud    = $this->input->post('id_sasaran_paud');
+        $hapus              = $this->m_data->delete(array("id_sasaran_paud" => $id_sasaran_paud), "sasaran_paud");
+        if ($hapus > 0) {
+            $this->session->set_flashdata("sukses", "Data berhasil di hapus dari database");
+        } else {
+            $this->session->set_flashdata("gagal", "Terjadi kesalahan saat menghapus data");
+        }
+        $this->sasaran_paud();
+    }
+
+
 }

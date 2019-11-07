@@ -153,12 +153,12 @@
                     <span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title"><b>Peringatan Hapus Data</b></h4>
                 </div>
-                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data-bulanan-anak') }}">
+                <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-sasaran-paud') }}">
                     <div class="modal-body">  
                         <b>Peringatan!</b> 
                         <span id="info_hapus">Kamu akan menghapus data Rafli Firdausy</span> <br>
                         <span>Data yang di hapus tidak dapat di kembalikan. Tetap hapus ?</span>
-                        <input type="hidden" name="id_bulanan_anak" id="idBulananAnak">
+                        <input type="hidden" name="id_sasaran_paud" id="id_sasaran_paud">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -469,7 +469,7 @@
         let nama    = $(this).data('nama');
     
         $("#info_hapus").text("Kamu akan menghapus data " + nama);
-        $("#idBulananAnak").val(id);
+        $("#id_sasaran_paud").val(id);
     });
 
     function delay(callback, ms) {
