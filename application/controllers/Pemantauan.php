@@ -325,21 +325,19 @@ class Pemantauan extends MY_Controller
 
         //SET INDEX
         foreach (range('A', 'O') as $kolom) {
-            $sheet->setCellValue($kolom . '6', strtolower($kolom));
-            // $sheet->getStyle($kolom . '6')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER); 
-            // $spreadsheet->getActiveSheet()->getStyle($kolom . '6')->getAlignment()->setWrapText(true);
+            $sheet->setCellValue($kolom . '6', strtolower($kolom));        
         }
 
-        //SET DATA
+        // //SET DATA
         $batasBaris = 6;
         $no = 1;
-        foreach ($ibuHamil as $data) {
+        foreach ($ibuHamil as $data) {            
             $barisSekarang = $batasBaris + $no;
             $sheet->setCellValue('A' . $barisSekarang, $no);
             $sheet->setCellValue('B' . $barisSekarang, $data->no_kia);
             $sheet->setCellValue('C' . $barisSekarang, $data->nama_ibu);
             $sheet->setCellValue('D' . $barisSekarang, $data->status_kehamilan);
-            $sheet->setCellValue('E' . $barisSekarang, shortdate_indo($data->hari_perkiraan_lahir));
+            $sheet->setCellValue('E' . $barisSekarang, $data->hari_perkiraan_lahir == null ? "-" : shortdate_indo($data->hari_perkiraan_lahir));
             $sheet->setCellValue('F' . $barisSekarang, $data->usia_kehamilan);
             $sheet->setCellValue('G' . $barisSekarang, $data->tanggal_melahirkan == null ? "-" : shortdate_indo($data->tanggal_melahirkan));
             $sheet->setCellValue('H' . $barisSekarang, $data->pemeriksaan_kehamilan);
@@ -353,7 +351,7 @@ class Pemantauan extends MY_Controller
             $no++;
         }
 
-        //SET BORDER AND ALIGNMENT DATA
+        // //SET BORDER AND ALIGNMENT DATA
         $sheet->getStyle('A6:O6')->applyFromArray($styleJudul);
         $sheet->getStyle('A3:O' . $sheet->getHighestRow())->applyFromArray($styleBorder);
         $sheet->getStyle('A7:O' . $sheet->getHighestRow())->applyFromArray($styleIsi);
@@ -366,16 +364,6 @@ class Pemantauan extends MY_Controller
         header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
-
-        // $writer = new Mpdf($spreadsheet);
-        // $filename = 'FORMULIR_2A_PEMANTAUAN_BULANAN_IBU_HAMIL_' . strtoupper(bulan($bulan) . "_" . $tahun . "_" . date("H_i_s"));
-        // header("Content-type:application/pdf");
-        // header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
-        // header('Cache-Control: max-age=0');
-        // $writer->save('php://output');
-
-        // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
-        // $writer->save('php://output');
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
