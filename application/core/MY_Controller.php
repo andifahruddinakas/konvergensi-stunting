@@ -12,7 +12,8 @@ class MY_Controller extends CI_Controller
         $this->global_data = [
             "app_name"          => "E-PPKPS",
             "app_complete_name" => "Pengelolaan dan Pelaporan Konvergensi Pencegahan Stunting Elektronik ",
-            "CI"                => $CI
+            "CI"                => $CI,
+            "aktif"             => NULL
         ];
 
         if ($this->router->fetch_class() != "auth") {

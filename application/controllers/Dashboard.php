@@ -10,6 +10,7 @@ class Dashboard extends MY_Controller
 
     public function index()
     {       
-        return $this->loadView('dashboard');
+        $data["aktif"]  = "dashboard";
+        return $this->loadView('dashboard', $data);
     }
 }

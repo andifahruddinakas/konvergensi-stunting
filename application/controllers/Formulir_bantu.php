@@ -45,6 +45,7 @@ class Formulir_bantu extends MY_Controller
         $data['title']      = "Formulir Bantu Mengikuti Layanan PAUD Anak 2 s/d 6 Tahun";
         $data['kuartal']    = $kuartal;
         $data['_tahun']     = $tahun;
+        $data["aktif"]      = "formulir_bantu";
 
         return $this->loadView('formulir-bantu.layanan-paud', $data);
     }
@@ -83,7 +84,7 @@ class Formulir_bantu extends MY_Controller
         $data["dataTahun"]      = $data["ibu_hamil"]["dataTahun"];
         $data["_tahun"]         = $tahun;
         $data["kuartal"]        = $kuartal;
-        // d($data["bulanan_anak"]);
+        $data["aktif"]          = "formulir_bantu";
         return $this->loadView('formulir-bantu.capaian-penerimaan-layanan', $data);
     }
 
@@ -120,7 +121,7 @@ class Formulir_bantu extends MY_Controller
         $data["_tahun"]         = $data["ibu_hamil"]["_tahun"];
         $data["kuartal"]        = $kuartal;
         $data['title']          = "Formulir Bantu Konvergensi Desa";
-        // d($data);
+        $data["aktif"]          = "formulir_bantu";
         return $this->loadView('formulir-bantu.konvergensi-desa', $data);
 
     }

@@ -33,6 +33,7 @@ class Pemantauan extends MY_Controller
         $dataTahun = $this->m_data->distinct();
         $dataTahun = $this->m_data->getData("ibu_hamil")->result();
 
+        $data["aktif"]      = "pemantauan";
         $data["_bulan"]     = $bulan;
         $data["_tahun"]     = $tahun;
         $data['ibuHamil']   = $ibuHamil;
@@ -385,6 +386,7 @@ class Pemantauan extends MY_Controller
         $dataTahun = $this->m_data->distinct();
         $dataTahun = $this->m_data->getData("ibu_hamil")->result();
 
+        $data["aktif"]          = "pemantauan";
         $data["_bulan"]         = $bulan;
         $data["_tahun"]         = $tahun;
         $data['bulananAnak']    = $bulananAnak;
@@ -754,10 +756,11 @@ class Pemantauan extends MY_Controller
         $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
         $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();
 
-        $data["_tahun"]         = $tahun;
-        $data['dataTahun']      = $dataTahun;
-        $data['dataSasaranPaud'] = $dataSasaranPaud;
-        $data['title']          = "Pemantauan Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun";
+        $data["aktif"]              = "pemantauan";
+        $data["_tahun"]             = $tahun;
+        $data['dataTahun']          = $dataTahun;
+        $data['dataSasaranPaud']    = $dataSasaranPaud;
+        $data['title']              = "Pemantauan Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun";
         return $this->loadView('pemantauan.sasaran-paud', $data);
     }
 

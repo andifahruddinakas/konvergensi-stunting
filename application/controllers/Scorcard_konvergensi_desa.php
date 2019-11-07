@@ -131,7 +131,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $data["dataTahun"]              = $data["ibu_hamil"]["dataTahun"];
         $data['kuartal']                = $kuartal;
         $data['_tahun']                 = $tahun;
-
+        $data['aktif']                  = "scorcard";
         return $this->loadView('scorcard-konvergensi.show-scorcard', $data);
     }
 
