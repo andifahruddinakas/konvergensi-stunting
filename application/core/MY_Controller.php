@@ -6,21 +6,20 @@ class MY_Controller extends CI_Controller
 
     public function __construct()
     {
-        parent::__construct();
-        $this->load->model('M_data');
-        $CI = &get_instance();
-        $this->global_data = [
-            "app_name"          => "E-PPKPS",
-            "app_complete_name" => "Pengelolaan dan Pelaporan Konvergensi Pencegahan Stunting Elektronik ",
-            "CI"                => $CI,
-            "aktif"             => NULL
-        ];
-
+        parent::__construct();                
         if ($this->router->fetch_class() != "auth") {
             if (!$this->session->has_userdata('login')) {
                 redirect(base_url("login"));
             }
         }
+        $CI = &get_instance();
+        $this->global_data = [
+            "app_name"          => "E-PPKPS",
+            "app_complete_name" => "Pengelolaan dan Pelaporan Konvergensi Pencegahan Stunting Elektronik ",
+            "CI"                => $CI,
+            "aktif"             => NULL,
+            "_session"
+        ];
     }
 
     function loadView($view, $local_data = array(), $ses = NULL)

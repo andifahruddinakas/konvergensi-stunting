@@ -33,6 +33,7 @@ class Rekap
         $ibuHamil = $CI->m_data->getWhere("MONTH(ibu_hamil.created_at) >=", $batasBulanBawah);
         $ibuHamil = $CI->m_data->getWhere("MONTH(ibu_hamil.created_at) <=", $batasBulanAtas);
         $ibuHamil = $CI->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
+        $ibuHamil = $CI->m_data->getWhere("id_posyandu", $CI->session->userdata("login")->id_posyandu);
         $ibuHamil = $CI->m_data->getData("ibu_hamil")->result();
 
         $dataTahun = $CI->m_data->select("YEAR(created_at) as tahun");
@@ -316,6 +317,7 @@ class Rekap
         $bulananAnak = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) >=", $batasBulanBawah);
         $bulananAnak = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) <=", $batasBulanAtas);
         $bulananAnak = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
+        $bulananAnak = $CI->m_data->getWhere("id_posyandu", $CI->session->userdata("login")->id_posyandu);
         $bulananAnak = $CI->m_data->getData("bulanan_anak")->result();
 
         $dataTahun = $CI->m_data->select("YEAR(created_at) as tahun");

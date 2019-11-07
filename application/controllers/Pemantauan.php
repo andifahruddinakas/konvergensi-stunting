@@ -26,6 +26,7 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getJoin("kia", "ibu_hamil.no_kia = kia.no_kia", "INNER");
         $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
+        $ibuHamil = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
         $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
 
@@ -92,7 +93,9 @@ class Pemantauan extends MY_Controller
             "kunjungan_rumah"       => $kunjungan_rumah,
             "akses_air_bersih"      => $air_bersih,
             "kepemilikan_jamban"    => $kepemilikan_jamban,
-            "jaminan_kesehatan"     => $jaminan_kesehatan
+            "jaminan_kesehatan"     => $jaminan_kesehatan,
+            "id_user"               => $this->session->userdata("login")->id_user,
+            "id_posyandu"           => $this->session->userdata("login")->id_posyandu
         );
 
         $cekInput = $this->m_data->getWhere("no_kia", $data["no_kia"]);
@@ -206,10 +209,10 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getJoin("kia", "ibu_hamil.no_kia = kia.no_kia", "INNER");
         $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
+        $ibuHamil = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
         $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
 
-        // die(json_encode($ibuHamil));
         $styleJudul = [
             'font' => [
                 'bold' => true,
@@ -375,10 +378,11 @@ class Pemantauan extends MY_Controller
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/bulanan-anak/') . date('m') . '/' . date('Y'));
         }
-
+        
         $bulananAnak = $this->m_data->getJoin("kia", "bulanan_anak.no_kia = kia.no_kia", "INNER");
         $bulananAnak = $this->m_data->getWhere("MONTH(bulanan_anak.created_at)", $bulan);
         $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
+        $bulananAnak = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
         $bulananAnak = $this->m_data->order_by("bulanan_anak.created_at", "ASC");
         $bulananAnak = $this->m_data->getData("bulanan_anak")->result();
 
@@ -435,6 +439,8 @@ class Pemantauan extends MY_Controller
             "akta_lahir"                => $akta_lahir,
             "jaminan_kesehatan"         => $jaminan_kesehatan,
             "pengasuhan_paud"           => $pengasuhan_paud,
+            "id_user"               => $this->session->userdata("login")->id_user,
+            "id_posyandu"           => $this->session->userdata("login")->id_posyandu
         );
 
         $cekInput = $this->m_data->getWhere("no_kia", $data["no_kia"]);
@@ -571,6 +577,7 @@ class Pemantauan extends MY_Controller
         $bulananAnak = $this->m_data->getJoin("kia", "bulanan_anak.no_kia = kia.no_kia", "INNER");
         $bulananAnak = $this->m_data->getWhere("MONTH(bulanan_anak.created_at)", $bulan);
         $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
+        $bulananAnak = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
         $bulananAnak = $this->m_data->order_by("bulanan_anak.created_at", "ASC");
         $bulananAnak = $this->m_data->getData("bulanan_anak")->result();
 
@@ -754,6 +761,7 @@ class Pemantauan extends MY_Controller
         $dataTahun = $this->m_data->getData("sasaran_paud")->result();
 
         $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
+        $dataSasaranPaud    = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
         $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();
 
         $data["aktif"]              = "pemantauan";
@@ -800,6 +808,8 @@ class Pemantauan extends MY_Controller
             "oktober"               => $oktober,
             "november"              => $november,
             "desember"              => $desember,
+            "id_user"               => $this->session->userdata("login")->id_user,
+            "id_posyandu"           => $this->session->userdata("login")->id_posyandu
         );
 
         $insertSasaranPaud = $this->m_data->insert("sasaran_paud", $data);
@@ -818,6 +828,7 @@ class Pemantauan extends MY_Controller
         }
 
         $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
+        $dataSasaranPaud    = $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
         $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();
 
         $styleJudul = [
