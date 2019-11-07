@@ -242,10 +242,10 @@ class Scorcard_konvergensi_desa extends MY_Controller
             $bulanan_anak["dataFilter"] = [];
         }            
 
-        $inputFileType = 'Xlsx';
-        $inputFileName =  "assets/template/scorcard.xlsx";
-        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-        $spreadsheet = $reader->load($inputFileName);
+        $inputFileType  = 'Xlsx';
+        $inputFileName  = "assets/template/scorcard.xlsx";
+        $reader         = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+        $spreadsheet    = $reader->load($inputFileName);
         $worksheet      = $spreadsheet->getActiveSheet();
 
         //SET DATA

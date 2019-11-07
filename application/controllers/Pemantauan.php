@@ -27,7 +27,7 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
-        $ibuHamil = $this->m_data->getData("ibu_hamil")->result();        
+        $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
 
         $dataTahun = $this->m_data->select("YEAR(created_at) as tahun");
         $dataTahun = $this->m_data->distinct();
@@ -80,7 +80,7 @@ class Pemantauan extends MY_Controller
 
         $data = array(
             "no_kia"                => $no_kia,
-            "status_kehamilan"      => $status_kehamilan,            
+            "status_kehamilan"      => $status_kehamilan,
             "usia_kehamilan"        => $usia_kehamilan,
             "tanggal_melahirkan"    => $tanggal_melahirkan,
             "pemeriksaan_kehamilan" => $pemeriksaan_kehamilan,
@@ -171,7 +171,7 @@ class Pemantauan extends MY_Controller
         $jaminan_kesehatan      = $this->input->post('jaminan_kesehatan');
 
         $data = array(
-            "status_kehamilan"      => $status_kehamilan,            
+            "status_kehamilan"      => $status_kehamilan,
             "usia_kehamilan"        => $usia_kehamilan,
             "tanggal_melahirkan"    => $tanggal_melahirkan,
             "pemeriksaan_kehamilan" => $pemeriksaan_kehamilan,
@@ -373,7 +373,7 @@ class Pemantauan extends MY_Controller
         // header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
         // header('Cache-Control: max-age=0');
         // $writer->save('php://output');
-        
+
         // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
         // $writer->save('php://output');
     }
@@ -434,7 +434,7 @@ class Pemantauan extends MY_Controller
             "umur_bulan"                => $umur_bulan,
             "status_tikar"              => $status_tikar,
             "pemberian_imunisasi_dasar" => $pemberian_imunisasi_dasar,
-            "pemberian_imunisasi_campak"=> $pemberian_imunisasi_campak,
+            "pemberian_imunisasi_campak" => $pemberian_imunisasi_campak,
             "pengukuran_berat_badan"    => $pengukuran_berat_badan,
             "pengukuran_tinggi_badan"   => $pengukuran_tinggi_badan,
             "konseling_gizi_ayah"       => $konseling_gizi_ayah,
@@ -548,7 +548,7 @@ class Pemantauan extends MY_Controller
             "umur_bulan"                => $umur_bulan,
             "status_tikar"              => $status_tikar,
             "pemberian_imunisasi_dasar" => $pemberian_imunisasi_dasar,
-            "pemberian_imunisasi_campak"=> $pemberian_imunisasi_campak,
+            "pemberian_imunisasi_campak" => $pemberian_imunisasi_campak,
             "pengukuran_berat_badan"    => $pengukuran_berat_badan,
             "pengukuran_tinggi_badan"   => $pengukuran_tinggi_badan,
             "konseling_gizi_ayah"       => $konseling_gizi_ayah,
@@ -583,8 +583,6 @@ class Pemantauan extends MY_Controller
         $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
         $bulananAnak = $this->m_data->order_by("bulanan_anak.created_at", "ASC");
         $bulananAnak = $this->m_data->getData("bulanan_anak")->result();
-
-        // die(json_encode($bulananAnak));
 
         $styleJudul = [
             'font' => [
@@ -755,7 +753,8 @@ class Pemantauan extends MY_Controller
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function sasaran_paud($tahun = NULL){
+    public function sasaran_paud($tahun = NULL)
+    {
         if ($tahun == NULL) {
             redirect(base_url('pemantauan/sasaran-paud/') . date('Y'));
         }
@@ -765,17 +764,17 @@ class Pemantauan extends MY_Controller
         $dataTahun = $this->m_data->getData("sasaran_paud")->result();
 
         $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
-        $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();  
-        // d($dataSasaranPaud)      ;
-    
-        $data["_tahun"]         = $tahun;        
-        $data['dataTahun']      = $dataTahun;        
-        $data['dataSasaranPaud']= $dataSasaranPaud;
+        $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();
+
+        $data["_tahun"]         = $tahun;
+        $data['dataTahun']      = $dataTahun;
+        $data['dataSasaranPaud'] = $dataSasaranPaud;
         $data['title']          = "Pemantauan Layanan dan Sasaran PAUD Anak > 2 - 6 Tahun";
         return $this->loadView('pemantauan.sasaran-paud', $data);
     }
 
-    public function insertSasaranPaud(){
+    public function insertSasaranPaud()
+    {
         $no_rt                  = $this->input->post('no_rt');
         $nama_anak              = $this->input->post('nama_anak');
         $jenis_kelamin_anak     = $this->input->post('jenis_kelamin_anak');
@@ -795,7 +794,7 @@ class Pemantauan extends MY_Controller
 
         $data = array(
             "no_rt"                 => $no_rt,
-            "nama_anak"             => $nama_anak,                        
+            "nama_anak"             => $nama_anak,
             "jenis_kelamin"         => $jenis_kelamin_anak,
             "usia_menurut_kategori" => $usia_menurut_kategori,
             "januari"               => $januari,
@@ -809,7 +808,7 @@ class Pemantauan extends MY_Controller
             "september"             => $september,
             "oktober"               => $oktober,
             "november"              => $november,
-            "desember"              => $desember,            
+            "desember"              => $desember,
         );
 
         $insertSasaranPaud = $this->m_data->insert("sasaran_paud", $data);
@@ -819,5 +818,96 @@ class Pemantauan extends MY_Controller
             $this->session->set_flashdata("gagal", $this->m_data->getError());
         }
         $this->sasaran_paud();
+    }
+
+    public function export_sasaran_paud($tahun = NULL)
+    {
+        if ($tahun == NULL) {
+            redirect(base_url('pemantauan/export-sasaran-paud/') . date('Y'));
+        }
+
+        $dataSasaranPaud    = $this->m_data->getWhere("YEAR(created_at)", $tahun);
+        $dataSasaranPaud    = $this->m_data->getData("sasaran_paud")->result();
+
+        $styleJudul = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal'    => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical'      => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'wrapText'      => TRUE
+            ]
+        ];
+        
+        $styleIsi = [
+            'font' => [
+                'bold' => false,
+            ],
+            'alignment' => [
+                'horizontal'    => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical'      => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'wrapText'      => TRUE
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_MEDIUM,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ];
+
+        $inputFileType  = 'Xlsx';
+        $inputFileName  =  "assets/template/sasaran_paud.xlsx";
+        $reader         = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+        $spreadsheet    = $reader->load($inputFileName);
+        $worksheet      = $spreadsheet->getActiveSheet();
+
+        //SET DATA
+        $worksheet->getCell('G5')->setValue('Tahun : ' . $tahun);
+        if (sizeof($dataSasaranPaud) > 0) {
+            $baris  = 8;
+            $no     = 1;
+            foreach ($dataSasaranPaud as $item) {
+                $worksheet->getCell('A' . $baris)->setValue($no);
+                $worksheet->getCell('B' . $baris)->setValue($item->no_rt);
+                $worksheet->getCell('C' . $baris)->setValue($item->nama_anak);
+                $worksheet->getCell('D' . $baris)->setValue($item->jenis_kelamin);
+                $worksheet->getCell('E' . $baris)->setValue($item->usia_menurut_kategori    == "a"      ? "v" : "x");
+                $worksheet->getCell('F' . $baris)->setValue($item->usia_menurut_kategori    == "b"      ? "v" : "x");
+                $worksheet->getCell('G' . $baris)->setValue($item->januari                  == "belum"  ? "-" : $item->januari);
+                $worksheet->getCell('H' . $baris)->setValue($item->februari                 == "belum"  ? "-" : $item->februari);
+                $worksheet->getCell('I' . $baris)->setValue($item->maret                    == "belum"  ? "-" : $item->maret);
+                $worksheet->getCell('J' . $baris)->setValue($item->april                    == "belum"  ? "-" : $item->april);
+                $worksheet->getCell('K' . $baris)->setValue($item->mei                      == "belum"  ? "-" : $item->mei);
+                $worksheet->getCell('L' . $baris)->setValue($item->juni                     == "belum"  ? "-" : $item->juni);
+                $worksheet->getCell('M' . $baris)->setValue($item->juli                     == "belum"  ? "-" : $item->juli);
+                $worksheet->getCell('N' . $baris)->setValue($item->agustus                  == "belum"  ? "-" : $item->agustus);
+                $worksheet->getCell('O' . $baris)->setValue($item->september                == "belum"  ? "-" : $item->september);
+                $worksheet->getCell('P' . $baris)->setValue($item->oktober                  == "belum"  ? "-" : $item->oktober);
+                $worksheet->getCell('Q' . $baris)->setValue($item->november                 == "belum"  ? "-" : $item->november);
+                $worksheet->getCell('R' . $baris)->setValue($item->desember                 == "belum"  ? "-" : $item->desember);
+                $baris++;
+                $no++;
+            }
+            $worksheet->getStyle('A8:R' . $worksheet->getHighestRow())->applyFromArray($styleIsi);
+            $worksheet->getStyle('A8:R' . $worksheet->getHighestRow())->applyFromArray($styleIsi);
+            $worksheet->getStyle('C8:C' . $worksheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        } else {
+            $worksheet->mergeCells('A8:R8');
+            $worksheet->getCell('A8')->setValue('Data Tidak Ditemukan!');
+            $worksheet->getStyle('A8')->applyFromArray($styleJudul);
+        }
+
+        
+
+
+        //SAVE AND DOWNLOAD
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'PEMANTAUAN_LAYANAN_DAN_SASARAN_PAUD_ANAK_2_6_TAHUN_' . strtoupper($tahun . "_" . date("H_i_s"));
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
     }
 }
