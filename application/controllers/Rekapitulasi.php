@@ -302,7 +302,7 @@ class Rekapitulasi extends MY_Controller
             redirect(base_url('rekapitulasi/bulanan-anak/') . $kuartal . '/' . $tahun);
         }
 
-        $data           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);        
+        $data           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
         $data['title']  = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Anak 0-2 Tahun";
         $data["aktif"]  = "rekapitulasi";
         return $this->loadView('rekapitulasi.bulanan-anak', $data);
@@ -534,12 +534,20 @@ class Rekapitulasi extends MY_Controller
         $sheet->getStyle('A7:S' . $sheet->getHighestRow())->applyFromArray($styleIsi);
         $sheet->getStyle('B7:C' . $sheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
 
-        //SAVE AND DOWNLOAD
-        $writer = new Xlsx($spreadsheet);
+        
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
         $filename = 'FORMULIR_3B_REKAPITULASI_HASIL_PEMANTAUAN_3_BULANAN_BAGI_ANAK_0_2_TAHUN_KUARTAL_' . strtoupper($kuartal . "_" . $tahun . "_" . date("H_i_s"));
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
+
+        //SAVE AND DOWNLOAD
+        // $writer = new Xlsx($spreadsheet);
+        // $filename = 'FORMULIR_3B_REKAPITULASI_HASIL_PEMANTAUAN_3_BULANAN_BAGI_ANAK_0_2_TAHUN_KUARTAL_' . strtoupper($kuartal . "_" . $tahun . "_" . date("H_i_s"));
+        // header('Content-Type: application/vnd.ms-excel');
+        // header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        // header('Cache-Control: max-age=0');
+        // $writer->save('php://output');
     }
 }

@@ -92,7 +92,7 @@ class Cache
 					&& $item->isFile()
 					&& !$this->isDotFile($item)
 					&& $this->isOld($item)) {
-				unlink($item->getPathname());
+				@unlink($item->getPathname());
 			}
 		}
 	}

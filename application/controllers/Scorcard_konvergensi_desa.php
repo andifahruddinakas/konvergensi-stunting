@@ -332,7 +332,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $worksheet->getCell('H42')->setValue($PERSEN_Anak);
         $worksheet->getCell('E43')->setValue($JLD_TOTAL);
         $worksheet->getCell('F43')->setValue($JYSD_TOTAL);
-        $worksheet->getCell('H43')->setValue($KONV_TOTAL);
+        $worksheet->getCell('H43')->setValue($KONV_TOTAL);        
 
         //SAVE AND DOWNLOAD
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
