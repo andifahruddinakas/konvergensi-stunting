@@ -893,7 +893,6 @@ class Pemantauan extends MY_Controller
                 $no++;
             }
             $worksheet->getStyle('A8:R' . $worksheet->getHighestRow())->applyFromArray($styleIsi);
-            $worksheet->getStyle('A8:R' . $worksheet->getHighestRow())->applyFromArray($styleIsi);
             $worksheet->getStyle('C8:C' . $worksheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
         } else {
             $worksheet->mergeCells('A8:R8');
