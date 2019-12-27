@@ -9,7 +9,7 @@ class Pemantauan extends MY_Controller
 {
     public function ___construct()
     {
-        parent::___construct();
+        parent::__construct();
     }
 
     public function index()

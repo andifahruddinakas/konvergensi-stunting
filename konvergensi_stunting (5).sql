@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2019 at 11:48 PM
+-- Generation Time: Dec 27, 2019 at 09:29 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -93,7 +93,9 @@ CREATE TABLE `ibu_hamil` (
 
 INSERT INTO `ibu_hamil` (`id_ibu_hamil`, `no_kia`, `id_user`, `id_posyandu`, `status_kehamilan`, `usia_kehamilan`, `tanggal_melahirkan`, `pemeriksaan_kehamilan`, `konsumsi_pil_fe`, `butir_pil_fe`, `pemeriksaan_nifas`, `konseling_gizi`, `kunjungan_rumah`, `akses_air_bersih`, `kepemilikan_jamban`, `jaminan_kesehatan`, `created_at`, `updated_at`) VALUES
 (1, '123', 1, 1, 'NORMAL', 0, NULL, 'v', 'x', NULL, 'v', 'v', 'v', 'v', 'v', 'v', '2019-11-26 18:36:10', '2019-11-26 18:36:10'),
-(2, '321', 1, 1, 'RISTI', 1, '2019-11-29', 'x', 'v', 23, 'x', 'x', 'x', 'v', 'v', 'v', '2019-11-26 18:39:26', '2019-11-26 18:39:26');
+(2, '321', 1, 1, 'RISTI', 1, '2019-11-29', 'x', 'v', 23, 'x', 'x', 'x', 'v', 'v', 'v', '2019-11-26 18:39:26', '2019-11-26 18:39:26'),
+(3, '123', 1, 1, 'NORMAL', 1, NULL, 'v', 'x', NULL, 'v', 'v', 'v', 'x', 'v', 'x', '2019-12-21 20:28:25', '2019-12-21 20:28:25'),
+(4, '1234567', 1, 1, 'RISTI', 1, NULL, 'v', 'v', 45, 'v', 'v', 'v', 'v', 'v', 'x', '2019-12-26 01:52:09', '2019-12-26 01:52:09');
 
 -- --------------------------------------------------------
 
@@ -117,7 +119,8 @@ CREATE TABLE `kia` (
 --
 
 INSERT INTO `kia` (`no_kia`, `nama_ibu`, `nama_anak`, `jenis_kelamin_anak`, `hari_perkiraan_lahir`, `tanggal_lahir_anak`, `created_at`, `updated_at`) VALUES
-('123', 'Siti Nurwati', 'Firdausy', 'L', NULL, '2019-02-27', '2019-11-26 18:36:10', '2019-11-26 18:40:38'),
+('123', 'Siti Nurwati', 'Firdausy', 'L', '2019-12-27', '2019-02-27', '2019-11-26 18:36:10', '2019-12-21 20:28:25'),
+('1234567', 'Fadila Rakhma', NULL, NULL, NULL, NULL, '2019-12-26 01:52:09', '2019-12-26 01:52:09'),
 ('321', 'Farah Aurelia', 'Dida', 'P', NULL, '2019-02-21', '2019-11-26 18:39:26', '2019-11-26 18:59:47');
 
 -- --------------------------------------------------------
@@ -279,7 +282,7 @@ ALTER TABLE `bulanan_anak`
 -- AUTO_INCREMENT for table `ibu_hamil`
 --
 ALTER TABLE `ibu_hamil`
-  MODIFY `id_ibu_hamil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_ibu_hamil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `posyandu`

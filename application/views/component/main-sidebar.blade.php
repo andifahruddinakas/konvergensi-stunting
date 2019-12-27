@@ -8,7 +8,7 @@
             <p>{{ ucfirst($user->nama_lengkap) }}</p>
             <a href="#"><i class="fa fa-circle text-success"></i> {{ ucfirst($user->level) }}</a>
           </div>
-        </div>
+        </div>        
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">Menu {{ $app_name }}</li>
           <li class="{{ $aktif == 'dashboard' ? 'active' : '' }}">
@@ -23,6 +23,22 @@
           {{-- <li class="">
             <a href="#"><i class="fa fa-medkit"></i> <span>Pendataan kondisi Layanan</span></a>
           </li>   --}}
+
+          @if ($user->level == "super_admin")
+            <li class="treeview {{ $aktif == 'pengaturan' ? 'active' : '' }}">
+              <a href="#">
+                <i class="fa fa-gear"></i> <span>Pengaturan</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{ base_url('pengaturan/posyandu/') }}"><i class="fa fa-circle-o"></i> Posyandu</a></li>
+                <li><a href="{{ base_url('pengaturan/kpm/') }}"><i class="fa fa-circle-o"></i> KPM</a></li>            
+              </ul>
+            </li> 
+          @endif
+           
           <li class="treeview {{ $aktif == 'pemantauan' ? 'active' : '' }}">
             <a href="#">
               <i class="fa fa-stethoscope"></i> <span>Pemantauan</span>
@@ -45,7 +61,7 @@
             </a>
             <ul class="treeview-menu">
               <li><a href="{{ base_url('rekapitulasi/ibu-hamil/') }}"><i class="fa fa-circle-o"></i> 3 Bulanan Ibu Hamil</a></li>
-              <li><a href="{{ base_url('rekapitulasi/bulanan-anak/') }}""><i class="fa fa-circle-o"></i> 3 Bulanan Anak 0-2 Tahun</a></li>
+              <li><a href="{{ base_url('rekapitulasi/bulanan-anak/') }}"><i class="fa fa-circle-o"></i> 3 Bulanan Anak 0-2 Tahun</a></li>
             </ul>
           </li> 
           <li class="treeview {{ $aktif == 'formulir_bantu' ? 'active' : '' }}">

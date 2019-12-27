@@ -60,3 +60,5 @@ $route['logout']['get']                     = 'auth/proses-logout';
 $route['pemantauan/ibu-hamil']['post']      = 'pemantauan/insertDataIbuHamil';
 $route['pemantauan/bulanan-anak']['post']   = 'pemantauan/insertDataBulananAnak';
 $route['pemantauan/sasaran-paud']['post']   = 'pemantauan/insertSasaranPaud';
+$route['pengaturan/posyandu']['post']       = 'pengaturan/insertPosyandu';
+$route['pengaturan/kpm']['post']            = 'pengaturan/insertKpm';
