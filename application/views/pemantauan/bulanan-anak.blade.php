@@ -59,6 +59,18 @@
                                 </select>
                             </div>
                         </div>
+                        @if ($CI->session->userdata("login")->level == "super_admin")
+                        <div class="col-md-3">
+                            <div class="form-group">                                
+                                <select name="id_posyandu" id="id_posyandu" required class="form-control" title="Pilih salah satu">
+                                    <option value="">Semua</option>
+                                    @foreach ($posyandu as $item)
+                                        <option value="{{ $item->id_posyandu }}" {{ $item->id_posyandu  == $id_posyandu ? "selected" : "" }}>{{ $item->nama_posyandu }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                         <div class="col-md-2 no-padding">
                             <button type="button" class="btn col-md-12 btn-primary" id="cari">
                                 <i class="fa fa-search"></i> Cari
@@ -66,10 +78,14 @@
                         </div>
                     </div>
                     <div class="col-md-3 no-padding pull-right">
+                        @if ($CI->session->userdata("login")->level !== "super_admin")
                         <button id="btn_input" type="button" class="btn col-md-6 btn-primary" data-toggle="modal" data-target="#modal-input-edit-data">
                             Input Data
                         </button>
-                        <a href="{{ base_url('pemantauan/export-bulanan-anak/') . $_bulan .'/' . $_tahun }}" id="btnExport" type="button" class="btn col-md-6  btn-danger">
+                        @endif
+                       
+                        <a href="{{ base_url('pemantauan/export-bulanan-anak/') . $_bulan .'/' . $_tahun }}" id="btnExport" 
+                        type="button" class="btn col-md-{{ $CI->session->userdata("login")->level !== "super_admin" ? "6" : "12"}}  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>
@@ -86,7 +102,9 @@
                         <th rowspan="4" class="text-center" style="vertical-align: middle;">Tanggal Lahir Anak</th>
                         <th rowspan="4" class="text-center" style="vertical-align: middle;">Status Gizi Anak</th>
                         <th colspan="13" style="vertical-align: middle;">Bulan : {{ $bulan }} {{ $_tahun }}</th>
+                        @if ($CI->session->userdata("login")->level != "super_admin")
                         <th rowspan="4" class="text-center" style="vertical-align: middle;">Pilihan Aksi</th>
+                        @endif
                     </tr>
                     <tr>
                         <th colspan="2" class="text-center" style="vertical-align: middle;">Umur dan Status Tikar</th>
@@ -138,6 +156,7 @@
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->akta_lahir }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->jaminan_kesehatan }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->pengasuhan_paud }}</td>
+                                    @if ($CI->session->userdata("login")->level != "super_admin")
                                     <td>
                                         <button 
                                                 data-id="{{ $item->id_bulanan_anak }}" 
@@ -173,6 +192,7 @@
                                                 type="button" 
                                                 class="hapusData btn btn-danger col-xs-12">Hapus</button>
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @endif
@@ -557,9 +577,10 @@
     $(function () {
 
         $('#cari').click(function(){
-            let bulan = $('#bulan option:selected').val();
-            let tahun = $('#tahun option:selected').val();
-            window.location.href = "{{ base_url('pemantauan/ibu-hamil/') }}" + bulan + "/" + tahun;
+            let bulan       = $('#bulan option:selected').val();
+            let tahun       = $('#tahun option:selected').val();
+            let posyandu    = $('#id_posyandu option:selected').val();
+            window.location.href = "{{ base_url('pemantauan/bulanan-anak/') }}" + bulan + "/" + tahun + "/" + posyandu;
         });
 
         $('#table-data').DataTable()

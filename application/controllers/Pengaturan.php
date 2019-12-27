@@ -135,7 +135,6 @@ class Pengaturan extends MY_Controller
         } else {
             $this->session->set_flashdata("gagal", "Username Minimal 5 Karakter!");
         }
-
         redirect(base_url("pengaturan/kpm"));
     }
 

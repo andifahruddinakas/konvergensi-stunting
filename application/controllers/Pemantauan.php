@@ -17,7 +17,7 @@ class Pemantauan extends MY_Controller
         redirect(base_url());
     }
 
-    public function ibu_hamil($bulan = NULL, $tahun = NULL)
+    public function ibu_hamil($bulan = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y'));
@@ -26,7 +26,13 @@ class Pemantauan extends MY_Controller
         $ibuHamil = $this->m_data->getJoin("kia", "ibu_hamil.no_kia = kia.no_kia", "INNER");
         $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
         $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
-        $ibuHamil = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        if($this->session->userdata("login")->level !== "super_admin"){
+            $ibuHamil = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $ibuHamil = $this->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
         $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
 
@@ -34,6 +40,10 @@ class Pemantauan extends MY_Controller
         $dataTahun = $this->m_data->distinct();
         $dataTahun = $this->m_data->getData("ibu_hamil")->result();
 
+        $posyandu   = $this->m_data->getData("posyandu")->result();
+
+        $data['posyandu']   = $posyandu;
+        $data['id_posyandu']= $id_posyandu;
         $data["aktif"]      = "pemantauan";
         $data["_bulan"]     = $bulan;
         $data["_tahun"]     = $tahun;
@@ -200,7 +210,7 @@ class Pemantauan extends MY_Controller
         $this->ibu_hamil();
     }
 
-    public function export_ibu_hamil($bulan = NULL, $tahun = NULL)
+    public function export_ibu_hamil($bulan = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/ibu-hamil/') . date('m') . '/' . date('Y'));
@@ -208,8 +218,14 @@ class Pemantauan extends MY_Controller
 
         $ibuHamil = $this->m_data->getJoin("kia", "ibu_hamil.no_kia = kia.no_kia", "INNER");
         $ibuHamil = $this->m_data->getWhere("MONTH(ibu_hamil.created_at)", $bulan);
-        $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
-        $ibuHamil = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        $ibuHamil = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);     
+        if($this->session->userdata("login")->level !== "super_admin"){
+            $ibuHamil = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $ibuHamil = $this->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }
         $ibuHamil = $this->m_data->order_by("ibu_hamil.created_at", "ASC");
         $ibuHamil = $this->m_data->getData("ibu_hamil")->result();
 
@@ -372,9 +388,8 @@ class Pemantauan extends MY_Controller
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function bulanan_anak($bulan = NULL, $tahun = NULL)
+    public function bulanan_anak($bulan = NULL, $tahun = NULL,  $id_posyandu = NULL)
     {
-
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/bulanan-anak/') . date('m') . '/' . date('Y'));
         }
@@ -382,7 +397,14 @@ class Pemantauan extends MY_Controller
         $bulananAnak = $this->m_data->getJoin("kia", "bulanan_anak.no_kia = kia.no_kia", "INNER");
         $bulananAnak = $this->m_data->getWhere("MONTH(bulanan_anak.created_at)", $bulan);
         $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
-        $bulananAnak = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+
+        if($this->session->userdata("login")->level !== "super_admin"){
+            $bulananAnak = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $bulananAnak = $this->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }        
         $bulananAnak = $this->m_data->order_by("bulanan_anak.created_at", "ASC");
         $bulananAnak = $this->m_data->getData("bulanan_anak")->result();
 
@@ -390,6 +412,9 @@ class Pemantauan extends MY_Controller
         $dataTahun = $this->m_data->distinct();
         $dataTahun = $this->m_data->getData("ibu_hamil")->result();
 
+        $posyandu               = $this->m_data->getData("posyandu")->result();
+        $data['posyandu']       = $posyandu;
+        $data['id_posyandu']    = $id_posyandu;
         $data["aktif"]          = "pemantauan";
         $data["_bulan"]         = $bulan;
         $data["_tahun"]         = $tahun;
@@ -428,7 +453,7 @@ class Pemantauan extends MY_Controller
             "umur_bulan"                => $umur_bulan,
             "status_tikar"              => $status_tikar,
             "pemberian_imunisasi_dasar" => $pemberian_imunisasi_dasar,
-            "pemberian_imunisasi_campak" => $pemberian_imunisasi_campak,
+            "pemberian_imunisasi_campak"=> $pemberian_imunisasi_campak,
             "pengukuran_berat_badan"    => $pengukuran_berat_badan,
             "pengukuran_tinggi_badan"   => $pengukuran_tinggi_badan,
             "konseling_gizi_ayah"       => $konseling_gizi_ayah,
@@ -439,8 +464,8 @@ class Pemantauan extends MY_Controller
             "akta_lahir"                => $akta_lahir,
             "jaminan_kesehatan"         => $jaminan_kesehatan,
             "pengasuhan_paud"           => $pengasuhan_paud,
-            "id_user"               => $this->session->userdata("login")->id_user,
-            "id_posyandu"           => $this->session->userdata("login")->id_posyandu
+            "id_user"                   => $this->session->userdata("login")->id_user,
+            "id_posyandu"               => $this->session->userdata("login")->id_posyandu
         );
 
         $cekInput = $this->m_data->getWhere("no_kia", $data["no_kia"]);
@@ -568,7 +593,7 @@ class Pemantauan extends MY_Controller
         $this->bulanan_anak();
     }
 
-    public function export_bulanan_anak($bulan = NULL, $tahun = NULL)
+    public function export_bulanan_anak($bulan = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($bulan == NULL || $tahun == NULL) {
             redirect(base_url('pemantauan/bulanan-anak/') . date('m') . '/' . date('Y'));
@@ -577,7 +602,13 @@ class Pemantauan extends MY_Controller
         $bulananAnak = $this->m_data->getJoin("kia", "bulanan_anak.no_kia = kia.no_kia", "INNER");
         $bulananAnak = $this->m_data->getWhere("MONTH(bulanan_anak.created_at)", $bulan);
         $bulananAnak = $this->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
-        $bulananAnak = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        if($this->session->userdata("login")->level !== "super_admin"){
+            $bulananAnak = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $bulananAnak = $this->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }        
         $bulananAnak = $this->m_data->order_by("bulanan_anak.created_at", "ASC");
         $bulananAnak = $this->m_data->getData("bulanan_anak")->result();
 
