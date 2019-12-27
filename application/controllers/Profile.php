@@ -29,7 +29,7 @@ class Profile extends MY_Controller
             "nomor_hp"      => $no_hp,
             "alamat"        => $alamat
         ];
-        if(strlen($username >= 5)){
+        if(strlen($username) >= 5){
             $updateData = $this->m_data->update("user", $data, ["id_user" => $this->session->userdata("login")->id_user]);
             if ($updateData == 1) {
                 $this->session->set_flashdata("sukses", "Mengedit data $nama pada database");
