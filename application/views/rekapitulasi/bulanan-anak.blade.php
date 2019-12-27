@@ -58,6 +58,18 @@
                                 </select>
                             </div>
                         </div>
+                        @if ($CI->session->userdata("login")->level == "super_admin")
+                        <div class="col-md-3">
+                            <div class="form-group">                                
+                                <select name="id_posyandu" id="id_posyandu" required class="form-control" title="Pilih salah satu">
+                                    <option value="">Semua</option>
+                                    @foreach ($posyandu as $item)
+                                        <option value="{{ $item->id_posyandu }}" {{ $item->id_posyandu  == $id_posyandu ? "selected" : "" }}>{{ $item->nama_posyandu }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                         <div class="col-md-2 no-padding">
                             <button type="button" class="btn col-md-12 btn-primary" id="cari">
                                 <i class="fa fa-search"></i> Cari
@@ -65,7 +77,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 no-padding pull-right">
-                        <a href="{{ base_url('rekapitulasi/export-bulanan-anak/') . $kuartal .'/' . $_tahun }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
+                        <a href="{{ base_url('rekapitulasi/export-bulanan-anak/') . $kuartal .'/' . $_tahun . '/' . $id_posyandu }}" id="btnExport" type="button" class="btn pull-right col-md-6  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>
@@ -202,7 +214,8 @@
     $('#cari').click(function(){       
         let kuartal = $('#kuartal option:selected').val();
         let tahun   = $('#tahun option:selected').val();
-        window.location.href = "{{ base_url('rekapitulasi/bulanan-anak/') }}" + kuartal + "/" + tahun;
+        let posyandu    = $('#id_posyandu option:selected').val();
+        window.location.href = "{{ base_url('rekapitulasi/bulanan-anak/') }}" + kuartal + "/" + tahun + "/" + posyandu;
     });
 
     $(function () {

@@ -2,8 +2,8 @@
 
 class Rekap
 {
-    public function get_data_ibu_hamil($kuartal = NULL, $tahun = NULL)
-    {
+    public function get_data_ibu_hamil($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
+    {        
         $CI = &get_instance();
         if ($kuartal == 1) {
             $batasBulanBawah = 1;
@@ -33,7 +33,15 @@ class Rekap
         $ibuHamil = $CI->m_data->getWhere("MONTH(ibu_hamil.created_at) >=", $batasBulanBawah);
         $ibuHamil = $CI->m_data->getWhere("MONTH(ibu_hamil.created_at) <=", $batasBulanAtas);
         $ibuHamil = $CI->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
-        $ibuHamil = $CI->m_data->getWhere("id_posyandu", $CI->session->userdata("login")->id_posyandu);
+
+        if($CI->session->userdata("login")->level !== "super_admin"){
+            $ibuHamil = $CI->m_data->getWhere("id_posyandu", $CI->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $ibuHamil = $CI->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }        
+
         $ibuHamil = $CI->m_data->getData("ibu_hamil")->result();
 
         $dataTahun = $CI->m_data->select("YEAR(created_at) as tahun");
@@ -286,7 +294,7 @@ class Rekap
         return $data;
     }
 
-    public function get_data_bulanan_anak($kuartal = NULL, $tahun = NULL)
+    public function get_data_bulanan_anak($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         $CI = &get_instance();
         if ($kuartal == 1) {
@@ -317,7 +325,15 @@ class Rekap
         $bulananAnak = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) >=", $batasBulanBawah);
         $bulananAnak = $CI->m_data->getWhere("MONTH(bulanan_anak.created_at) <=", $batasBulanAtas);
         $bulananAnak = $CI->m_data->getWhere("YEAR(bulanan_anak.created_at)", $tahun);
-        $bulananAnak = $CI->m_data->getWhere("id_posyandu", $CI->session->userdata("login")->id_posyandu);
+
+        if($CI->session->userdata("login")->level !== "super_admin"){
+            $bulananAnak = $CI->m_data->getWhere("id_posyandu", $CI->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $bulananAnak = $CI->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }
+        
         $bulananAnak = $CI->m_data->getData("bulanan_anak")->result();
 
         $dataTahun = $CI->m_data->select("YEAR(created_at) as tahun");

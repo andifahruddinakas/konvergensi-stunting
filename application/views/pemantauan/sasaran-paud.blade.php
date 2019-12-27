@@ -50,6 +50,18 @@
                                 </select>
                             </div>
                         </div>
+                        @if ($CI->session->userdata("login")->level == "super_admin")
+                        <div class="col-md-3">
+                            <div class="form-group">                                
+                                <select name="id_posyandu" id="id_posyandu" required class="form-control" title="Pilih salah satu">
+                                    <option value="">Semua</option>
+                                    @foreach ($posyandu as $item)
+                                        <option value="{{ $item->id_posyandu }}" {{ $item->id_posyandu  == $id_posyandu ? "selected" : "" }}>{{ $item->nama_posyandu }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                         <div class="col-md-2 no-padding">
                             <button type="button" class="btn col-md-12 btn-primary" id="cari">
                                 <i class="fa fa-search"></i> Cari
@@ -57,10 +69,13 @@
                         </div>
                     </div>
                     <div class="col-md-3 no-padding pull-right">
+                        @if ($CI->session->userdata("login")->level !== "super_admin")
                         <button id="btn_input" type="button" class="btn col-md-6 btn-primary" data-toggle="modal" data-target="#modal-input-edit-data">
                             Input Data
                         </button>
-                        <a href="{{ base_url('pemantauan/export-sasaran-paud/') . $_tahun }}" id="btnExport" type="button" class="btn col-md-6  btn-danger">
+                        @endif
+                        <a href="{{ base_url('pemantauan/export-sasaran-paud/') . $_tahun . '/' . $id_posyandu }}" id="btnExport" 
+                        type="button" class="btn col-md-{{ $CI->session->userdata("login")->level !== "super_admin" ? "6" : "12"}}  btn-danger">
                             Export ke Excel
                         </a>                        
                     </div>
@@ -76,7 +91,9 @@
                         <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">Jenis Kelamin (L/P)</th>
                         <th rowspan="2" colspan="2" class="text-center" style="vertical-align: middle;">Usia Menurut Kategori</th>
                         <th rowspan="1" colspan="12" class="text-center" style="vertical-align: middle;">Pada Bulan Ini Apakah Anak Mendapatkan Pelayanan PAUD</th>
+                        @if ($CI->session->userdata("login")->level !== "super_admin")
                         <th rowspan="4" colspan="1" class="text-center" style="vertical-align: middle;">Aksi</th>
+                        @endif
                     </tr>
                     <tr>
                         <th rowspan="1" colspan="12" class="text-center" style="vertical-align: middle;">Mengikuti Layanan PAUD (Parenting Bagi Orang Tua Anak Usia 2 - < 3 Tahun) Atau Kelas PAUD Bagi Anak 3 - 6 Tahun</th>
@@ -115,6 +132,7 @@
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->oktober == "belum" ? "-" : $item->oktober }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->november == "belum" ? "-" : $item->november }}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{ $item->desember == "belum" ? "-" : $item->desember }}</td>
+                                    @if ($CI->session->userdata("login")->level !== "super_admin")
                                     <td class="text-center" style="vertical-align: middle;">
                                         <button                                             
                                             data-toggle="modal" 
@@ -147,6 +165,7 @@
                                             type="button" 
                                             class="hapusData btn btn-danger col-xs-12">Hapus</button>
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach                            
                         @else
@@ -479,10 +498,10 @@
 
     $(function () {
 
-        $('#cari').click(function(){
-            let bulan = $('#bulan option:selected').val();
+        $('#cari').click(function(){            
             let tahun = $('#tahun option:selected').val();
-            window.location.href = "{{ base_url('pemantauan/ibu-hamil/') }}" + bulan + "/" + tahun;
+            let posyandu    = $('#id_posyandu option:selected').val();
+            window.location.href = "{{ base_url('pemantauan/sasaran-paud/') }}" + tahun + "/" + posyandu;
         });
 
         $('#table-data').DataTable()

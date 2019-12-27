@@ -64,7 +64,8 @@
               <li><a href="{{ base_url('rekapitulasi/bulanan-anak/') }}"><i class="fa fa-circle-o"></i> 3 Bulanan Anak 0-2 Tahun</a></li>
             </ul>
           </li> 
-          <li class="treeview {{ $aktif == 'formulir_bantu' ? 'active' : '' }}">
+
+            {{-- <li class="treeview {{ $aktif == 'formulir_bantu' ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-wheelchair"></i> <span>Formulir Bantu</span>
                 <span class="pull-right-container">
@@ -72,11 +73,12 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                {{-- <li><a href="{{ base_url('formulir-bantu/layanan-paud') }}"><i class="fa fa-circle-o"></i> Layanan Paud Anak 2-6 tahun</a></li> --}}
+                <li><a href="{{ base_url('formulir-bantu/layanan-paud') }}"><i class="fa fa-circle-o"></i> Layanan Paud Anak 2-6 tahun</a></li>
                 <li><a href="{{ base_url('formulir-bantu/capaian-penerimaan-layanan') }}"><i class="fa fa-circle-o"></i> Capaian Penerimaan Layanan</a></li>
                 <li><a href="{{ base_url('formulir-bantu/konvergensi-desa') }}"><i class="fa fa-circle-o"></i> Konvergensi Desa</a></li>
               </ul>
-            </li>    
+            </li>    --}}
+
             <li class="{{ $aktif == 'scorcard' ? 'active' : '' }}">
                 <a href="{{ base_url('scorcard-konvergensi-desa') }}"><i class="fa fa-ambulance"></i> <span>Scorcard Konvergensi Desa</span></a>
               </li>        

@@ -6,9 +6,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Rekapitulasi extends MY_Controller
 {
-    public function ___construct()
+    public function __construct()
     {
-        parent::___construct();
+        parent::__construct();
     }
 
     public function index()
@@ -16,8 +16,8 @@ class Rekapitulasi extends MY_Controller
         redirect(base_url());
     }
 
-    public function ibu_hamil($kuartal = NULL, $tahun = NULL)
-    {
+    public function ibu_hamil($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
+    {        
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
         }
@@ -44,13 +44,18 @@ class Rekapitulasi extends MY_Controller
             redirect(base_url('rekapitulasi/ibu-hamil/') . $kuartal . '/' . $tahun);
         }
 
-        $data          = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
-        $data['title'] = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Ibu Hamil";
-        $data["aktif"] = "rekapitulasi";
+        $data               = $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id_posyandu);
+
+        $posyandu           = $this->m_data->getData("posyandu")->result();
+
+        $data['id_posyandu']= $id_posyandu;
+        $data['posyandu']   = $posyandu;
+        $data['title']      = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Ibu Hamil";
+        $data["aktif"]      = "rekapitulasi";
         return $this->loadView('rekapitulasi.ibu-hamil', $data);
     }
 
-    public function export_ibu_hamil($kuartal = NULL, $tahun = NULL)
+    public function export_ibu_hamil($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
@@ -78,7 +83,7 @@ class Rekapitulasi extends MY_Controller
             redirect(base_url('rekapitulasi/export-ibu-hamil/') . $kuartal . '/' . $tahun);
         }
 
-        $data = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
+        $data = $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id_posyandu);
 
         $styleJudul = [
             'font' => [
@@ -274,8 +279,8 @@ class Rekapitulasi extends MY_Controller
         $writer->save('php://output');
     }
 
-    public function bulanan_anak($kuartal = NULL, $tahun = NULL)
-    {
+    public function bulanan_anak($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
+    {        
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
         }
@@ -302,13 +307,16 @@ class Rekapitulasi extends MY_Controller
             redirect(base_url('rekapitulasi/bulanan-anak/') . $kuartal . '/' . $tahun);
         }
 
-        $data           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $posyandu           = $this->m_data->getData("posyandu")->result();
+        $data           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id_posyandu);
+        $data['id_posyandu']= $id_posyandu;
+        $data['posyandu']   = $posyandu;
         $data['title']  = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Anak 0-2 Tahun";
         $data["aktif"]  = "rekapitulasi";
         return $this->loadView('rekapitulasi.bulanan-anak', $data);
     }
 
-    public function export_bulanan_anak($kuartal = NULL, $tahun = NULL)
+    public function export_bulanan_anak($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
@@ -336,7 +344,7 @@ class Rekapitulasi extends MY_Controller
             redirect(base_url('rekapitulasi/export-bulanan-anak/') . $kuartal . '/' . $tahun);
         }
 
-        $data = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $data = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id_posyandu);
 
         $styleJudul = [
             'font' => [
@@ -534,20 +542,20 @@ class Rekapitulasi extends MY_Controller
         $sheet->getStyle('A7:S' . $sheet->getHighestRow())->applyFromArray($styleIsi);
         $sheet->getStyle('B7:C' . $sheet->getHighestRow())->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
 
-        
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
-        $filename = 'FORMULIR_3B_REKAPITULASI_HASIL_PEMANTAUAN_3_BULANAN_BAGI_ANAK_0_2_TAHUN_KUARTAL_' . strtoupper($kuartal . "_" . $tahun . "_" . date("H_i_s"));
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-
-        //SAVE AND DOWNLOAD
-        // $writer = new Xlsx($spreadsheet);
+        // SAVE AND DOWNLOAD
+        // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
         // $filename = 'FORMULIR_3B_REKAPITULASI_HASIL_PEMANTAUAN_3_BULANAN_BAGI_ANAK_0_2_TAHUN_KUARTAL_' . strtoupper($kuartal . "_" . $tahun . "_" . date("H_i_s"));
-        // header('Content-Type: application/vnd.ms-excel');
-        // header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        // header('Content-Type: application/pdf');
+        // header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
         // header('Cache-Control: max-age=0');
         // $writer->save('php://output');
+
+        
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'FORMULIR_3B_REKAPITULASI_HASIL_PEMANTAUAN_3_BULANAN_BAGI_ANAK_0_2_TAHUN_KUARTAL_' . strtoupper($kuartal . "_" . $tahun . "_" . date("H_i_s"));
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
     }
 }
