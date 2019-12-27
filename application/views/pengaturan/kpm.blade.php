@@ -68,6 +68,7 @@
                                         data-id="{{ $item->id_user }}" 
                                         data-nama_lengkap="{{ $item->nama_lengkap }}" 
                                         data-username="{{ $item->username }}"                                        
+                                        data-posyandu="{{ $item->id_posyandu }}"   
                                         data-toggle="modal" 
                                         data-target="#modal-input-edit-data" 
                                         title="Edit" 
@@ -102,12 +103,12 @@
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"><b>Peringatan Hapus Data</b></h4>
         </div>
-        <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pengaturan/hapus-posyandu') }}">
+        <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pengaturan/hapus-kpm') }}">
             <div class="modal-body">  
                 <b>Peringatan!</b> 
                 <span id="info_hapus">Kamu akan menghapus data Rafli Firdausy</span> <br>
                 <span>Data yang di hapus tidak dapat di kembalikan. Tetap hapus ?</span>
-                <input type="hidden" name="id_posyandu" id="idPosyandu">
+                <input type="hidden" name="id_user" id="idUser">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -143,14 +144,17 @@
                     <div class="form-group">
                         <label class="form-label">Username</label>
                         <input required type="text" id="username_kpm" name="username_kpm" class="form-control">  
+                        <small id="error_username" style="color:red"></small>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Password</label>
+                        <label id="label_pass" class="form-label">Password</label>
                         <input required type="password" id="pass_kpm" name="pass_kpm" class="form-control">  
+                        <small id="error_pass" style="color:red"></small>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Konfirmasi Password</label>
                         <input required type="password" id="konfirmpass_kpm" name="konfirmpass_kpm" class="form-control">  
+                        <small id="error_konfirm" style="color:red"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -184,6 +188,9 @@
         $("#username_kpm").val('');
         $("#pass_kpm").val('');
         $("#konfirmpass_kpm").val('');
+
+        $("#pass_kpm").prop('required',true);
+        $("#konfirmpass_kpm").prop('required',true);
     });
 
     $(".editData").click(function(){
@@ -191,21 +198,68 @@
         $("#modalTitle").text("Edit Data Kader Pembangunan Manusia");
 
         let id              = $(this).data('id');
-        let nama_posyandu   = $(this).data('nama_posyandu');
-        let alamat_posyandu = $(this).data('alamat_posyandu');
+        let nama_lengkap    = $(this).data('nama_lengkap');
+        let username        = $(this).data('username');
+        let posyandu        = $(this).data('posyandu');
+        
+        $("#nama_kpm").val(nama_lengkap);
+        $("#posyandu").val(posyandu);
+        $("#username_kpm").val(username);
+        $("#id_user").val(id);
 
-        $("#id_posyandu").val(id);
-        $("#nama_posyandu").val(nama_posyandu);
-        $("#alamat_posyandu").val(alamat_posyandu);
+        $("#label_pass").text("Password (opsional - isi jika ingin merubah password user KPM ini)");
+        
+        $("#pass_kpm").prop('required',false);
+        $("#konfirmpass_kpm").prop('required',false);
+
+        $("#error_username").text("");
+        $("#error_username").text("");
+        $("#error_konfirm").text("");
+       
     });
 
     $(".hapusData").click(function(){
         let id      = $(this).data('id');
-        let nama    = $(this).data('nama_posyandu');
+        let nama    = $(this).data('nama_lengkap');
     
         $("#info_hapus").text("Kamu akan menghapus data " + nama);
-        $("#idPosyandu").val(id);
+        $("#idUser").val(id);
     });
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+            callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+
+    $('#username_kpm').keyup(delay(function (e) {
+       if($("#username_kpm").val().length < 5){
+           $("#error_username").text("Username Minimal 5 Karakter")
+       } else {
+        $("#error_username").text("");
+       }
+    }, 500));
+
+    $('#pass_kpm').keyup(delay(function (e) {
+        if($("#pass_kpm").val().length < 8){
+           $("#error_pass").text("Password Minimal 8 Karakter")
+       } else {
+        $("#error_pass").text("");
+       }
+    }, 500));
+
+    $('#konfirmpass_kpm').keyup(delay(function (e) {
+        if($("#pass_kpm").val() != $("#konfirmpass_kpm").val()){
+           $("#error_konfirm").text("Konfirmasi Password Salah")
+       } else {
+        $("#error_konfirm").text("");
+       }
+    }, 500));
 
     $(function () {
         $('#cari').click(function(){

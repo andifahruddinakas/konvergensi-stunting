@@ -6,8 +6,8 @@ class Pengaturan extends MY_Controller
 {
     public function __construct()
     {
-        parent::__construct(); 
-        if($this->session->userdata("login")->level !== "super_admin"){
+        parent::__construct();
+        if ($this->session->userdata("login")->level !== "super_admin") {
             redirect(base_url());
         }
     }
@@ -17,16 +17,18 @@ class Pengaturan extends MY_Controller
         redirect(base_url());
     }
 
-    public function posyandu(){    
+    public function posyandu()
+    {
         $posyandu   = $this->m_data->getData("posyandu")->result();
 
         $data["aktif"]      = "pengaturan";
         $data['posyandu']   = $posyandu;
-        $data['title']      = "Pengaturan Posyandu";        
+        $data['title']      = "Pengaturan Posyandu";
         return $this->loadView('pengaturan.posyandu', $data);
     }
 
-    public function insertPosyandu(){
+    public function insertPosyandu()
+    {
         $nama_posyandu      = $this->input->post('nama_posyandu');
         $alamat_posyandu    = $this->input->post('alamat_posyandu');
 
@@ -43,7 +45,8 @@ class Pengaturan extends MY_Controller
         $this->posyandu();
     }
 
-    public function edit_posyandu(){
+    public function edit_posyandu()
+    {
         $id_posyandu        = $this->input->post('id_posyandu');
         $nama_posyandu      = $this->input->post('nama_posyandu');
         $alamat_posyandu    = $this->input->post('alamat_posyandu');
@@ -62,7 +65,8 @@ class Pengaturan extends MY_Controller
         redirect(base_url("pengaturan/posyandu"));
     }
 
-    public function hapus_posyandu(){
+    public function hapus_posyandu()
+    {
         $id_posyandu        = $this->input->post('id_posyandu');
         $hapus              = $this->m_data->delete(array("id_posyandu" => $id_posyandu), "posyandu");
         if ($hapus > 0) {
@@ -73,7 +77,8 @@ class Pengaturan extends MY_Controller
         redirect(base_url("pengaturan/posyandu"));
     }
 
-    public function kpm(){
+    public function kpm()
+    {
         $posyandu   = $this->m_data->getData("posyandu")->result();
 
         $kpm        = $this->m_data->select([
@@ -92,11 +97,12 @@ class Pengaturan extends MY_Controller
         $data["aktif"]      = "pengaturan";
         $data['posyandu']   = $posyandu;
         $data['kpm']        = $kpm;
-        $data['title']      = "Pengaturan Kader Pembangunan Manusia";        
+        $data['title']      = "Pengaturan Kader Pembangunan Manusia";
         return $this->loadView('pengaturan.kpm', $data);
     }
 
-    public function insertKpm(){
+    public function insertKpm()
+    {
         $nama_kpm           = $this->input->post('nama_kpm');
         $posyandu           = $this->input->post('posyandu');
         $username_kpm       = $this->input->post('username_kpm');
@@ -111,17 +117,87 @@ class Pengaturan extends MY_Controller
             "level"             => "admin"
         );
 
-        if($pass_kpm == $konfirmpass_kpm){
-            $insertKpm = $this->m_data->insert("user", $data);
-            if ($insertKpm) {
-                $this->session->set_flashdata("sukses", "Menyimpan data pada Kader Pembangunan Manusia");
+        if (strlen($username_kpm) >= 5) {
+            if (strlen($pass_kpm) >= 8) {
+                if ($pass_kpm == $konfirmpass_kpm) {
+                    $insertKpm = $this->m_data->insert("user", $data);
+                    if ($insertKpm) {
+                        $this->session->set_flashdata("sukses", "Menyimpan data pada Kader Pembangunan Manusia");
+                    } else {
+                        $this->session->set_flashdata("gagal", "Username sudah terdaftar, silahkan gunakan username lainnya");
+                    }
+                } else {
+                    $this->session->set_flashdata("gagal", "Konfirmasi Password salah!");
+                }
             } else {
-                $this->session->set_flashdata("gagal", "Username sudah terdaftar, silahkan gunakan username lainnya");
+                $this->session->set_flashdata("gagal", "Passowrd Minimal 8 Karakter!");
             }
         } else {
-            $this->session->set_flashdata("gagal", "Konfirmasi Password salah!");
+            $this->session->set_flashdata("gagal", "Username Minimal 5 Karakter!");
         }
-            
+
+        redirect(base_url("pengaturan/kpm"));
+    }
+
+    public function hapus_kpm()
+    {
+        $id_user        = $this->input->post('id_user');
+        $hapus          = $this->m_data->delete(array("id_user" => $id_user), "user");
+        if ($hapus > 0) {
+            $this->session->set_flashdata("sukses", "Data berhasil di hapus dari database");
+        } else {
+            $this->session->set_flashdata("gagal", $this->m_data->getError());
+        }
+        redirect(base_url("pengaturan/kpm"));
+    }
+
+    public function edit_kpm()
+    {
+        $nama_kpm           = $this->input->post('nama_kpm');
+        $posyandu           = $this->input->post('posyandu');
+        $username_kpm       = $this->input->post('username_kpm');
+        $pass_kpm           = $this->input->post('pass_kpm');
+        $konfirmpass_kpm    = $this->input->post('konfirmpass_kpm');
+        $id_user            = $this->input->post('id_user');
+
+        if (strlen($username_kpm) >= 5) {
+            if ($pass_kpm != "") {
+                if (strlen($pass_kpm) >= 8) {
+                    if ($pass_kpm == $konfirmpass_kpm) {
+                        $data = array(
+                            "id_posyandu"       => $posyandu,
+                            "nama_lengkap"      => $nama_kpm,
+                            "username"          => $username_kpm,
+                            "password"          => md5($pass_kpm)
+                        );
+                        $updateData = $this->m_data->update("user", $data, ["id_user" => $id_user]);
+                        if ($updateData == 1) {
+                            $this->session->set_flashdata("sukses", "Mengedit data $nama_kpm pada database");
+                        } else {
+                            $this->session->set_flashdata("gagal", $this->m_data->getError());
+                        }
+                    } else {
+                        $this->session->set_flashdata("gagal", "Konfirmasi Password salah!");
+                    }
+                } else {
+                    $this->session->set_flashdata("gagal", "Passowrd Minimal 8 Karakter!");
+                }
+            } else {
+                $data = array(
+                    "id_posyandu"       => $posyandu,
+                    "nama_lengkap"      => $nama_kpm,
+                    "username"          => $username_kpm
+                );
+                $updateData = $this->m_data->update("user", $data, ["id_user" => $id_user]);
+                if ($updateData == 1) {
+                    $this->session->set_flashdata("sukses", "Mengedit data $nama_kpm pada database");
+                } else {
+                    $this->session->set_flashdata("gagal", $this->m_data->getError());
+                }
+            }
+        } else {
+            $this->session->set_flashdata("gagal", "Username Minimal 5 Karakter!");
+        }
         redirect(base_url("pengaturan/kpm"));
     }
 }
