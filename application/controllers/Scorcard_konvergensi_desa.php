@@ -16,7 +16,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
         redirect(base_url("scorcard-konvergensi-desa/tampil"));
     }
 
-    public function tampil($kuartal = NULL, $tahun = NULL)
+    public function tampil($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
@@ -66,7 +66,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $JTRT_IbuHamil  = $this->m_data->getWhere("MONTH(ibu_hamil.created_at) >=", $batasBulanBawah);
         $JTRT_IbuHamil  = $this->m_data->getWhere("MONTH(ibu_hamil.created_at) <=", $batasBulanAtas);
         $JTRT_IbuHamil  = $this->m_data->getWhere("YEAR(ibu_hamil.created_at)", $tahun);
-        $JTRT_IbuHamil  = $this->m_data->getData("ibu_hamil")->result();
+        $JTRT_IbuHamil  = $this->m_data->getData("ibu_hamil")->result();        
 
         $JTRT_BulananAnak  = $this->m_data->select("bulanan_anak.no_kia as no_kia");
         $JTRT_BulananAnak  = $this->m_data->distinct();
@@ -85,8 +85,8 @@ class Scorcard_konvergensi_desa extends MY_Controller
             }
         }
 
-        $ibu_hamil              = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
-        $bulanan_anak           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $ibu_hamil              = $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id_posyandu);
+        $bulanan_anak           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id_posyandu);
 
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
         $tikar  = array("TD" => 0, "M" => 0, "K" => 0, "H" => 0);
@@ -121,6 +121,10 @@ class Scorcard_konvergensi_desa extends MY_Controller
             $jumlahGiziBukanNormal = 0;
         }
 
+
+        $posyandu           = $this->m_data->getData("posyandu")->result();
+        $data['id_posyandu']= $id_posyandu;
+        $data['posyandu']   = $posyandu;
         $data["JTRT"]                   = sizeof($dataNoKia);
         $data["jumlahKekRisti"]         = $jumlahKekRisti;
         $data["jumlahGiziBukanNormal"]  = $jumlahGiziBukanNormal;
@@ -135,7 +139,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
         return $this->loadView('scorcard-konvergensi.show-scorcard', $data);
     }
 
-    public function export($kuartal = NULL, $tahun = NULL)
+    public function export($kuartal = NULL, $tahun = NULL, $id_posyandu = NULL)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = NULL;
@@ -204,8 +208,8 @@ class Scorcard_konvergensi_desa extends MY_Controller
             }
         }
 
-        $ibu_hamil              = $this->rekap->get_data_ibu_hamil($kuartal, $tahun);
-        $bulanan_anak           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun);
+        $ibu_hamil              = $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id_posyandu);
+        $bulanan_anak           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id_posyandu);
 
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
         $tikar  = array("TD" => 0, "M" => 0, "K" => 0, "H" => 0);

@@ -308,7 +308,7 @@ class Rekapitulasi extends MY_Controller
         }
 
         $posyandu           = $this->m_data->getData("posyandu")->result();
-        $data           = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id_posyandu);
+        $data               = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id_posyandu);
         $data['id_posyandu']= $id_posyandu;
         $data['posyandu']   = $posyandu;
         $data['title']  = "Rekapitulasi Hasil Pemantauan 3 Bulananan Bagi Anak 0-2 Tahun";
