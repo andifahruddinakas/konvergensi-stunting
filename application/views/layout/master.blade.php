@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta content="Go Barang Bukti dan Tilang" name="description" />
     <meta content="Rafli Firdausy Irawan" name="author" />
-    <title>@yield('tab-title') | E-PPKPS - Pengolahan dan Pelaporan Konvergensi Pencegahan Stunting</title>
+    <title>@yield('tab-title') | {{ $app_name }} | {{ $app_complete_name }}</title>
     @yield('headers')
 </head>
 <body class="@yield('class-body')">

@@ -21,49 +21,55 @@
         <div class="col-lg-3 col-xs-6">
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>12</h3>
-              <p>Coming Soon</p>
+              @if ($CI->session->userdata("login")->level == "super_admin")
+                <h3>{{ $totalPosyandu }}</h3>
+                <p>Posyandu Terdaftar</p>
+              @else
+                <h3>{{ $ibuHamilBulanIni }}</h3>
+                <p>Ibu Hamil Periksa Bulan ini</p>
+              @endif              
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
-            </div>
-            <a href="#" class="small-box-footer">Info Lengkap <i class="fa fa-arrow-circle-right"></i></a>
+            </div>            
           </div>
         </div>
         <div class="col-lg-3 col-xs-6">
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>123</h3>
-              <p>Coming Soon</p>
+            @if ($CI->session->userdata("login")->level == "super_admin")
+              <h3>{{ $totalKpm }}</h3>
+              <p>KPM Terdaftar</p>
+            @else
+              <h3>{{ $anakBulanIni }}</h3>
+              <p>Anak Periksa Bulan ini</p>
+            @endif                     
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="#" class="small-box-footer">Info Lengkap <i class="fa fa-arrow-circle-right"></i></a>
+            </div>            
           </div>
         </div>
         <div class="col-lg-3 col-xs-6">
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>123</h3>
-              <p>Coming Soon</p>
+              <h3>{{ $ibuHamilSemua }}</h3>
+              <p>Total Periksa Ibu Hamil</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
-            </div>
-            <a href="#" class="small-box-footer">Info Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+            </div>            
           </div>
         </div>        
         <div class="col-lg-3 col-xs-6">          
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>123</h3>
-              <p>Coming Soon</p>
+              <h3>{{ $anakSemua }}</h3>
+              <p>Total Periksa Anak</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">Info Selengkapnya<i class="fa fa-arrow-circle-right"></i></a>
+            </div>            
           </div>
         </div>
       </div>

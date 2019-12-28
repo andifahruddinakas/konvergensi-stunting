@@ -122,9 +122,9 @@ class Scorcard_konvergensi_desa extends MY_Controller
         }
 
 
-        $posyandu           = $this->m_data->getData("posyandu")->result();
-        $data['id_posyandu']= $id_posyandu;
-        $data['posyandu']   = $posyandu;
+        $posyandu                       = $this->m_data->getData("posyandu")->result();
+        $data['id_posyandu']            = $id_posyandu;
+        $data['posyandu']               = $posyandu;
         $data["JTRT"]                   = sizeof($dataNoKia);
         $data["jumlahKekRisti"]         = $jumlahKekRisti;
         $data["jumlahGiziBukanNormal"]  = $jumlahGiziBukanNormal;
