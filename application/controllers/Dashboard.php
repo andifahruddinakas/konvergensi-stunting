@@ -9,9 +9,8 @@ class Dashboard extends MY_Controller
     }
 
     public function index()
-    {       
+    {               
         $totalPosyandu  = $this->m_data->getData("posyandu")->num_rows();
-
         $totalKpm       = $this->m_data->getWhere("level", "admin");
         $totalKpm       = $this->m_data->getData("user")->num_rows();
 

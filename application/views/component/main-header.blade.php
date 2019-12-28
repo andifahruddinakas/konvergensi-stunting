@@ -20,7 +20,7 @@
   
                   <p>
                     {{ ucfirst($user->nama_lengkap) }}
-                    <small>{{ ucfirst($user->level) }}</small>
+                    <small>{{ ucfirst($user->level) . " - " . ucwords(strtolower($user->nama_posyandu))  }}</small>
                   </p>
                 </li>
                 <!-- Menu Footer-->

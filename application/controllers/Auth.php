@@ -22,9 +22,11 @@ class Auth extends MY_Controller
         $username = $this->input->post("username");
         $password = $this->input->post("password");
 
-        $cekLogin = $this->m_data->getWhere("username", $username);
-        $cekLogin = $this->m_data->getWhere("password", md5($password));        
-        $cekLogin = $this->m_data->getData("user")->row();        
+        $cekLogin   = $this->m_data->select(["user.*", "posyandu.nama_posyandu"]);
+        $cekLogin   = $this->m_data->getJoin("posyandu", "user.id_posyandu = posyandu.id_posyandu", "INNER");
+        $cekLogin   = $this->m_data->getWhere("username", $username);
+        $cekLogin   = $this->m_data->getWhere("password", md5($password));        
+        $cekLogin   = $this->m_data->getData("user")->row();        
 
         if ($cekLogin) {
             $this->session->set_userdata("login", $cekLogin);

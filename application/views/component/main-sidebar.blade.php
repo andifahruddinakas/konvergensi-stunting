@@ -5,8 +5,8 @@
             <img src="{{ asset('dist/img/ava.png') }}" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p>{{ ucfirst($user->nama_lengkap) }}</p>
-            <a href="#"><i class="fa fa-circle text-success"></i> {{ ucfirst($user->level) }}</a>
+            <p>{{ ucfirst($user->nama_lengkap) }}</p>            
+            <a href="#"><i class="fa fa-circle text-success"></i> {{ ucfirst($user->level) . " - " . ucwords(strtolower($user->nama_posyandu))  }}</a>
           </div>
         </div>        
         <ul class="sidebar-menu" data-widget="tree">
