@@ -26,7 +26,7 @@ hold-transition login-page
 @section('body')
 <div class="login-box">
     <div class="login-logo">
-      <a href="{{ base_url() }}"><b>MASUK </b>E-PPKPS</a>
+      <a href="{{ base_url() }}"><b>MASUK </b>{{ strtoupper($app_name) }}</a>
     </div>
     @if ($CI->session->flashdata("gagal"))
       <div class="alert alert-danger alert-dismissible">
