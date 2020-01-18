@@ -121,6 +121,7 @@ class Scorcard_konvergensi_desa extends MY_Controller
             $jumlahGiziBukanNormal = 0;
         }
 
+        // d($bulanan_anak);
 
         $posyandu                       = $this->m_data->getData("posyandu")->result();
         $data['id_posyandu']            = $id_posyandu;
@@ -290,10 +291,12 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $worksheet->getCell('I27')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_berat_badan"]["persen"]);
         $worksheet->getCell('G28')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_tinggi_badan"]["Y"]);
         $worksheet->getCell('I28')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengukuran_tinggi_badan"]["persen"]);
-        $worksheet->getCell('I29')->setValue("xx.xx");
-        $worksheet->getCell('G30')->setValue("xx.xx");
-        $worksheet->getCell('H30')->setValue("xx.xx");
-        $worksheet->getCell('I30')->setValue("xx.xx");
+        //MULAI BELUM JADI
+        $worksheet->getCell('I29')->setValue("");
+        $worksheet->getCell('G30')->setValue("0");
+        $worksheet->getCell('H30')->setValue("0");
+        $worksheet->getCell('I30')->setValue("0");
+        //SAMPE SINI
         $worksheet->getCell('G31')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["kunjungan_rumah"]["Y"]);
         $worksheet->getCell('I31')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["kunjungan_rumah"]["persen"]);
         $worksheet->getCell('G32')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["air_bersih"]["Y"]);
@@ -307,8 +310,10 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $worksheet->getCell('G36')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengasuhan_paud"]["Y"]);
         $worksheet->getCell('I36')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengasuhan_paud"]["persen"]);
 
-        $worksheet->getCell('G37')->setValue("x.xx");
-        $worksheet->getCell('I37')->setValue("x.xx");
+        //BELUM JADI JUGA
+        $worksheet->getCell('G37')->setValue("0");
+        $worksheet->getCell('I37')->setValue("0.00");
+        //SAMPE SINI
 
         $JLD_IbuHamil   = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_diterima"];
         $JLD_Anak       = $bulanan_anak["tingkatKonvergensiDesa"] == NULL ? "0" : $bulanan_anak["tingkatKonvergensiDesa"]["jumlah_diterima"];
