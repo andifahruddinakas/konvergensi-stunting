@@ -121,11 +121,81 @@ class Scorcard_konvergensi_desa extends MY_Controller
             $jumlahGiziBukanNormal = 0;
         }
 
-        // d($bulanan_anak);
+        //START ANAK PAUD------------------------------------------------------------
+        $totalAnak = [
+                        "januari"   => ["total" => 0, "v" => 0 ], 
+                        "februari"  => ["total" => 0, "v" => 0 ],  
+                        "maret"     => ["total" => 0, "v" => 0 ],  
+                        "april"     => ["total" => 0, "v" => 0 ],  
+                        "mei"       => ["total" => 0, "v" => 0 ],  
+                        "juni"      => ["total" => 0, "v" => 0 ], 
+                        "juli"      => ["total" => 0, "v" => 0 ],  
+                        "agustus"   => ["total" => 0, "v" => 0 ],  
+                        "september" => ["total" => 0, "v" => 0 ],  
+                        "oktober"   => ["total" => 0, "v" => 0 ], 
+                        "november"  => ["total" => 0, "v" => 0 ], 
+                        "desember"  => ["total" => 0, "v" => 0 ]
+                    ];
+                    
+        if($this->session->userdata("login")->level !== "super_admin"){
+            $anak2sd6 = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        } else {
+            if($id_posyandu != NULL){
+                $anak2sd6 = $this->m_data->getWhere("id_posyandu", $id_posyandu);
+            }
+        }        
+        $anak2sd6 = $this->m_data->getWhere("YEAR(sasaran_paud.created_at)", $tahun);
+        $anak2sd6   = $this->m_data->getData("sasaran_paud")->result();
+        foreach($anak2sd6 as $datax){            
+            $datax->januari  != "belum" ? $totalAnak["januari"]["total"]++   : $totalAnak["januari"]["total"];
+            $datax->februari != "belum" ? $totalAnak["februari"]["total"]++  : $totalAnak["februari"]["total"];
+            $datax->maret    != "belum" ? $totalAnak["maret"]["total"]++     : $totalAnak["maret"]["total"];
+            $datax->april    != "belum" ? $totalAnak["april"]["total"]++     : $totalAnak["april"]["total"];
+            $datax->mei      != "belum" ? $totalAnak["mei"]["total"]++       : $totalAnak["mei"]["total"];
+            $datax->juni     != "belum" ? $totalAnak["juni"]["total"]++      : $totalAnak["juni"]["total"];
+            $datax->juli     != "belum" ? $totalAnak["juni"]["total"]++      : $totalAnak["juni"]["total"];
+            $datax->agustus  != "belum" ? $totalAnak["agustus"]["total"]++   : $totalAnak["agustus"]["total"];
+            $datax->september!= "belum" ? $totalAnak["juni"]["total"]++      : $totalAnak["juni"]["total"];
+            $datax->oktober  != "belum" ? $totalAnak["oktober"]["total"]++   : $totalAnak["oktober"]["total"];
+            $datax->november != "belum" ? $totalAnak["november"]["total"]++  : $totalAnak["november"]["total"];
+            $datax->desember != "belum" ? $totalAnak["desember"]["total"]++  : $totalAnak["desember"]["total"];
 
-        $posyandu                       = $this->m_data->getData("posyandu")->result();
+            $datax->januari  == "v" ? $totalAnak["januari"]["v"]++   : $totalAnak["januari"]["v"];
+            $datax->februari == "v" ? $totalAnak["februari"]["v"]++  : $totalAnak["februari"]["v"];
+            $datax->maret    == "v" ? $totalAnak["maret"]["v"]++     : $totalAnak["maret"]["v"];
+            $datax->april    == "v" ? $totalAnak["april"]["v"]++     : $totalAnak["april"]["v"];
+            $datax->mei      == "v" ? $totalAnak["mei"]["v"]++       : $totalAnak["mei"]["v"];
+            $datax->juni     == "v" ? $totalAnak["juni"]["v"]++      : $totalAnak["juni"]["v"];
+            $datax->juli     == "v" ? $totalAnak["juni"]["v"]++      : $totalAnak["juni"]["v"];
+            $datax->agustus  == "v" ? $totalAnak["agustus"]["v"]++   : $totalAnak["agustus"]["v"];
+            $datax->september== "v" ? $totalAnak["juni"]["v"]++      : $totalAnak["juni"]["v"];
+            $datax->oktober  == "v" ? $totalAnak["oktober"]["v"]++   : $totalAnak["oktober"]["v"];
+            $datax->november == "v" ? $totalAnak["november"]["v"]++  : $totalAnak["november"]["v"];
+            $datax->desember == "v" ? $totalAnak["desember"]["v"]++  : $totalAnak["desember"]["v"];
+        }     
+        
+        $dataAnak0sd2Tahun  = array("jumlah" => 0, "persen" => 0);
+        if($kuartal == 1){
+            $jmlAnk = $totalAnak["januari"]["total"] + $totalAnak["februari"]["total"] + $totalAnak["maret"]["total"];
+            $jmlV   = $totalAnak["januari"]["v"] + $totalAnak["februari"]["v"] + $totalAnak["maret"]["v"];            
+        } else if($kuartal == 2){
+            $jmlAnk = $totalAnak["april"]["total"] + $totalAnak["mei"]["total"] + $totalAnak["juni"]["total"];
+            $jmlV   = $totalAnak["april"]["v"] + $totalAnak["mei"]["v"] + $totalAnak["juni"]["v"];            
+        } else if($kuartal == 3){
+            $jmlAnk = $totalAnak["juli"]["total"] + $totalAnak["agustus"]["total"] + $totalAnak["september"]["total"];
+            $jmlV   = $totalAnak["juli"]["v"] + $totalAnak["agustus"]["v"] + $totalAnak["september"]["v"];            
+        } else if($kuartal == 4){
+            $jmlAnk = $totalAnak["oktober"]["total"] + $totalAnak["november"]["total"] + $totalAnak["desember"]["total"];
+            $jmlV   = $totalAnak["oktober"]["v"] + $totalAnak["november"]["v"] + $totalAnak["desember"]["v"];            
+        }        
+        $dataAnak0sd2Tahun["jumlah"]    = $jmlV;
+        $dataAnak0sd2Tahun["persen"]    = $jmlAnk != 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
+
+        //END ANAK PAUD------------------------------------------------------------
+
+        $data["dataAnak0sd2Tahun"]      = $dataAnak0sd2Tahun;
         $data['id_posyandu']            = $id_posyandu;
-        $data['posyandu']               = $posyandu;
+        $data['posyandu']               = $this->m_data->getData("posyandu")->result();
         $data["JTRT"]                   = sizeof($dataNoKia);
         $data["jumlahKekRisti"]         = $jumlahKekRisti;
         $data["jumlahGiziBukanNormal"]  = $jumlahGiziBukanNormal;
@@ -247,6 +317,78 @@ class Scorcard_konvergensi_desa extends MY_Controller
             $bulanan_anak["dataFilter"] = [];
         }            
 
+         //START ANAK PAUD------------------------------------------------------------
+         $totalAnak = [
+            "januari"   => ["total" => 0, "v" => 0 ], 
+            "februari"  => ["total" => 0, "v" => 0 ],  
+            "maret"     => ["total" => 0, "v" => 0 ],  
+            "april"     => ["total" => 0, "v" => 0 ],  
+            "mei"       => ["total" => 0, "v" => 0 ],  
+            "juni"      => ["total" => 0, "v" => 0 ], 
+            "juli"      => ["total" => 0, "v" => 0 ],  
+            "agustus"   => ["total" => 0, "v" => 0 ],  
+            "september" => ["total" => 0, "v" => 0 ],  
+            "oktober"   => ["total" => 0, "v" => 0 ], 
+            "november"  => ["total" => 0, "v" => 0 ], 
+            "desember"  => ["total" => 0, "v" => 0 ]
+        ];
+        
+        if($this->session->userdata("login")->level !== "super_admin"){
+        $anak2sd6 = $this->m_data->getWhere("id_posyandu", $this->session->userdata("login")->id_posyandu);
+        } else {
+        if($id_posyandu != NULL){
+            $anak2sd6 = $this->m_data->getWhere("id_posyandu", $id_posyandu);
+        }
+        }        
+        $anak2sd6 = $this->m_data->getWhere("YEAR(sasaran_paud.created_at)", $tahun);
+        $anak2sd6   = $this->m_data->getData("sasaran_paud")->result();
+        foreach($anak2sd6 as $datax){            
+        $datax->januari  != "belum" ? $totalAnak["januari"]["total"]++   : $totalAnak["januari"]["total"];
+        $datax->februari != "belum" ? $totalAnak["februari"]["total"]++  : $totalAnak["februari"]["total"];
+        $datax->maret    != "belum" ? $totalAnak["maret"]["total"]++     : $totalAnak["maret"]["total"];
+        $datax->april    != "belum" ? $totalAnak["april"]["total"]++     : $totalAnak["april"]["total"];
+        $datax->mei      != "belum" ? $totalAnak["mei"]["total"]++       : $totalAnak["mei"]["total"];
+        $datax->juni     != "belum" ? $totalAnak["juni"]["total"]++      : $totalAnak["juni"]["total"];
+        $datax->juli     != "belum" ? $totalAnak["juni"]["total"]++      : $totalAnak["juni"]["total"];
+        $datax->agustus  != "belum" ? $totalAnak["agustus"]["total"]++   : $totalAnak["agustus"]["total"];
+        $datax->september!= "belum" ? $totalAnak["juni"]["total"]++      : $totalAnak["juni"]["total"];
+        $datax->oktober  != "belum" ? $totalAnak["oktober"]["total"]++   : $totalAnak["oktober"]["total"];
+        $datax->november != "belum" ? $totalAnak["november"]["total"]++  : $totalAnak["november"]["total"];
+        $datax->desember != "belum" ? $totalAnak["desember"]["total"]++  : $totalAnak["desember"]["total"];
+
+        $datax->januari  == "v" ? $totalAnak["januari"]["v"]++   : $totalAnak["januari"]["v"];
+        $datax->februari == "v" ? $totalAnak["februari"]["v"]++  : $totalAnak["februari"]["v"];
+        $datax->maret    == "v" ? $totalAnak["maret"]["v"]++     : $totalAnak["maret"]["v"];
+        $datax->april    == "v" ? $totalAnak["april"]["v"]++     : $totalAnak["april"]["v"];
+        $datax->mei      == "v" ? $totalAnak["mei"]["v"]++       : $totalAnak["mei"]["v"];
+        $datax->juni     == "v" ? $totalAnak["juni"]["v"]++      : $totalAnak["juni"]["v"];
+        $datax->juli     == "v" ? $totalAnak["juni"]["v"]++      : $totalAnak["juni"]["v"];
+        $datax->agustus  == "v" ? $totalAnak["agustus"]["v"]++   : $totalAnak["agustus"]["v"];
+        $datax->september== "v" ? $totalAnak["juni"]["v"]++      : $totalAnak["juni"]["v"];
+        $datax->oktober  == "v" ? $totalAnak["oktober"]["v"]++   : $totalAnak["oktober"]["v"];
+        $datax->november == "v" ? $totalAnak["november"]["v"]++  : $totalAnak["november"]["v"];
+        $datax->desember == "v" ? $totalAnak["desember"]["v"]++  : $totalAnak["desember"]["v"];
+        }     
+
+        $dataAnak0sd2Tahun  = array("jumlah" => 0, "persen" => 0);
+        if($kuartal == 1){
+        $jmlAnk = $totalAnak["januari"]["total"] + $totalAnak["februari"]["total"] + $totalAnak["maret"]["total"];
+        $jmlV   = $totalAnak["januari"]["v"] + $totalAnak["februari"]["v"] + $totalAnak["maret"]["v"];            
+        } else if($kuartal == 2){
+        $jmlAnk = $totalAnak["april"]["total"] + $totalAnak["mei"]["total"] + $totalAnak["juni"]["total"];
+        $jmlV   = $totalAnak["april"]["v"] + $totalAnak["mei"]["v"] + $totalAnak["juni"]["v"];            
+        } else if($kuartal == 3){
+        $jmlAnk = $totalAnak["juli"]["total"] + $totalAnak["agustus"]["total"] + $totalAnak["september"]["total"];
+        $jmlV   = $totalAnak["juli"]["v"] + $totalAnak["agustus"]["v"] + $totalAnak["september"]["v"];            
+        } else if($kuartal == 4){
+        $jmlAnk = $totalAnak["oktober"]["total"] + $totalAnak["november"]["total"] + $totalAnak["desember"]["total"];
+        $jmlV   = $totalAnak["oktober"]["v"] + $totalAnak["november"]["v"] + $totalAnak["desember"]["v"];            
+        }        
+        $dataAnak0sd2Tahun["jumlah"]    = $jmlV;
+        $dataAnak0sd2Tahun["persen"]    = $jmlAnk != 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
+
+        //END ANAK PAUD------------------------------------------------------------
+
         $inputFileType  = 'Xlsx';
         $inputFileName  = "assets/template/scorcard.xlsx";
         $reader         = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
@@ -311,8 +453,8 @@ class Scorcard_konvergensi_desa extends MY_Controller
         $worksheet->getCell('I36')->setValue($bulanan_anak["capaianKonvergensi"] == NULL ? "0" : $bulanan_anak["capaianKonvergensi"]["pengasuhan_paud"]["persen"]);
 
         //BELUM JADI JUGA
-        $worksheet->getCell('G37')->setValue("0");
-        $worksheet->getCell('I37')->setValue("0.00");
+        $worksheet->getCell('G37')->setValue($dataAnak0sd2Tahun["jumlah"]);
+        $worksheet->getCell('I37')->setValue($dataAnak0sd2Tahun["persen"]);
         //SAMPE SINI
 
         $JLD_IbuHamil   = $ibu_hamil["tingkatKonvergensiDesa"] == NULL ? "0" : $ibu_hamil["tingkatKonvergensiDesa"]["jumlah_diterima"];

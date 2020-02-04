@@ -256,8 +256,8 @@
                             <th colspan="2" class="text-center" style="vertical-align: middle;">Anak 2 sd 6 Tahun</th>
                             <th width="5%" colspan="1" class="text-center" style="vertical-align: middle;">1</th>                            
                             <td colspan="3" style="vertical-align: middle;">Anak usia 2-6 tahun terdaftar dan aktif mengikuti kegiatan layanan PAUD</td>
-                            <td colspan="2" class="text-center" style="vertical-align: middle;">0</td>
-                            <td colspan="1" class="text-center" style="vertical-align: middle;">0.00</td>
+                            <td colspan="2" class="text-center" style="vertical-align: middle;"><?= $dataAnak0sd2Tahun["jumlah"] ?></td>
+                            <td colspan="1" class="text-center" style="vertical-align: middle;"><?= $dataAnak0sd2Tahun["persen"] ?></td>
                         </tr>
                         <tr>
                             <th colspan="9" style="background-color:#efefef;">TABEL 4. TINGKAT KONVERGENSI DESA </th>
