@@ -40,7 +40,7 @@
             <div class="box-header">
                 <div class="col-md-2 no-padding pull-right">
                     <button id="btn_input" type="button" class="btn col-md-12 btn-primary" data-toggle="modal" data-target="#modal-input-edit-data">
-                        Tambah Posyandu
+                        Tambah KPM
                     </button>                     
                 </div>
             </div>
