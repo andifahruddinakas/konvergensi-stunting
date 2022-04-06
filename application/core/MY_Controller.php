@@ -14,7 +14,7 @@ class MY_Controller extends CI_Controller
         }
         $CI = &get_instance();
         $this->global_data = [
-            "app_name"          => "E - Stunting",
+            "app_name"          => "Stunting",
             "app_complete_name" => "Pengelolaan dan Pelaporan Konvergensi Pencegahan Stunting Elektronik ",
             "CI"                => $CI,
             "aktif"             => NULL,

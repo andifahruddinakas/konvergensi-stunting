@@ -23,14 +23,14 @@ User Profile
             <div class="box box-success">
                 <div class="box-body box-profile">
                     <img class="profile-user-img img-responsive img-circle" src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User profile picture">
-                    <h3 class="profile-username text-center">Rafli Firdausy Irawan</h3>
-                    <p class="text-muted text-center">Admin Kejaksaan</p>
+                    <h3 class="profile-username text-center">Gampong Teupin Beulangan</h3>
+                    <p class="text-muted text-center">Admin Stunting</p>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
-                            <b>Terakhir Login</b> <a class="pull-right">23 Maret 2019 12:10:22</a>
+                            <b>Terakhir Login</b> <a class="pull-right">23 Augustus 2021 12:10:22</a>
                         </li>
                     <li class="list-group-item">
-                        <b>Terakhir Diupdate</b> <a class="pull-right">23 Maret 2019 12:10:22</a>
+                        <b>Terakhir Diupdate</b> <a class="pull-right">23 Augustus 2021 12:10:22</a>
                     </li>
                     <li class="list-group-item">
                         <b>Total Aksi</b> <a class="pull-right">1234</a>

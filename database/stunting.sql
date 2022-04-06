@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 16 Bulan Mei 2020 pada 17.53
--- Versi server: 10.1.30-MariaDB
--- Versi PHP: 7.2.2
+-- Host: localhost:3306
+-- Generation Time: Aug 05, 2021 at 06:58 PM
+-- Server version: 10.6.3-MariaDB
+-- PHP Version: 7.4.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `bulanan_anak`
+-- Table structure for table `bulanan_anak`
 --
 
 CREATE TABLE `bulanan_anak` (
@@ -48,14 +47,14 @@ CREATE TABLE `bulanan_anak` (
   `akta_lahir` enum('v','x') COLLATE utf8mb4_unicode_ci NOT NULL,
   `jaminan_kesehatan` enum('v','x') COLLATE utf8mb4_unicode_ci NOT NULL,
   `pengasuhan_paud` enum('v','x') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ibu_hamil`
+-- Table structure for table `ibu_hamil`
 --
 
 CREATE TABLE `ibu_hamil` (
@@ -75,14 +74,14 @@ CREATE TABLE `ibu_hamil` (
   `akses_air_bersih` enum('v','x') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `kepemilikan_jamban` set('v','x') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `jaminan_kesehatan` enum('v','x') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kia`
+-- Table structure for table `kia`
 --
 
 CREATE TABLE `kia` (
@@ -92,35 +91,35 @@ CREATE TABLE `kia` (
   `jenis_kelamin_anak` enum('L','P') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `hari_perkiraan_lahir` date DEFAULT NULL,
   `tanggal_lahir_anak` date DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `posyandu`
+-- Table structure for table `posyandu`
 --
 
 CREATE TABLE `posyandu` (
   `id_posyandu` int(11) NOT NULL,
   `nama_posyandu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `alamat_posyandu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `posyandu`
+-- Dumping data for table `posyandu`
 --
 
 INSERT INTO `posyandu` (`id_posyandu`, `nama_posyandu`, `alamat_posyandu`, `created_at`, `updated_at`) VALUES
-(1, 'Posyandu Pusat', 'Alamat Posyandu Pusat', '2019-10-24 02:25:32', '2020-05-16 22:49:21');
+(1, 'Posyandu Teupin Beulangan', 'Gampong Teupin Beulangan', '2019-10-24 02:25:32', '2021-08-05 18:55:02');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `sasaran_paud`
+-- Table structure for table `sasaran_paud`
 --
 
 CREATE TABLE `sasaran_paud` (
@@ -143,14 +142,14 @@ CREATE TABLE `sasaran_paud` (
   `oktober` enum('v','x','belum') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'belum',
   `november` enum('v','x','belum') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'belum',
   `desember` enum('v','x','belum') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'belum',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -159,27 +158,27 @@ CREATE TABLE `user` (
   `nama_lengkap` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nomor_hp` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` text COLLATE utf8mb4_unicode_ci,
+  `alamat` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `level` enum('admin','super_admin','','') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `id_posyandu`, `nama_lengkap`, `username`, `nomor_hp`, `alamat`, `password`, `level`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Admin Pusat', 'admin', '085726096515', 'Jalan Jalan', 'f5bb0c8de146c67b44babbf4e6584cc0', 'super_admin', '2019-10-26 20:22:22', '2020-05-16 22:47:57'),
-(21, 1, 'Rafli Firdausy Irawan', 'rafly', NULL, NULL, 'f5bb0c8de146c67b44babbf4e6584cc0', 'admin', '2020-05-16 22:49:48', '2020-05-16 22:49:48');
+(1, 1, 'Admin', 'admin@mail.com', '085726096515', 'Jelajah Negerimu Indonesia', 'b6bfae0d4266e5d079e84fe6891511ee', 'super_admin', '2019-10-26 20:22:22', '2021-08-05 00:20:23'),
+(21, 1, 'User Stunting', 'user@mail.com', '085726096515', 'Jelajah Negerimu Indonesia', 'b6bfae0d4266e5d079e84fe6891511ee', 'admin', '2020-05-16 22:49:48', '2021-08-05 00:20:59');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `bulanan_anak`
+-- Indexes for table `bulanan_anak`
 --
 ALTER TABLE `bulanan_anak`
   ADD PRIMARY KEY (`id_bulanan_anak`),
@@ -189,7 +188,7 @@ ALTER TABLE `bulanan_anak`
   ADD KEY `id_user_2` (`id_user`);
 
 --
--- Indeks untuk tabel `ibu_hamil`
+-- Indexes for table `ibu_hamil`
 --
 ALTER TABLE `ibu_hamil`
   ADD PRIMARY KEY (`id_ibu_hamil`),
@@ -198,19 +197,19 @@ ALTER TABLE `ibu_hamil`
   ADD KEY `id_posyandu` (`id_posyandu`);
 
 --
--- Indeks untuk tabel `kia`
+-- Indexes for table `kia`
 --
 ALTER TABLE `kia`
   ADD PRIMARY KEY (`no_kia`);
 
 --
--- Indeks untuk tabel `posyandu`
+-- Indexes for table `posyandu`
 --
 ALTER TABLE `posyandu`
   ADD PRIMARY KEY (`id_posyandu`);
 
 --
--- Indeks untuk tabel `sasaran_paud`
+-- Indexes for table `sasaran_paud`
 --
 ALTER TABLE `sasaran_paud`
   ADD PRIMARY KEY (`id_sasaran_paud`),
@@ -218,7 +217,7 @@ ALTER TABLE `sasaran_paud`
   ADD KEY `id_posyandu` (`id_posyandu`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`),
@@ -226,45 +225,45 @@ ALTER TABLE `user`
   ADD KEY `id_posyandu` (`id_posyandu`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `bulanan_anak`
+-- AUTO_INCREMENT for table `bulanan_anak`
 --
 ALTER TABLE `bulanan_anak`
   MODIFY `id_bulanan_anak` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `ibu_hamil`
+-- AUTO_INCREMENT for table `ibu_hamil`
 --
 ALTER TABLE `ibu_hamil`
   MODIFY `id_ibu_hamil` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `posyandu`
+-- AUTO_INCREMENT for table `posyandu`
 --
 ALTER TABLE `posyandu`
   MODIFY `id_posyandu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `sasaran_paud`
+-- AUTO_INCREMENT for table `sasaran_paud`
 --
 ALTER TABLE `sasaran_paud`
   MODIFY `id_sasaran_paud` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `bulanan_anak`
+-- Constraints for table `bulanan_anak`
 --
 ALTER TABLE `bulanan_anak`
   ADD CONSTRAINT `bulanan_anak_ibfk_1` FOREIGN KEY (`no_kia`) REFERENCES `kia` (`no_kia`),
@@ -272,7 +271,7 @@ ALTER TABLE `bulanan_anak`
   ADD CONSTRAINT `bulanan_anak_ibfk_3` FOREIGN KEY (`id_posyandu`) REFERENCES `posyandu` (`id_posyandu`);
 
 --
--- Ketidakleluasaan untuk tabel `ibu_hamil`
+-- Constraints for table `ibu_hamil`
 --
 ALTER TABLE `ibu_hamil`
   ADD CONSTRAINT `ibu_hamil_ibfk_1` FOREIGN KEY (`no_kia`) REFERENCES `kia` (`no_kia`),
@@ -280,14 +279,14 @@ ALTER TABLE `ibu_hamil`
   ADD CONSTRAINT `ibu_hamil_ibfk_3` FOREIGN KEY (`id_posyandu`) REFERENCES `posyandu` (`id_posyandu`);
 
 --
--- Ketidakleluasaan untuk tabel `sasaran_paud`
+-- Constraints for table `sasaran_paud`
 --
 ALTER TABLE `sasaran_paud`
   ADD CONSTRAINT `sasaran_paud_ibfk_1` FOREIGN KEY (`id_posyandu`) REFERENCES `posyandu` (`id_posyandu`),
   ADD CONSTRAINT `sasaran_paud_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `user`
+-- Constraints for table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_posyandu`) REFERENCES `posyandu` (`id_posyandu`);

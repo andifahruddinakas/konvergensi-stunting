@@ -214,7 +214,7 @@
                 <form enctype="multipart/form-data" role="form" method="POST" action="{{ base_url('pemantauan/hapus-data-bulanan-anak') }}">
                     <div class="modal-body">  
                         <b>Peringatan!</b> 
-                        <span id="info_hapus">Kamu akan menghapus data Rafli Firdausy</span> <br>
+                        <span id="info_hapus">Kamu akan menghapus data KPM Stunting</span> <br>
                         <span>Data yang di hapus tidak dapat di kembalikan. Tetap hapus ?</span>
                         <input type="hidden" name="id_bulanan_anak" id="idBulananAnak">
                     </div>

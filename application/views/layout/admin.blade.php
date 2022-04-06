@@ -46,7 +46,7 @@
 
 @section('footers')<footer class="main-footer">
     <div class="pull-right hidden-xs">
-      Made with <i class="fa fa-heart text-danger"></i> by <a href="https://id.linkedin.com/in/rafli-firdausy-irawan-b0896a171" target="_blank">Rafli Firdausy Irawan</a>
+      Made with <i class="fa fa-heart text-danger"></i> by <a href="" target="_blank">Admin KPM Stunting</a>
     </div>
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{ base_url() }}"></strong>{{ $app_name }}</a> | {{ $app_complete_name }}
   </footer>
